@@ -15,8 +15,6 @@ namespace CryptoNews.Models
             public string Excerpt { get; set; }
             public DateTime Date { get; set; }
             public string FeaturedImage { get; set; }
-            public Guid BlogWebsiteId { get; set; }
-            public virtual BlogWebsite BlogWebsite { get; set; }
-    
+            public string BlogWebsiteName { get; set; }    
     }
 }

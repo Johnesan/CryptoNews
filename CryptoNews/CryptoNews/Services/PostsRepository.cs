@@ -3,28 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json
+using Newtonsoft.Json;
 using CryptoNews.Models;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
 
-namespace CryptoNews.Repository
+namespace CryptoNews.Services
 {
     public class PostsRepository
     {
 
-        private PostContext db = new PostContext();
+    
         private static List<BlogPost> blogPosts = new List<BlogPost>();
         public PostsRepository()
         {
 
-            InitAsync();
+            
         }
 
-        public async void InitAsync()
+        public async Task<List<BlogPost>> GetAllPostsAsync()
         {
-            var blogWebsites = db.BlogWebsites.Include(b => b.School).ToList();
+            var blogWebsites = App.database.GetAllBlogWebsites();
 
             foreach (BlogWebsite blogWebsite in blogWebsites)
             {
@@ -46,7 +46,7 @@ namespace CryptoNews.Repository
                         {
                             var blogPost = new BlogPost();
                             blogPost.Id = Guid.NewGuid();
-                            blogPost.BlogWebsiteId = blogWebsite.Id;
+                            blogPost.BlogWebsiteName = blogWebsite.Name;
                             blogPost.Title = item.Value<JObject>("title").Value<string>("rendered");
                             blogPost.Link = item.Value<string>("link");
                             blogPost.Excerpt = item.Value<JObject>("excerpt").Value<string>("rendered");
@@ -54,10 +54,10 @@ namespace CryptoNews.Repository
                             blogPost.FeaturedImage =
                                 item?.Value<JObject>("_embedded")?.Value<JArray>("wp:featuredmedia")[0]
                                     ?.Value<string>("source_url") ?? " ";
-                            if (blogPosts.Find(s => s.Title == blogPost.Title) == null)
-                            {
+                            //if (blogPosts.Find(s => s.Title == blogPost.Title) == null)
+                            //{
                                 blogPosts.Add(blogPost);
-                            }
+                            //}
 
                         }
                         catch (Exception e)
@@ -68,14 +68,14 @@ namespace CryptoNews.Repository
                 }
                 httpClient.Dispose();
             }
+            
+            //foreach (var blogPostX in db.BlogPosts)
+            //{
+            //    db.BlogPosts.Remove(blogPostX);
+            //}
+            App.database.AddUpdatedBlogPosts(blogPosts);
             var OrderedBlogPosts = blogPosts.OrderByDescending(s => s.Date).ToList();
-            foreach (var blogPostX in db.BlogPosts)
-            {
-                db.BlogPosts.Remove(blogPostX);
-            }
-            db.BlogPosts.AddRange(OrderedBlogPosts);
-            db.SaveChanges();
-            var FinalBlogPosts = db.BlogPosts.ToList().OrderByDescending(s => s.Date);
+            return OrderedBlogPosts;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CryptoNews.Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,19 @@ namespace CryptoNews
 {
     public partial class App : Application
     {
+          private static CryptoNewsDB _database;
+        public static CryptoNewsDB database
+        {
+            get
+            {
+                if (_database == null)
+                {
+                    _database = new CryptoNewsDB(DependencyService.Get<IFileHelper>().GetLocalFilePath("CryptoNews.db3"));
+                }
+                return _database;
+            }
+        }
+               
         public App()
         {
             InitializeComponent();
