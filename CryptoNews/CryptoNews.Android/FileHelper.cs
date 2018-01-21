@@ -11,12 +11,12 @@ using Android.Views;
 using Android.Widget;
 using Xamarin.Forms;
 using CryptoNews.Droid;
-
+using System.IO;
 
 [assembly: Dependency(typeof(FileHelper))]
 namespace CryptoNews.Droid
 {
-    class Filehelper : IFileHelper
+    class FileHelper : IFileHelper
     {
         public string GetLocalFilePath(string filename)
         {

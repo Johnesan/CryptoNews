@@ -28,26 +28,26 @@ namespace CryptoNews.Database
           
         }
 
-        public int AddBlogWebsite(List<BlogWebsite> blogWebsites)
+        public async Task<int> AddBlogWebsite(List<BlogWebsite> blogWebsites)
         {
             database.DropTable<BlogPost>();
             database.CreateTable<BlogPost>();
             return database.Insert(blogWebsites);
         }
 
-        public int DeleteBlogWebsite(BlogWebsite blogWebsite)
+        public async Task<int> DeleteBlogWebsite(BlogWebsite blogWebsite)
         {
             return database.Delete(blogWebsite);
         }
         #endregion
 
         #region BlogPosts
-        public List<BlogPost> GetAllBlogPosts()
+        public async Task<List<BlogPost>> GetAllBlogPosts()
         {
             return database.Table<BlogPost>().ToList();
         }
 
-        public int AddUpdatedBlogPosts(List<BlogPost> blogPosts)
+        public async Task<int> AddUpdatedBlogPosts(List<BlogPost> blogPosts)
         {
             //var DatabaseBlogPosts = database.Table<BlogPost>().ToList();
             //foreach (var blogPost in blogPosts)
@@ -64,14 +64,22 @@ namespace CryptoNews.Database
         }
 #endregion
 
-        public  void InitializeSeedData()
+        public  async Task InitializeSeedData()
         {
             var SampleblogWesite1 = new BlogWebsite
             {
-                Name = "Investopedia",
-                Url = "https://investopedia.com"
+                Name = "CryptoClarified",
+                Url = "https://cryptoclarified.com"
             };
+              var SampleblogWesite2 = new BlogWebsite
+              {
+                  Name = "CCN",
+                  Url = "https://ccn.com/"
+              };
+           
             database.Insert(SampleblogWesite1);
+            database.Insert(SampleblogWesite2);
+            //database.Insert(SampleblogWesite3);
         }
 
 

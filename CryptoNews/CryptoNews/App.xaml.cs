@@ -1,4 +1,5 @@
 ﻿using CryptoNews.Database;
+using CryptoNews.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,8 +27,14 @@ namespace CryptoNews
         public App()
         {
             InitializeComponent();
+            Initasync();
 
             MainPage = new CryptoNews.MainPage();
+        }
+        public  async void Initasync()
+        {
+            var postsRepository = new PostsRepository();
+            await postsRepository.GetAllPostsAsync();
         }
 
         protected override void OnStart()

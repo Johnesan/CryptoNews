@@ -9,10 +9,10 @@ using System.IO;
 using CryptoNews.iOS;
 using Xamarin.Forms;
 
-[assembly: Dependency(typeof(FileHelper))]
+[assembly: Dependency(typeof(CryptoNews.iOS.FileHelper))]
 namespace CryptoNews.iOS
 {
-    public class FileHelper : IFileHelper
+    public class FileHelper : CryptoNews.IFileHelper
     {
         public string GetLocalFilePath(string filename)
         {
