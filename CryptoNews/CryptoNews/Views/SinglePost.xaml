@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CryptoNews.Views.SinglePost"
+             Title="Read Post">
+    <ContentPage.Content>
+        <StackLayout>
+            <ProgressBar x:Name="progressBar" Progress="0.2" HorizontalOptions="FillAndExpand" VerticalOptions="Start" IsVisible="True" Margin="0,0,0,0"/>
+            <WebView x:Name="webView"
+                 HorizontalOptions="FillAndExpand"
+                 VerticalOptions="FillAndExpand" 
+                 Navigating="webView_Navigating"
+                 Navigated="webView_Navigated"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

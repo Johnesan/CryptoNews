@@ -8,6 +8,7 @@ using CryptoNews.Models;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
+using System.Net;
 
 namespace CryptoNews.Services
 {
@@ -16,11 +17,7 @@ namespace CryptoNews.Services
 
     
         private static List<BlogPost> blogPosts = new List<BlogPost>();
-        public PostsRepository()
-        {
-
-            
-        }
+      
 
         public async Task<List<BlogPost>> GetAllPostsAsync()
         {
@@ -47,9 +44,19 @@ namespace CryptoNews.Services
                             var blogPost = new BlogPost();
                             blogPost.Id = Guid.NewGuid();
                             blogPost.BlogWebsiteName = blogWebsite.Name;
-                            blogPost.Title = item.Value<JObject>("title").Value<string>("rendered");
+                            blogPost.Title = WebUtility.HtmlDecode(item.Value<JObject>("title").Value<string>("rendered"));
                             blogPost.Link = item.Value<string>("link");
-                            blogPost.Excerpt = item.Value<JObject>("excerpt").Value<string>("rendered");
+
+                            var tempExcerpt = item.Value<JObject>("excerpt").Value<string>("rendered");
+                            if (tempExcerpt.Length > 200)
+                            {
+                                blogPost.Excerpt = tempExcerpt.Substring(0, 200);
+                            }
+                            else
+                            {
+                                blogPost.Excerpt = tempExcerpt;
+                            }
+
                             blogPost.Date = item.Value<DateTime>("date");
                             blogPost.FeaturedImage =
                                 item?.Value<JObject>("_embedded")?.Value<JArray>("wp:featuredmedia")[0]
@@ -73,7 +80,7 @@ namespace CryptoNews.Services
             //{
             //    db.BlogPosts.Remove(blogPostX);
             //}
-            App.database.AddUpdatedBlogPosts(blogPosts);
+            await App.database.AddUpdatedBlogPosts(blogPosts);
             var OrderedBlogPosts = blogPosts.OrderByDescending(s => s.Date).ToList();
             return OrderedBlogPosts;
         }

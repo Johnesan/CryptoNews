@@ -1,10 +1,12 @@
 ﻿using CryptoNews.Database;
+using CryptoNews.Models;
 using CryptoNews.Services;
+using CryptoNews.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace CryptoNews
@@ -27,15 +29,55 @@ namespace CryptoNews
         public App()
         {
             InitializeComponent();
-            Initasync();
+            InitializeSeedData();
 
-            MainPage = new CryptoNews.MainPage();
+            MainPage = new NavigationPage(new BlogPosts());
         }
-        public  async void Initasync()
+
+        public async Task InitializeSeedData()
         {
-            var postsRepository = new PostsRepository();
-            await postsRepository.GetAllPostsAsync();
+            var SampleBlogWebsites = new List<BlogWebsite>();
+            var Website1 = new BlogWebsite
+            {
+                Name = "CryptoClarified",
+                Url = "https://cryptoclarified.com"
+            };
+            var Website2 = new BlogWebsite
+            {
+                Name = "CCN",
+                Url = "https://ccn.com/"
+            };
+            var Website3 = new BlogWebsite
+            {
+                Name = "Crypto Junction",
+                Url = "https://cryptojunction.com/"
+            };
+            var Website4 = new BlogWebsite
+            {
+                Name = "Coin Desk",
+                Url = "https://coindesk.com/"
+            };
+            SampleBlogWebsites.Add(Website1);
+            SampleBlogWebsites.Add(Website2);
+            SampleBlogWebsites.Add(Website3);
+            SampleBlogWebsites.Add(Website4);
+
+            
+            foreach(var sampleWebsite in SampleBlogWebsites)
+            {
+                var dbBlogWebsites = database.GetAllBlogWebsites();
+                if (dbBlogWebsites.Count >= 4)
+                {
+                    return;
+                }
+                if(dbBlogWebsites.Find(x => x.Url == sampleWebsite.Url) == null)
+                {
+                    database.AddBlogWebsite(sampleWebsite);
+                }
+            }
+            
         }
+
 
         protected override void OnStart()
         {

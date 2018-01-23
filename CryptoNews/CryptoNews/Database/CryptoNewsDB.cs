@@ -18,7 +18,6 @@ namespace CryptoNews.Database
             database = new SQLiteConnection(dbPath);
             database.CreateTable<BlogWebsite>();
             database.CreateTable<BlogPost>();
-            InitializeSeedData();
         }
 
         #region BlogWebsites
@@ -28,21 +27,19 @@ namespace CryptoNews.Database
           
         }
 
-        public async Task<int> AddBlogWebsite(List<BlogWebsite> blogWebsites)
+        public  int AddBlogWebsite(BlogWebsite blogWebsite)
         {
-            database.DropTable<BlogPost>();
-            database.CreateTable<BlogPost>();
-            return database.Insert(blogWebsites);
+            return database.Insert(blogWebsite);
         }
 
-        public async Task<int> DeleteBlogWebsite(BlogWebsite blogWebsite)
+        public int DeleteBlogWebsite(BlogWebsite blogWebsite)
         {
             return database.Delete(blogWebsite);
         }
         #endregion
 
         #region BlogPosts
-        public async Task<List<BlogPost>> GetAllBlogPosts()
+        public List<BlogPost> GetAllBlogPosts()
         {
             return database.Table<BlogPost>().ToList();
         }
@@ -64,24 +61,7 @@ namespace CryptoNews.Database
         }
 #endregion
 
-        public  async Task InitializeSeedData()
-        {
-            var SampleblogWesite1 = new BlogWebsite
-            {
-                Name = "CryptoClarified",
-                Url = "https://cryptoclarified.com"
-            };
-              var SampleblogWesite2 = new BlogWebsite
-              {
-                  Name = "CCN",
-                  Url = "https://ccn.com/"
-              };
-           
-            database.Insert(SampleblogWesite1);
-            database.Insert(SampleblogWesite2);
-            //database.Insert(SampleblogWesite3);
-        }
-
+       
 
     }
 }

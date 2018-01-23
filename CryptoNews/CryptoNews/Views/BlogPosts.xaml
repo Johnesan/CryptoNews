@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CryptoNews.Views.BlogPosts"
+             Title="Latest News"
+             BackgroundColor="#e8eaed">
+    <ContentPage.Content>
+        <StackLayout>
+            <ActivityIndicator IsEnabled="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy}"
+                           IsVisible="{Binding IsBusy}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"/>
+            <Grid VerticalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <ListView x:Name="BlogPostsListView"
+                          ItemSelected="OnSinglePostSelected"
+                      HasUnevenRows="True"                       
+                  VerticalOptions="FillAndExpand"
+                      SeparatorVisibility="None">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <Frame HasShadow="True" Margin="4">
+                                        <StackLayout>
+                                            <Label Text="{Binding Title}" FontSize="Large" TextColor="Black"/>
+                                            <Label Text="{Binding BlogWebsiteName}" FontSize="Small" TextColor="Green"/>
+                                            <Label Text="{Binding Date , StringFormat='{0:dd/MM/yyyy}'}" FontSize="Small" FontAttributes="Italic" TextColor="PaleVioletRed"/>
+
+                                            <Image Source="{Binding FeaturedImage}"/>
+                                            <WebView>
+                                                <WebView.Source>
+                                                    <HtmlWebViewSource Html="{Binding Excerpt, StringFormat='{0} ...'}" />
+                                                </WebView.Source>
+                                            </WebView>
+                                            
+                                        </StackLayout>
+                                    </Frame>
+
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>
