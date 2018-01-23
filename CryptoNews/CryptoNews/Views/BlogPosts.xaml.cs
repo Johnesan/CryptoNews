@@ -1,6 +1,6 @@
 ﻿using CryptoNews.Models;
 using CryptoNews.Services;
-
+using CryptoNews.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,40 +16,16 @@ namespace CryptoNews.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BlogPosts : ContentPage
     {
-        private bool _isBusy;
-        public bool IsBusy
-        {
-            get { return _isBusy; }
-            set
-            {
-                _isBusy = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public List<BlogPost> FinalBlogPosts { get; set; }
+        
 
         public BlogPosts()
         {
           
             InitializeComponent();
-            IsBusy = true;
-            FinalBlogPosts = App.database.GetAllBlogPosts();
-            BlogPostsListView.ItemsSource = FinalBlogPosts;
-            InitAsync();
+            BindingContext = new BlogPostsViewModel();
             
         }
 
-        private async Task InitAsync()
-        {
-            var service = new PostsRepository();
-            FinalBlogPosts = await service.GetAllPostsAsync();
-            BlogPostsListView.ItemsSource = FinalBlogPosts;
-            IsBusy = false;
-
-            //await App.database.AddUpdatedBlogPosts(UpdatedPosts);
-            //    BlogPosts = new ObservableCollection<BlogPost>(App.database.GetAllBlogPosts());
-        }
 
         private async void OnSinglePostSelected(object sender, SelectedItemChangedEventArgs e)
         {
@@ -63,6 +39,11 @@ namespace CryptoNews.Views
 
             await Navigation.PushAsync(new SinglePost(SinglePost.Link));
            
+        }
+
+        async private void OnManageButtonClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new BlogWebsites());
         }
     }
 }

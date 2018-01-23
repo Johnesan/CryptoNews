@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CryptoNews.Views.BlogWebsites"
+             Title="Manage Blog Websites">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Margin="8" Text="Manage the Blog Websites you want to receive updates from. Due to Scalability issues and API timeouts, you can only have a maximum of 4 websites."/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <ListView  x:Name="BlogWebsitesListView"
+                       HasUnevenRows="True"
+                       ItemSelected="SingleBlogWebsiteSelected"
+                           IsPullToRefreshEnabled="True"
+                           >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <StackLayout Orientation="Horizontal">
+                                        <StackLayout Orientation="Vertical" Padding="7,7,3,7">
+                                            <Label Text="{Binding Name}"  HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontSize="21"/>
+                                            <Label Text="{Binding Url}" TextColor="Blue" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" FontSize="17"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+            <Button Text="Reset Preference" Clicked="ResetButtonClicked" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="Orange"/>
+            <Label Margin="7" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" Text="Application by John Esan - +234 818 256 1710 | jcoool40@gmail.com"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -2,12 +2,24 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CryptoNews.Views.BlogPosts"
-             Title="Latest News"
+             Title="Latest Crypto News"
              BackgroundColor="#e8eaed">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="+" Clicked="OnManageButtonClicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource" Android="manage.png" iOS="manage.png" WinPhone="manage.png"/>
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
             <ActivityIndicator IsEnabled="{Binding IsBusy}"
                            IsRunning="{Binding IsBusy}"
+                           IsVisible="{Binding IsBusy}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"/>
+            <Label Text="Fetching News...This might take a while" FontSize="Small"
+                   IsEnabled="{Binding IsBusy}"
                            IsVisible="{Binding IsBusy}"
                            VerticalOptions="Center"
                            HorizontalOptions="Center"/>
@@ -16,6 +28,7 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <ListView x:Name="BlogPostsListView"
+                          ItemsSource="{Binding BlogPosts}"
                           ItemSelected="OnSinglePostSelected"
                       HasUnevenRows="True"                       
                   VerticalOptions="FillAndExpand"
@@ -36,7 +49,7 @@
                                                     <HtmlWebViewSource Html="{Binding Excerpt, StringFormat='{0} ...'}" />
                                                 </WebView.Source>
                                             </WebView>
-                                            
+
                                         </StackLayout>
                                     </Frame>
 

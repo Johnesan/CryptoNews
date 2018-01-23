@@ -29,12 +29,22 @@ namespace CryptoNews.Database
 
         public  int AddBlogWebsite(BlogWebsite blogWebsite)
         {
+
             return database.Insert(blogWebsite);
         }
 
-        public int DeleteBlogWebsite(BlogWebsite blogWebsite)
+        public int UpdateBlogWebsite(BlogWebsite blogWebsite)
         {
-            return database.Delete(blogWebsite);
+
+            return database.Update(blogWebsite);
+        }
+
+        public async void ResetBlogWebsite()
+        {
+            database.DropTable<BlogWebsite>();
+            database.CreateTable<BlogWebsite>();
+            await App.InitializeSeedData();
+           
         }
         #endregion
 
@@ -44,7 +54,7 @@ namespace CryptoNews.Database
             return database.Table<BlogPost>().ToList();
         }
 
-        public async Task<int> AddUpdatedBlogPosts(List<BlogPost> blogPosts)
+        public int AddUpdatedBlogPosts(List<BlogPost> blogPosts)
         {
             //var DatabaseBlogPosts = database.Table<BlogPost>().ToList();
             //foreach (var blogPost in blogPosts)

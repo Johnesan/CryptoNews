@@ -25,7 +25,9 @@ namespace CryptoNews
                 return _database;
             }
         }
-               
+
+        public int ResumeAtBlogWebsiteId { get; set; }
+
         public App()
         {
             InitializeComponent();
@@ -34,7 +36,7 @@ namespace CryptoNews
             MainPage = new NavigationPage(new BlogPosts());
         }
 
-        public async Task InitializeSeedData()
+        public static async Task InitializeSeedData()
         {
             var SampleBlogWebsites = new List<BlogWebsite>();
             var Website1 = new BlogWebsite

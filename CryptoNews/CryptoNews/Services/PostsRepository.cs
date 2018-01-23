@@ -80,7 +80,7 @@ namespace CryptoNews.Services
             //{
             //    db.BlogPosts.Remove(blogPostX);
             //}
-            await App.database.AddUpdatedBlogPosts(blogPosts);
+            App.database.AddUpdatedBlogPosts(blogPosts);
             var OrderedBlogPosts = blogPosts.OrderByDescending(s => s.Date).ToList();
             return OrderedBlogPosts;
         }
