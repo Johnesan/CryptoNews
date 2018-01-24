@@ -30,6 +30,8 @@
                 <ListView x:Name="BlogPostsListView"
                           ItemsSource="{Binding BlogPosts}"
                           ItemSelected="OnSinglePostSelected"
+                          IsPullToRefreshEnabled="True"
+                          RefreshCommand="{Binding RefreshCommand}"
                       HasUnevenRows="True"                       
                   VerticalOptions="FillAndExpand"
                       SeparatorVisibility="None">

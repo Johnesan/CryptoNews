@@ -40,9 +40,6 @@
     </Compile>
     <Compile Include="Database\CryptoNewsDB.cs" />
     <Compile Include="IFileHelper.cs" />
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Models\BlogPost.cs" />
     <Compile Include="Models\BlogWebsite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -62,10 +59,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MainPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Include="App.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

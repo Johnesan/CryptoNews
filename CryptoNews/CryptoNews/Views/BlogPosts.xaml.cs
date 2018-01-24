@@ -22,7 +22,7 @@ namespace CryptoNews.Views
         {
           
             InitializeComponent();
-            BindingContext = new BlogPostsViewModel();
+            BindingContext = new BlogPostsViewModel(this.Navigation);
             
         }
 

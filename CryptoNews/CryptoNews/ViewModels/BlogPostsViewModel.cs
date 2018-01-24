@@ -8,13 +8,17 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace CryptoNews.ViewModels
 {
     class BlogPostsViewModel : INotifyPropertyChanged
     {
-        private ObservableCollection<BlogPost> _blogPosts;
-        public ObservableCollection<BlogPost> BlogPosts
+        public ICommand  RefreshCommand { get; set; }
+
+        private List<BlogPost> _blogPosts;
+        public List<BlogPost> BlogPosts
         {
             get { return _blogPosts; }
             set
@@ -35,10 +39,14 @@ namespace CryptoNews.ViewModels
             }
         }
 
-        public BlogPostsViewModel()
+        private INavigation Navigation;
+      
+            public BlogPostsViewModel(INavigation _Navigation)
         {
+            RefreshCommand = new Command(RefreshAction);
+            Navigation = _Navigation;
             IsBusy = true;
-            BlogPosts = new ObservableCollection<BlogPost>(App.database.GetAllBlogPosts());
+            BlogPosts = App.database.GetAllBlogPosts();
             InitAsync();
         }
 
@@ -47,8 +55,13 @@ namespace CryptoNews.ViewModels
             var service = new PostsRepository();
             var UpdatedPosts = await service.GetAllPostsAsync();
             App.database.AddUpdatedBlogPosts(UpdatedPosts);
-            BlogPosts = new ObservableCollection<BlogPost>(App.database.GetAllBlogPosts());
+            BlogPosts = App.database.GetAllBlogPosts();
             IsBusy = false;
+        }
+
+        public async void RefreshAction()
+        {
+            await InitAsync();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
