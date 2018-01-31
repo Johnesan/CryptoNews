@@ -39,6 +39,17 @@ namespace CryptoNews.ViewModels
             }
         }
 
+        private bool _isRefreshing;
+        public bool IsRefreshing
+        {
+            get { return _isRefreshing; }
+            set
+            {
+                _isRefreshing = value;
+                OnPropertyChanged();
+            }
+        }
+
         private INavigation Navigation;
       
             public BlogPostsViewModel(INavigation _Navigation)
@@ -61,7 +72,9 @@ namespace CryptoNews.ViewModels
 
         public async void RefreshAction()
         {
+            IsRefreshing = true;
             await InitAsync();
+            IsRefreshing = false;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

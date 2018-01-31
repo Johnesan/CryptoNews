@@ -31,8 +31,8 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </Grid>
-            <Button Text="Reset Preference" Clicked="ResetButtonClicked" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="Orange"/>
-            <Label Margin="7" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" Text="Application by John Esan - +234 818 256 1710 | jcoool40@gmail.com"/>
+            <Button Text="Reset Preference" Clicked="ResetButtonClicked" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="#aa3c17" TextColor="White"/>
+            <Label Margin="7" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="Black" Text="Application by John Esan - jcoool40@gmail.com"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

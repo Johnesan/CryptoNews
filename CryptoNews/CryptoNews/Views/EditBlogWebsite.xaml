@@ -6,26 +6,32 @@
     <ContentPage.Content>
         <StackLayout Padding="8">
             <Label TextColor="Red" Text="Please note that this application is designed to work specifically with WORDPRESS API only.The websites you add must be running on WORDPRESS and has its API return the appropraite json."/>
-            <Label TextColor="Red" Text="To check if a website runs on wordpress, install Wappalyzer plugin on your browser."/>
-            <Label TextColor="Red" Text="To check if the website API returns JSON data, append &quot;/wp-json/wp/v2/posts&quot; to it, eg http://ccn.com/wp-json/wp/v2/posts  "/>
-
-            <Label TextColor="Black" Text="IF YOU ARE NOT A DEVELOPER AND DO NOT UNDERSTAND THIS, PLEASE DO NOT MAKE ANY CHANGES" FontSize="Large"/>
-            <Frame>
+            <Label TextColor="Red" Text="Use the test button to check if the website meets the requirements before saving"/>
+           
+               <Frame x:Name="EntryFrame">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <StackLayout Grid.Row="0" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                        <Label VerticalOptions="Center" VerticalTextAlignment="Center" Text="Website Name"/>
+                        <Label VerticalOptions="Center" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" Text="Website Name"/>
                         <Entry  Text="{Binding Name}" VerticalOptions="Center" HorizontalOptions="Center"/>
                     </StackLayout>
                     <StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" >
-                        <Label VerticalOptions="Center" VerticalTextAlignment="Center" Text="Website Url"/>
-                        <Entry Text="{Binding Url}" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        <Label VerticalOptions="Center" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" Text="Website Url"/>
+                        <Entry x:Name="UrlEntry" Text="{Binding Url}" VerticalOptions="Center" HorizontalOptions="Center" BindingContextChanged="UrlEntryBindingContextChanged"/>
                     </StackLayout>
-                    <Button Grid.Row="2" VerticalOptions="Center" HorizontalOptions="Center" Text="Save" Clicked="SaveButtonClicked" BackgroundColor="Aquamarine"/>
+                    <StackLayout Grid.Row="2">
+                        <ActivityIndicator x:Name="TestActivityIndicator"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" Grid.Row="3" VerticalOptions="Center" HorizontalOptions="Center">
+                        <Button  Text="Test" Clicked="TestButtonClicked" BackgroundColor="#4dead3"/>
+                        <Button x:Name="SaveButton" Text="Save" Clicked="SaveButtonClicked" BackgroundColor="#71f442"/>
+                    </StackLayout>
+                  
                 </Grid>
             </Frame>
         </StackLayout>

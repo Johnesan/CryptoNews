@@ -32,9 +32,10 @@
                           ItemSelected="OnSinglePostSelected"
                           IsPullToRefreshEnabled="True"
                           RefreshCommand="{Binding RefreshCommand}"
-                      HasUnevenRows="True"                       
-                  VerticalOptions="FillAndExpand"
-                      SeparatorVisibility="None">
+                          IsRefreshing="{Binding IsRefreshing}"
+                          HasUnevenRows="True"                       
+                          VerticalOptions="FillAndExpand"
+                          SeparatorVisibility="None">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -43,14 +44,15 @@
                                         <StackLayout>
                                             <Label Text="{Binding Title}" FontSize="Large" TextColor="Black"/>
                                             <Label Text="{Binding BlogWebsiteName}" FontSize="Small" TextColor="Green"/>
-                                            <Label Text="{Binding Date , StringFormat='{0:dd/MM/yyyy}'}" FontSize="Small" FontAttributes="Italic" TextColor="PaleVioletRed"/>
+                                            <Label Text="{Binding PrettyDate}" FontSize="Small" FontAttributes="Italic" TextColor="PaleVioletRed"/>
 
-                                            <Image Source="{Binding FeaturedImage}"/>
-                                            <WebView>
+                                            <Image Source="{Binding FeaturedImage}" Margin="0"/>
+                                            <Label Text="{Binding Excerpt, StringFormat='{0} ...'}" TextColor="Black" FontSize="Medium"/>
+                                            <!--<WebView>
                                                 <WebView.Source>
                                                     <HtmlWebViewSource Html="{Binding Excerpt, StringFormat='{0} ...'}" />
                                                 </WebView.Source>
-                                            </WebView>
+                                            </WebView>-->
 
                                         </StackLayout>
                                     </Frame>

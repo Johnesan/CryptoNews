@@ -44,6 +44,7 @@
     <Compile Include="Models\BlogWebsite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\PostsRepository.cs" />
+    <Compile Include="Services\PrettyDate.cs" />
     <Compile Include="ViewModels\BlogPostsViewModel.cs" />
     <Compile Include="Views\BlogPosts.xaml.cs">
       <DependentUpon>BlogPosts.xaml</DependentUpon>

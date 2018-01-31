@@ -35,7 +35,7 @@ namespace CryptoNews.Views
             }
 
             var SinglePost = e.SelectedItem as BlogPost;
-
+            ((ListView)sender).SelectedItem = null;
 
             await Navigation.PushAsync(new SinglePost(SinglePost.Link));
            

@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 
 namespace CryptoNews.Services
 {
@@ -48,13 +49,15 @@ namespace CryptoNews.Services
                             blogPost.Link = item.Value<string>("link");
 
                             var tempExcerpt = item.Value<JObject>("excerpt").Value<string>("rendered");
+                            
                             if (tempExcerpt.Length > 200)
                             {
-                                blogPost.Excerpt = tempExcerpt.Substring(0, 200);
+                                 tempExcerpt = tempExcerpt.Substring(0, 200);
+                                blogPost.Excerpt = Regex.Replace(tempExcerpt, @"<[^>]*(>|$)|&nbsp;|&zwnj;|&raquo;|&laquo;|&#8217;", string.Empty).Trim();
                             }
                             else
                             {
-                                blogPost.Excerpt = tempExcerpt;
+                                blogPost.Excerpt = Regex.Replace(tempExcerpt, @"<[^>]*(>|$)|&nbsp;|&zwnj;|&raquo;|&laquo;", string.Empty).Trim();
                             }
 
                             blogPost.Date = item.Value<DateTime>("date");

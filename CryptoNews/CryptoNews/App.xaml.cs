@@ -41,31 +41,32 @@ namespace CryptoNews
             var SampleBlogWebsites = new List<BlogWebsite>();
             var Website1 = new BlogWebsite
             {
-                Name = "CryptoClarified",
-                Url = "https://cryptoclarified.com"
-            };
-            var Website2 = new BlogWebsite
-            {
                 Name = "CCN",
                 Url = "https://ccn.com/"
             };
+            var Website2 = new BlogWebsite
+            {
+                Name = "CryptoClarified",
+                Url = "https://cryptoclarified.com"
+            };           
+           
             var Website3 = new BlogWebsite
             {
-                Name = "Crypto Junction",
-                Url = "https://cryptojunction.com/"
+                Name = "Crypto Scoop",
+                Url = "http://cryptoscoop.net"
             };
             var Website4 = new BlogWebsite
             {
-                Name = "Coin Desk",
-                Url = "https://coindesk.com/"
+                Name = "Crypto Recorder",
+                Url = "https://cryptorecorder.com"
             };
             SampleBlogWebsites.Add(Website1);
             SampleBlogWebsites.Add(Website2);
             SampleBlogWebsites.Add(Website3);
             SampleBlogWebsites.Add(Website4);
 
-            
-            foreach(var sampleWebsite in SampleBlogWebsites)
+
+            foreach (var sampleWebsite in SampleBlogWebsites)
             {
                 var dbBlogWebsites = database.GetAllBlogWebsites();
                 if (dbBlogWebsites.Count >= 4)

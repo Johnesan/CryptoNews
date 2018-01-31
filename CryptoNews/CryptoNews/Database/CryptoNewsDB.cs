@@ -1,4 +1,5 @@
 ﻿using CryptoNews.Models;
+using CryptoNews.Services;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -51,7 +52,12 @@ namespace CryptoNews.Database
         #region BlogPosts
         public List<BlogPost> GetAllBlogPosts()
         {
-            return database.Table<BlogPost>().ToList();
+            var posts = database.Table<BlogPost>().ToList();
+            foreach(var post in posts)
+            {
+                post.PrettyDate = PrettyDate.GetPrettyDate(post.Date);
+            }
+            return posts;
         }
 
         public int AddUpdatedBlogPosts(List<BlogPost> blogPosts)
