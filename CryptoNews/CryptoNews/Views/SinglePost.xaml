@@ -5,7 +5,7 @@
              Title="Read Post">
     <ContentPage.Content>
         <StackLayout>
-            <ProgressBar x:Name="progressBar" Progress="0.2" HorizontalOptions="FillAndExpand" VerticalOptions="Start" IsVisible="True" Margin="0,0,0,0"/>
+            <ProgressBar x:Name="progressBar" Progress="0.2" HorizontalOptions="FillAndExpand" VerticalOptions="Start" IsVisible="True"  Margin="0"/>
             <WebView x:Name="webView"
                  HorizontalOptions="FillAndExpand"
                  VerticalOptions="FillAndExpand" 
