@@ -33,7 +33,7 @@ namespace CryptoNews
             InitializeComponent();
             InitializeSeedData();
 
-            MainPage = new NavigationPage(new BlogPosts());
+            MainPage = new Home();
         }
 
         public static async Task InitializeSeedData()

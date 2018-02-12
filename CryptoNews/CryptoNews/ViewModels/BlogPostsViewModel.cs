@@ -15,7 +15,7 @@ namespace CryptoNews.ViewModels
 {
     class BlogPostsViewModel : INotifyPropertyChanged
     {
-        public ICommand  RefreshCommand { get; set; }
+        public ICommand RefreshCommand { get; set; }
 
         private List<BlogPost> _blogPosts;
         public List<BlogPost> BlogPosts
@@ -27,6 +27,18 @@ namespace CryptoNews.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        private List<FavouriteBlogPost> _favouritelogPosts;
+        public List<FavouriteBlogPost> FavouriteBlogPosts
+        {
+            get { return _favouritelogPosts; }
+            set
+            {
+                _favouritelogPosts = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         private bool _isBusy;
         public bool IsBusy
@@ -51,8 +63,8 @@ namespace CryptoNews.ViewModels
         }
 
         private INavigation Navigation;
-      
-            public BlogPostsViewModel(INavigation _Navigation)
+
+        public BlogPostsViewModel(INavigation _Navigation)
         {
             RefreshCommand = new Command(RefreshAction);
             Navigation = _Navigation;
@@ -61,7 +73,18 @@ namespace CryptoNews.ViewModels
             InitAsync();
         }
 
-        private async Task InitAsync()
+        public BlogPostsViewModel(bool isFavourite)
+        {
+            if (isFavourite == true)
+            {
+                IsBusy = false;
+                FavouriteBlogPosts = App.database.GetAllFavouriteBlogPosts();                
+            }            
+        }
+
+      
+
+            private async Task InitAsync()
         {
             var service = new PostsRepository();
             var UpdatedPosts = await service.GetAllPostsAsync();

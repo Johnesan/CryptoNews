@@ -19,6 +19,7 @@ namespace CryptoNews.Database
             database = new SQLiteConnection(dbPath);
             database.CreateTable<BlogWebsite>();
             database.CreateTable<BlogPost>();
+            database.CreateTable<FavouriteBlogPost>();
         }
 
         #region BlogWebsites
@@ -75,9 +76,37 @@ namespace CryptoNews.Database
             database.CreateTable<BlogPost>();
             return database.InsertAll(blogPosts);           
         }
-#endregion
+        #endregion
 
-       
+        #region FavouriteBlogPosts
+        public List<FavouriteBlogPost> GetAllFavouriteBlogPosts()
+        {
+            var FavouritePosts = database.Table<FavouriteBlogPost>().ToList();
+            foreach (var post in FavouritePosts)
+            {
+                post.PrettyDate = PrettyDate.GetPrettyDate(post.Date);
+            }
+            return FavouritePosts;
+        }
+
+        public async  Task<int> AddFavouriteBlogPost(FavouriteBlogPost blogPost)
+        {
+            var DatabaseBlogPosts =  database.Table<FavouriteBlogPost>().ToList();
+              if (DatabaseBlogPosts.Find(s => s.Id == blogPost.Id) == null)
+                {
+                    return database.Insert(blogPost);
+                }
+
+            return database.Insert(blogPost);
+        }
+
+        public int DeleteFavouriteBlogPost(FavouriteBlogPost blogPost)
+        {
+            return database.Delete(blogPost);
+        }
+        #endregion
+
+
 
     }
 }

@@ -45,5 +45,34 @@ namespace CryptoNews.Views
         {
             await Navigation.PushAsync(new BlogWebsites());
         }
+
+        public async void OnFavouriteClicked(object sender, EventArgs e)
+        {
+            var mi = ((MenuItem)sender);
+            var blogPost = (BlogPost)mi.CommandParameter;
+            var FavouriteBlogPost = new FavouriteBlogPost
+            {
+                Id = blogPost.Id,
+                Title = blogPost.Title,
+                BlogWebsiteName = blogPost.BlogWebsiteName,
+                Date = blogPost.Date,
+                Excerpt = blogPost.Excerpt,
+                FeaturedImage = blogPost.FeaturedImage,
+                Link = blogPost.Link,
+                PrettyDate = blogPost.PrettyDate
+            };
+            await App.database.AddFavouriteBlogPost(FavouriteBlogPost);
+            await DisplayAlert("Successful", "One post added to favourites", "OK");
+        }
+
+        //public void OnShareClicked(object sender, EventArgs e)
+        //{
+        //    var mi = ((FavouriteBlogPost)sender);
+        //    //    var x = mi.CommandParameter.ToString();
+        //    //    var SelectedFavouriteBlogPost = mi.CommandParameter as FavouriteBlogPost;
+        //    //    var mi = ((MenuItem)sender);
+        //    //    DisplayAlert("Delete Context Action", mi.CommandParameter + " delete context action", "OK");
+        //    //
+        //}
     }
 }

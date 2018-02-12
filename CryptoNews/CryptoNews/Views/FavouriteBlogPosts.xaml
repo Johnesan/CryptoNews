@@ -1,34 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CryptoNews.Views.BlogPosts"
-             Title="Latest News"
+             x:Class="CryptoNews.Views.FavouriteBlogPosts"
+              Title="My Favourites"
              BackgroundColor="#e8eaed">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="+" Clicked="OnManageButtonClicked">
-            <ToolbarItem.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource" Android="manage.png" iOS="manage.png" WinPhone="manage.png"/>
-            </ToolbarItem.Icon>
-        </ToolbarItem>
-    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-            <ActivityIndicator IsEnabled="{Binding IsBusy}"
-                           IsRunning="{Binding IsBusy}"
-                           IsVisible="{Binding IsBusy}"
+            <!--<Label Text="You haven't added any favourite post" FontSize="Small"
+                   IsEnabled="{Binding IsEmpty}"
+                           IsVisible="{Binding IsEmpty}"
                            VerticalOptions="Center"
-                           HorizontalOptions="Center"/>
-            <Label Text="Fetching News...This might take a while" FontSize="Small"
-                   IsEnabled="{Binding IsBusy}"
-                           IsVisible="{Binding IsBusy}"
-                           VerticalOptions="Center"
-                           HorizontalOptions="Center"/>
+                           HorizontalOptions="Center"/>-->
+            
             <Grid VerticalOptions="FillAndExpand">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <ListView x:Name="BlogPostsListView"
-                          ItemsSource="{Binding BlogPosts}"
+                          ItemsSource="{Binding FavouriteBlogPosts}"
                           ItemSelected="OnSinglePostSelected"
                           IsPullToRefreshEnabled="True"
                           RefreshCommand="{Binding RefreshCommand}"
@@ -40,7 +29,7 @@
                         <DataTemplate>
                             <ViewCell>
                                 <ViewCell.ContextActions>
-                                    <MenuItem Clicked="OnFavouriteClicked" CommandParameter="{Binding .}" Text="Add To Favourite" />
+                                    <MenuItem Clicked="DeleteClicked" CommandParameter="{Binding .}" Text="Delete" />
                                 </ViewCell.ContextActions>
                                 <ViewCell.View>
                                     <Frame HasShadow="True" Margin="4">
@@ -50,16 +39,9 @@
                                             <Label Text="{Binding PrettyDate}" FontSize="Small" FontAttributes="Italic" TextColor="PaleVioletRed"/>
 
                                             <Image Source="{Binding FeaturedImage}" Margin="0"/>
-                                            <Label Text="{Binding Excerpt, StringFormat='{0} ...'}" TextColor="Black" FontSize="Medium"/>
-                                            <!--<WebView>
-                                                <WebView.Source>
-                                                    <HtmlWebViewSource Html="{Binding Excerpt, StringFormat='{0} ...'}" />
-                                                </WebView.Source>
-                                            </WebView>-->
-
+                                            <Label Text="{Binding Excerpt, StringFormat='{0} ...'}" TextColor="Black" FontSize="Medium"/>                                           
                                         </StackLayout>
                                     </Frame>
-
                                 </ViewCell.View>
                             </ViewCell>
                         </DataTemplate>
@@ -67,6 +49,5 @@
                 </ListView>
             </Grid>
         </StackLayout>
-
     </ContentPage.Content>
 </ContentPage>
