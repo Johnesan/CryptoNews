@@ -81,7 +81,7 @@ namespace CryptoNews.Database
         #region FavouriteBlogPosts
         public List<FavouriteBlogPost> GetAllFavouriteBlogPosts()
         {
-            var FavouritePosts = database.Table<FavouriteBlogPost>().ToList();
+            var FavouritePosts = database.Table<FavouriteBlogPost>().OrderBy(x => x.Date).ToList();
             foreach (var post in FavouritePosts)
             {
                 post.PrettyDate = PrettyDate.GetPrettyDate(post.Date);

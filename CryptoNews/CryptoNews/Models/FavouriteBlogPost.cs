@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace CryptoNews.Models
 {
     public class FavouriteBlogPost
     {
+        [PrimaryKey]
         public Guid Id { get; set; }
         public string Link { get; set; }
         public string Title { get; set; }

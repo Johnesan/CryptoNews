@@ -4,13 +4,7 @@
              x:Class="CryptoNews.Views.BlogPosts"
              Title="Latest News"
              BackgroundColor="#e8eaed">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="+" Clicked="OnManageButtonClicked">
-            <ToolbarItem.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource" Android="manage.png" iOS="manage.png" WinPhone="manage.png"/>
-            </ToolbarItem.Icon>
-        </ToolbarItem>
-    </ContentPage.ToolbarItems>
+   
     <ContentPage.Content>
         <StackLayout>
             <ActivityIndicator IsEnabled="{Binding IsBusy}"

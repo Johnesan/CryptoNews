@@ -41,10 +41,6 @@ namespace CryptoNews.Views
            
         }
 
-        async private void OnManageButtonClicked(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new BlogWebsites());
-        }
 
         public async void OnFavouriteClicked(object sender, EventArgs e)
         {

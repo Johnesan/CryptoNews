@@ -18,10 +18,7 @@
                 </Grid.RowDefinitions>
                 <ListView x:Name="BlogPostsListView"
                           ItemsSource="{Binding FavouriteBlogPosts}"
-                          ItemSelected="OnSinglePostSelected"
-                          IsPullToRefreshEnabled="True"
-                          RefreshCommand="{Binding RefreshCommand}"
-                          IsRefreshing="{Binding IsRefreshing}"
+                          ItemSelected="OnSinglePostSelected"                         
                           HasUnevenRows="True"                       
                           VerticalOptions="FillAndExpand"
                           SeparatorVisibility="None">

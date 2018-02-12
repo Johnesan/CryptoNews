@@ -20,6 +20,12 @@ namespace CryptoNews.Views
             BindingContext = new BlogPostsViewModel(true);
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ((App)App.Current).ResumeAtBlogWebsiteId = -1;
+            BindingContext = new BlogPostsViewModel(true);
+        }
         private async void OnSinglePostSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem == null)
@@ -27,8 +33,9 @@ namespace CryptoNews.Views
                 return;
             }
 
-            var SinglePost = e.SelectedItem as BlogPost;
             ((ListView)sender).SelectedItem = null;
+
+            var SinglePost = e.SelectedItem as FavouriteBlogPost;   
 
             await Navigation.PushAsync(new SinglePost(SinglePost.Link));
 
@@ -36,7 +43,12 @@ namespace CryptoNews.Views
 
         private void DeleteClicked(object sender, EventArgs e)
         {
-            
+            var mi = ((MenuItem)sender);
+            var favouriteBlogPost = (FavouriteBlogPost)mi.CommandParameter;
+            App.database.DeleteFavouriteBlogPost(favouriteBlogPost);
+            DisplayAlert("Successful", "Blog Post was successfully removed from your favourite list", "OK");
+            BindingContext = new BlogPostsViewModel(true);
+
         }
     }
 }

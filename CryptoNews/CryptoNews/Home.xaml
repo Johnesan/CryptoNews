@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:local="clr-namespace:CryptoNews.Views"
+             x:Class="CryptoNews.Home"
+            Title="Crypto News Feed">
+    <!--<ContentPage.ToolbarItems>
+        <ToolbarItem Text="+" Clicked="OnManageButtonClicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource" Android="manage.png" iOS="manage.png" WinPhone="manage.png"/>
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>-->
+    <!--<TabbedPage.Children>
+        <local:BlogPosts/>
+        <local:FavouriteBlogPosts/>
+    </TabbedPage.Children>-->
+    
+    
+    <!--Pages can be added as references or inline-->
+  <!--<ContentPage Title="Tab 1" />
+  <ContentPage Title="Tab 2" />
+  <ContentPage Title="Tab 3" />-->
+</TabbedPage>

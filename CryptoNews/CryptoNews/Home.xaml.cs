@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace CryptoNews.Views
+namespace CryptoNews
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Home : TabbedPage
@@ -15,6 +15,9 @@ namespace CryptoNews.Views
         public Home()
         {
             InitializeComponent();
+            //Children.Add(new NavigationPage(new BlogPosts()));
+            //Children.Add(new NavigationPage(new FavouriteBlogPosts()));
         }
+       
     }
 }
