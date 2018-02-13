@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+        android:layout_width="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/news_image"
+            android:layout_width="205dp"
+            android:layout_height="156dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_news_item"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/news_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="#3E3E3E"
+            android:maxLines="3"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:paddingTop="8dp"
+            android:layout_marginStart="4dp"
+            android:scrollHorizontally="false"
+            android:text="This is the Latest ethereum rate crypto news"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/news_image" />
+
+
+        <TextView
+
+            android:layout_marginTop="16dp"
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:textSize="14dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="4dp"
+            android:text="Crypton News"
+            android:textColor="#27AE60"
+            app:layout_constraintEnd_toStartOf="@+id/textView"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/news_title" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:typeface="normal"
+            android:textStyle="italic"
+            android:text="1hr ago"
+            android:textSize="14dp"
+            android:textColor="#FF6363"
+            android:layout_marginRight="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/textView2"
+            app:layout_constraintTop_toTopOf="@+id/textView2" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
+</android.support.v7.widget.CardView>
