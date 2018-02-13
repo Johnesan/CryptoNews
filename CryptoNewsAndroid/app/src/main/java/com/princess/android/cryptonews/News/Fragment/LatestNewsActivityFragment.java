@@ -1,10 +1,12 @@
-package com.princess.android.cryptonews;
+package com.princess.android.cryptonews.News.Fragment;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.princess.android.cryptonews.R;
 
 /**
  * A placeholder fragment containing a simple view.
