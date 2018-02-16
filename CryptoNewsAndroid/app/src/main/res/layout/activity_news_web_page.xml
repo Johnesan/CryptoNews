@@ -6,7 +6,7 @@
 <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.princess.android.cryptonews.NewWebsite.view.NewsWebPageActivity">
+    tools:context="com.princess.android.cryptonews.NewWebsite.view.ui.NewsWebPageActivity">
 
     <WebView
         android:id="@+id/webView"

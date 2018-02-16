@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="com.princess.android.cryptonews.util.Resource"/>
+        <import type="com.princess.android.cryptonews.util.Status"/>
         <variable
             name="resource"
-            type="Resource"/>
+            type="com.princess.android.cryptonews.util.Resource"/>
         <variable
             name="callback"
-            type="dealin.io.dealin.commons.RetryCallback"/>
+            type="com.princess.android.cryptonews.commons.RetryCallback"/>
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,7 +17,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
-
 
         <ProgressBar
             android:id="@+id/empty_progress_bar"
@@ -35,6 +36,7 @@
             android:onClick="@{() -> callback.retry()}"
             app:VisibleGone="@{resource.status == Status.ERROR}"
             android:layout_width="wrap_content"
+            android:visibility="invisible"
             android:layout_height="wrap_content"
             android:id="@+id/retry"/>
 

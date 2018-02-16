@@ -1,4 +1,4 @@
-package com.princess.android.cryptonews.NewWebsite.view;
+package com.princess.android.cryptonews.NewWebsite.view.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
