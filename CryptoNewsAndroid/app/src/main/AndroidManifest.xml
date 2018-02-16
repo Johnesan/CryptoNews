@@ -23,7 +23,15 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".NewsWebsite.Activity.NewsWebPageActivity" />
-        <activity android:name=".NewWebsite.view.NewsWebPageActivity"></activity>
+        <activity android:name=".NewWebsite.view.ui.NewsWebPageActivity" />
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".News.Activity.LatestNewsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.princess.android.cryptonews.News.Activity.LatestNewsActivity" />
+        </activity>
     </application>
 
 </manifest>
