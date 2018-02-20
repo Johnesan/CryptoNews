@@ -28,7 +28,7 @@ public class NewsWebPageActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_settings){
-            startSettingsActivity();
+
             return  true;
 
         }
@@ -36,8 +36,5 @@ public class NewsWebPageActivity extends AppCompatActivity {
         return  super.onOptionsItemSelected(item);
     }
 
-    private void startSettingsActivity() {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
-    }
+
 }

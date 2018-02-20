@@ -33,6 +33,9 @@ android {
     }
 }
 
+ext {
+    caligraphy = '2.3.0'
+}
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.0.2'
@@ -66,4 +69,8 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
     //RxJava
     implementation 'io.reactivex.rxjava2:rxjava:2.1.7'
+
+
+    //dependency for Font
+    compile "uk.co.chrisjenx:calligraphy:${caligraphy}"
 }
