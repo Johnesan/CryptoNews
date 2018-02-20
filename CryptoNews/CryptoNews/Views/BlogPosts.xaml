@@ -35,6 +35,7 @@
                             <ViewCell>
                                 <ViewCell.ContextActions>
                                     <MenuItem Clicked="OnFavouriteClicked" CommandParameter="{Binding .}" Text="Add To Favourite" />
+                                    <MenuItem Clicked="OnShareClicked" CommandParameter="{Binding .}" Text="Share Post" />
                                 </ViewCell.ContextActions>
                                 <ViewCell.View>
                                     <Frame HasShadow="True" Margin="4">

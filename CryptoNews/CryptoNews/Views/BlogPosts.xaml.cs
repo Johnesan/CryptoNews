@@ -1,6 +1,7 @@
 ﻿using CryptoNews.Models;
 using CryptoNews.Services;
 using CryptoNews.ViewModels;
+using Plugin.Share;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -59,16 +60,25 @@ namespace CryptoNews.Views
             };
             await App.database.AddFavouriteBlogPost(FavouriteBlogPost);
             await DisplayAlert("Successful", "One post added to favourites", "OK");
+            
         }
 
-        //public void OnShareClicked(object sender, EventArgs e)
-        //{
-        //    var mi = ((FavouriteBlogPost)sender);
-        //    //    var x = mi.CommandParameter.ToString();
-        //    //    var SelectedFavouriteBlogPost = mi.CommandParameter as FavouriteBlogPost;
-        //    //    var mi = ((MenuItem)sender);
-        //    //    DisplayAlert("Delete Context Action", mi.CommandParameter + " delete context action", "OK");
-        //    //
-        //}
+        public async void OnShareClicked(object sender, EventArgs e)
+        {
+            if (!CrossShare.IsSupported)
+            {
+                await DisplayAlert("Error", "This Device Platform does not support sharing", "OK");
+                return;
+            }
+            var mi = ((MenuItem)sender);
+            var blogPost = (BlogPost)mi.CommandParameter;
+            await CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
+            {
+                Title = blogPost.Title,
+                Text = blogPost.Excerpt + "..." + "(By" + blogPost.BlogWebsiteName + ")",
+                Url = blogPost.Link
+            });
+
+        }
     }
 }

@@ -26,6 +26,7 @@
                         <DataTemplate>
                             <ViewCell>
                                 <ViewCell.ContextActions>
+                                    <MenuItem Clicked="OnShareClicked" CommandParameter="{Binding .}" Text="Share Post" />
                                     <MenuItem Clicked="DeleteClicked" CommandParameter="{Binding .}" Text="Delete" />
                                 </ViewCell.ContextActions>
                                 <ViewCell.View>

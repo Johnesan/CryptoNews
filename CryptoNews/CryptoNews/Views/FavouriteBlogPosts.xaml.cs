@@ -1,5 +1,6 @@
 ﻿using CryptoNews.Models;
 using CryptoNews.ViewModels;
+using Plugin.Share;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +49,25 @@ namespace CryptoNews.Views
             App.database.DeleteFavouriteBlogPost(favouriteBlogPost);
             DisplayAlert("Successful", "Blog Post was successfully removed from your favourite list", "OK");
             BindingContext = new BlogPostsViewModel(true);
+
+        }
+
+        public async void OnShareClicked(object sender, EventArgs e)
+        {
+            if (!CrossShare.IsSupported)
+            {
+                await DisplayAlert("Error", "This Device Platform does not support sharing", "OK");
+                return;
+            }
+
+            var mi = ((MenuItem)sender);
+            var favBlogPost = (FavouriteBlogPost)mi.CommandParameter;
+            await CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
+            {
+                Title = favBlogPost.Title,
+                Text = favBlogPost.Excerpt + "..." + "(By" + favBlogPost.BlogWebsiteName + ")",
+                Url = favBlogPost.Link
+            });
 
         }
     }
