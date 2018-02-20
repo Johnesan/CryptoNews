@@ -10,3 +10,4 @@ The aim of the application is to fetch news feed from preferred blogs and displa
 ### Usage
 This application can only fetch blog posts from Wordpress websites that have their API endpoints open. Before adding a website to your preference, endeavour to test the url to confirm that it meets the requirements to work in the application.
 
+Android APK: https://drive.google.com/file/d/1zrVIimlgXqleVi_M2pGXGHVzoIytv577/view?usp=sharing
