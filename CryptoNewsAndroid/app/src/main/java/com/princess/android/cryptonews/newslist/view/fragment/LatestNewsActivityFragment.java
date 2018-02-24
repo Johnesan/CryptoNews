@@ -24,15 +24,18 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.support.DaggerFragment;
+
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class LatestNewsActivityFragment extends Fragment {
+public class LatestNewsActivityFragment extends DaggerFragment {
 
     @Inject
     ViewModelProvider.Factory  factory;
-    private NewsViewModel newsViewModel;
+
+    NewsViewModel newsViewModel;
 
     private NewsAdapter mAdapter;
     private List<News> newsList = new ArrayList<>();

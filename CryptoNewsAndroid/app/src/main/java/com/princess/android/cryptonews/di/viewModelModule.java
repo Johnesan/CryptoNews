@@ -1,9 +1,7 @@
 package com.princess.android.cryptonews.di;
 
 import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
 
-import com.princess.android.cryptonews.ViewModelFactory;
 import com.princess.android.cryptonews.ViewModelKey;
 import com.princess.android.cryptonews.newslist.viewmodel.NewsViewModel;
 
@@ -22,9 +20,5 @@ public abstract class viewModelModule {
     @IntoMap
     @ViewModelKey(NewsViewModel.class)
     abstract ViewModel bindNewsViewModel(NewsViewModel newsViewModel);
-
-    @Binds
-    abstract ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory factory);
-
 
 }
