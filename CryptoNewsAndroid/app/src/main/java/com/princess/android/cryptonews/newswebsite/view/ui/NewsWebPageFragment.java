@@ -1,12 +1,14 @@
-package com.princess.android.cryptonews.NewWebsite.view.ui;
+package com.princess.android.cryptonews.newswebsite.view.ui;
 
 import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
@@ -15,7 +17,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.princess.android.cryptonews.R;
-import com.princess.android.cryptonews.api.NewsApiClient;
+import com.princess.android.cryptonews.newslist.view.fragment.LatestNewsActivityFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,6 +26,8 @@ public class NewsWebPageFragment extends Fragment {
 
     @BindView(R.id.webView)
     WebView webView;
+    @BindView(R.id.empty_progress_bar)
+    ProgressBar progressBar;
     String url;
     String title;
 
@@ -50,10 +54,9 @@ public class NewsWebPageFragment extends Fragment {
     }
 
     public void getUrl(){
-        if(getActivity().getIntent().hasExtra("data")) {
+        if(getActivity().getIntent().hasExtra("url")) {
             url = getActivity().getIntent().getExtras().getString("url");
-            Log.e("URL", url);
-
+            progressBar.setVisibility(View.GONE);
             WebSettings webSettings = webView.getSettings();
             webSettings.setJavaScriptEnabled(true);
             webSettings.setLoadsImagesAutomatically(true);
@@ -65,15 +68,21 @@ public class NewsWebPageFragment extends Fragment {
     public void getTitle(){
         if(getActivity().getIntent().hasExtra("title")) {
             title = getActivity().getIntent().getExtras().getString("title");
-
-            if(getActivity().getActionBar() != null){
-                getActivity().getActionBar().setTitle(title);
-            }
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(title);
         }
     }
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed() {
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+
+                Intent intent = new Intent(getActivity(), LatestNewsActivityFragment.class);
+                startActivity(intent);
+                getActivity().finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

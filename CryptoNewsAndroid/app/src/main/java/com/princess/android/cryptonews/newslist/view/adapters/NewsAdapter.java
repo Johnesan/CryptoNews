@@ -11,10 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.princess.android.cryptonews.NewWebsite.view.ui.NewsWebPageActivity;
+import com.princess.android.cryptonews.newswebsite.view.ui.NewsWebPageActivity;
 import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.api.NewsApiClient;
-import com.princess.android.cryptonews.model.ccn.News;
+import com.princess.android.cryptonews.model.News;
 
 import java.net.MalformedURLException;
 import java.net.URL;

@@ -1,16 +1,13 @@
-package com.princess.android.cryptonews.model.ccn;
+package com.princess.android.cryptonews.model;
 
 import javax.annotation.Generated;
 import com.google.gson.annotations.SerializedName;
 
 @Generated("com.robohorse.robopojogenerator")
-public class Content{
+public class Title{
 
 	@SerializedName("rendered")
 	private String rendered;
-
-	@SerializedName("protected")
-	private boolean jsonMemberProtected;
 
 	public void setRendered(String rendered){
 		this.rendered = rendered;
@@ -20,20 +17,11 @@ public class Content{
 		return rendered;
 	}
 
-	public void setJsonMemberProtected(boolean jsonMemberProtected){
-		this.jsonMemberProtected = jsonMemberProtected;
-	}
-
-	public boolean isJsonMemberProtected(){
-		return jsonMemberProtected;
-	}
-
 	@Override
  	public String toString(){
 		return 
-			"Content{" + 
+			"Title{" + 
 			"rendered = '" + rendered + '\'' + 
-			",protected = '" + jsonMemberProtected + '\'' + 
 			"}";
 		}
 }

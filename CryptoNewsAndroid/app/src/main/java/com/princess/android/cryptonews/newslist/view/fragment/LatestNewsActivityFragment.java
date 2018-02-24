@@ -8,13 +8,12 @@ import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.princess.android.cryptonews.model.ccn.News;
+import com.princess.android.cryptonews.model.News;
 import com.princess.android.cryptonews.newslist.view.adapters.NewsAdapter;
 import com.princess.android.cryptonews.newslist.viewmodel.NewsViewModel;
 import com.princess.android.cryptonews.R;
@@ -66,7 +65,6 @@ public class LatestNewsActivityFragment extends DaggerFragment {
         newsViewModel.getAllLatestNews().observe(this, new Observer<List<News>>() {
             @Override
             public void onChanged(@Nullable List<News> news) {
-                //Log.e("RESULT", news.get(0).getTitle().toString());
                 newsList = news;
                 mAdapter = new NewsAdapter(getActivity(), newsList);
                 progressBar.setVisibility(View.GONE);

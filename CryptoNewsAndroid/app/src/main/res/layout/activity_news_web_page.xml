@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.princess.android.cryptonews.NewWebsite.view.ui.NewsWebPageActivity">
+    tools:context="com.princess.android.cryptonews.newswebsite.view.ui.NewsWebPageActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

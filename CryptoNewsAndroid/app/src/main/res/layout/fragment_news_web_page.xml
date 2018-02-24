@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.princess.android.cryptonews.NewWebsite.view.ui.NewsWebPageFragment"
+    tools:context="com.princess.android.cryptonews.newswebsite.view.ui.NewsWebPageFragment"
     tools:showIn="@layout/activity_news_web_page">
 
     <WebView
@@ -11,5 +11,12 @@
         android:layout_height="match_parent">
 
     </WebView>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/empty_item"
+        android:layout_gravity="center">
+    </include>
 
 </FrameLayout>

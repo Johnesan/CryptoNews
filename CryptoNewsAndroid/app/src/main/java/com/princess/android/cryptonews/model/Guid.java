@@ -1,4 +1,4 @@
-package com.princess.android.cryptonews.model.ccn;
+package com.princess.android.cryptonews.model;
 
 import javax.annotation.Generated;
 import com.google.gson.annotations.SerializedName;
