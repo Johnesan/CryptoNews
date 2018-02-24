@@ -12,13 +12,18 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.api.NewsApiClient;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class NewsWebPageFragment extends Fragment {
 
-    private WebView webView;
+    @BindView(R.id.webView)
+    WebView webView;
     String url;
     String title;
 
@@ -33,7 +38,7 @@ public class NewsWebPageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_news_web_page, container, false);
 
         //Initializing the Web view
-        webView = (WebView) view.findViewById(R.id.webView);
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -41,6 +46,7 @@ public class NewsWebPageFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getUrl();
+        getTitle();
     }
 
     public void getUrl(){
@@ -53,6 +59,16 @@ public class NewsWebPageFragment extends Fragment {
             webSettings.setLoadsImagesAutomatically(true);
             webView.setWebViewClient(new WebViewClient());
             webView.loadUrl(String.valueOf(url));
+        }
+    }
+
+    public void getTitle(){
+        if(getActivity().getIntent().hasExtra("title")) {
+            title = getActivity().getIntent().getExtras().getString("title");
+
+            if(getActivity().getActionBar() != null){
+                getActivity().getActionBar().setTitle(title);
+            }
         }
     }
     // TODO: Rename method, update argument and hook method into UI event

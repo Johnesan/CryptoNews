@@ -12,7 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
+import com.princess.android.cryptonews.model.ccn.News;
 import com.princess.android.cryptonews.newslist.view.adapters.NewsAdapter;
 import com.princess.android.cryptonews.newslist.viewmodel.NewsViewModel;
 import com.princess.android.cryptonews.R;
@@ -33,13 +35,14 @@ public class LatestNewsActivityFragment extends DaggerFragment {
 
     @Inject
     ViewModelProvider.Factory  factory;
-
     NewsViewModel newsViewModel;
 
     private NewsAdapter mAdapter;
     private List<News> newsList = new ArrayList<>();
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
+    @BindView(R.id.empty_progress_bar)
+    ProgressBar progressBar;
 
     RecyclerView.LayoutManager layoutManager;
 
@@ -63,9 +66,10 @@ public class LatestNewsActivityFragment extends DaggerFragment {
         newsViewModel.getAllLatestNews().observe(this, new Observer<List<News>>() {
             @Override
             public void onChanged(@Nullable List<News> news) {
-                Log.e("RESULT", news.get(0).getTitle().toString());
+                //Log.e("RESULT", news.get(0).getTitle().toString());
                 newsList = news;
                 mAdapter = new NewsAdapter(getActivity(), newsList);
+                progressBar.setVisibility(View.GONE);
                 mRecyclerView.setAdapter(mAdapter);
             }
         });

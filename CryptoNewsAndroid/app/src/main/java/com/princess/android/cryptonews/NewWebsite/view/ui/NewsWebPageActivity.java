@@ -18,6 +18,10 @@ public class NewsWebPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_news_web_page);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
 

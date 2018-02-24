@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.princess.android.cryptonews.NewWebsite.view.ui.NewsWebPageActivity;
 import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.api.NewsApiClient;
+import com.princess.android.cryptonews.model.ccn.News;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -49,8 +50,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         News result = newsList.get(position);
         //Set the image
-        String thumbnail_url = "https://www.ccn.com/wp-content/uploads/";
-                //+ result.getFeaturedMedia().;
+        String thumbnail_url = result.getEmbedded().getWpFeaturedmedia().get(0)
+                .getMediaDetails().getSizes().getMedium().getSourceUrl();
         Glide.with(context)
                 .load(thumbnail_url)
                 .placeholder(R.mipmap.placeholder)
@@ -62,7 +63,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         try {
             URL url = new URL(websiteName);
             String host = url.getHost();
-            holder.website.setText(host.toUpperCase());
+            String[] array = host.split("\\.");
+            holder.website.setText(array[0].toUpperCase());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

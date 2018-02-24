@@ -7,6 +7,7 @@ import android.util.Log;
 import com.princess.android.cryptonews.AppExecutors;
 import com.princess.android.cryptonews.api.NewsApiClient;
 import com.princess.android.cryptonews.api.NewsApiService;
+import com.princess.android.cryptonews.model.ccn.News;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class NewsRepository {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(news ->{
                     newsMutableLiveData.setValue(news);
-                    Log.e("TAG", news.toString());
+                    //Log.e("TAG", news.toString());
                 });
         return newsMutableLiveData;
     }

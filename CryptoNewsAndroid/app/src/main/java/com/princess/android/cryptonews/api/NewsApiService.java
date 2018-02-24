@@ -1,5 +1,7 @@
 package com.princess.android.cryptonews.api;
 
+import com.princess.android.cryptonews.model.ccn.News;
+
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -12,6 +14,6 @@ import retrofit2.http.GET;
 
 public interface NewsApiService {
 
-    @GET("wp-json/wp/v2/posts")
+    @GET("wp-json/wp/v2/posts?_embed")
     Observable<List<News>> getLatestNews();
 }

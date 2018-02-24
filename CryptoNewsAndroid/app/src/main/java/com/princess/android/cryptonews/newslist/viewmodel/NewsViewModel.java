@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveData;
 
 import com.princess.android.cryptonews.AppController;
 import com.princess.android.cryptonews.injection.CryptoNewsComponents;
+import com.princess.android.cryptonews.model.ccn.News;
 import com.princess.android.cryptonews.newslist.repository.NewsRepository;
 
 import java.util.List;
