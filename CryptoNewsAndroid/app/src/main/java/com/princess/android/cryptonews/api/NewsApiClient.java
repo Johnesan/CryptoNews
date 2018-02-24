@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NewsApiClient {
 
-    private static final String BASE_URL = "https://ccn.com/";
+    public static String BASE_URL = "https://ccn.com/";
 
     private static Retrofit retrofit = null;
     public static Retrofit getClient(){
