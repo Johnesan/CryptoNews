@@ -14,9 +14,7 @@ import com.bumptech.glide.Glide;
 import com.princess.android.cryptonews.NewWebsite.view.ui.NewsWebPageActivity;
 import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.api.NewsApiClient;
-import com.princess.android.cryptonews.model.News;
 
-import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -102,7 +100,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             Context context = v.getContext();
             Intent intent = new Intent(context, NewsWebPageActivity.class);
             News data = newsList.get(getLayoutPosition());
-            intent.putExtra("data", (Serializable) data);
+            String link = data.getGuid().getRendered();
+            String title = data.getTitle().getRendered();
+            intent.putExtra("url", link);
+            intent.putExtra("title", title);
             context.startActivity(intent);
         }
     }

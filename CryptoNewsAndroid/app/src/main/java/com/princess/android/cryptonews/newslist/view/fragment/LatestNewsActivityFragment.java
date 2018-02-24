@@ -3,16 +3,16 @@ package com.princess.android.cryptonews.newslist.view.fragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.res.Configuration;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.princess.android.cryptonews.model.News;
 import com.princess.android.cryptonews.newslist.view.adapters.NewsAdapter;
 import com.princess.android.cryptonews.newslist.viewmodel.NewsViewModel;
 import com.princess.android.cryptonews.R;
@@ -24,34 +24,24 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-<<<<<<< HEAD
-import dagger.android.DaggerFragment;
-=======
 import dagger.android.support.DaggerFragment;
-
->>>>>>> 15e0d7e019c0b156913bb46387d8774f66180c4e
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class LatestNewsActivityFragment extends DaggerFragment {
 
-<<<<<<< HEAD
-//    @Inject
-//    ViewModelProvider.Factory factory;
-
-    public NewsViewModel newsViewModel;
-=======
     @Inject
     ViewModelProvider.Factory  factory;
 
     NewsViewModel newsViewModel;
->>>>>>> 15e0d7e019c0b156913bb46387d8774f66180c4e
 
     private NewsAdapter mAdapter;
     private List<News> newsList = new ArrayList<>();
     @BindView(R.id.recyclerView)
-    RecyclerView mRecylerView;
+    RecyclerView mRecyclerView;
+
+    RecyclerView.LayoutManager layoutManager;
 
     public LatestNewsActivityFragment() {
     }
@@ -61,6 +51,7 @@ public class LatestNewsActivityFragment extends DaggerFragment {
                              Bundle savedInstanceState) {
         View view  = inflater.inflate(R.layout.fragment_latest_news, container, false);
         ButterKnife.bind(this, view);
+        setupViews();
     return view;
     }
 
@@ -68,14 +59,28 @@ public class LatestNewsActivityFragment extends DaggerFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mAdapter = new NewsAdapter(getActivity(), newsList);
-        newsViewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
+        newsViewModel = ViewModelProviders.of(this, factory).get(NewsViewModel.class);
         newsViewModel.getAllLatestNews().observe(this, new Observer<List<News>>() {
             @Override
             public void onChanged(@Nullable List<News> news) {
                 Log.e("RESULT", news.get(0).getTitle().toString());
-                //newsList = news.
+                newsList = news;
+                mAdapter = new NewsAdapter(getActivity(), newsList);
+                mRecyclerView.setAdapter(mAdapter);
             }
         });
+    }
+
+    private void setupViews(){
+
+        layoutManager = new GridLayoutManager(getActivity(),2);
+
+        if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            layoutManager = new GridLayoutManager(getActivity(), 2);
+        } else {
+            layoutManager = new GridLayoutManager(getActivity(), 4);
+        }
+
+        mRecyclerView.setLayoutManager(layoutManager);
     }
 }

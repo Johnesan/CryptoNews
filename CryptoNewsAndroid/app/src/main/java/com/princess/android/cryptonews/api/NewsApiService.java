@@ -1,7 +1,5 @@
 package com.princess.android.cryptonews.api;
 
-import com.princess.android.cryptonews.model.News;
-
 import java.util.List;
 
 import io.reactivex.Observable;

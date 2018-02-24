@@ -7,7 +7,6 @@ import android.util.Log;
 import com.princess.android.cryptonews.AppExecutors;
 import com.princess.android.cryptonews.api.NewsApiClient;
 import com.princess.android.cryptonews.api.NewsApiService;
-import com.princess.android.cryptonews.model.News;
 
 import java.util.List;
 
