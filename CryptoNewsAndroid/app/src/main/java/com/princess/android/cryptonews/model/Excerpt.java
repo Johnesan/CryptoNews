@@ -17,8 +17,8 @@ public class Excerpt {
         return mProtected;
     }
 
-    public void setProtected(Boolean protected) {
-        mProtected = protected;
+    public void setProtected(Boolean protect) {
+        mProtected = protect;
     }
 
     public String getRendered() {

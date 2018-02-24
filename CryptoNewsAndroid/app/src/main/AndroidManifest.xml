@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".News.Activity.LatestNewsActivity"
+            android:name=".newslist.view.activity.LatestNewsActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".NewsWebsite.Activity.NewsWebPageActivity" />
@@ -28,10 +28,10 @@
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".News.Activity.LatestNewsActivity">
+            android:parentActivityName=".newslist.view.activity.LatestNewsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.princess.android.cryptonews.News.Activity.LatestNewsActivity" />
+                android:value=".newslist.view.activity.LatestNewsActivity" />
         </activity>
     </application>
 

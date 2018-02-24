@@ -5,10 +5,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.princess.android.cryptonews.injection.AppComponent;
-import com.princess.android.cryptonews.injection.CryptoNewsComponents;
-import com.princess.android.cryptonews.injection.CryptoNewsModule;
 import com.princess.android.cryptonews.injection.DaggerAppComponent;
-import com.princess.android.cryptonews.injection.DaggerCryptoNewsComponents;
 
 import javax.inject.Inject;
 
@@ -27,8 +24,6 @@ public class AppController extends Application implements HasActivityInjector {
 
     @Inject
     DispatchingAndroidInjector<Activity> activityDispatchingAndroidInjector;
-
-   private final CryptoNewsComponents cryptoNewsComponents = createCryproNewsComponent();
 
 
     @Override
@@ -53,16 +48,6 @@ public class AppController extends Application implements HasActivityInjector {
 
     }
 
-    public CryptoNewsComponents createCryproNewsComponent(){
-        return DaggerCryptoNewsComponents.builder()
-                .cryptoNewsModule(new CryptoNewsModule(this))
-                .build();
-    }
-
-
-    public  CryptoNewsComponents getCryptoNewsComponent(){
-        return  cryptoNewsComponents;
-    }
 
     public static  synchronized  AppController getInstance(){
         return  INSTANCE;
@@ -71,6 +56,7 @@ public class AppController extends Application implements HasActivityInjector {
     public static Context getContextInstance(){
         return INSTANCE.getApplicationContext();
     }
+
     @Override
     public AndroidInjector<Activity> activityInjector() {
         return activityDispatchingAndroidInjector;

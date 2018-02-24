@@ -17,8 +17,9 @@ public class Content {
         return mProtected;
     }
 
-    public void setProtected(Boolean protecteds) {
-        mProtected = protecteds;
+
+    public void setProtected(Boolean protect) {
+        mProtected = protect;
     }
 
     public String getRendered() {

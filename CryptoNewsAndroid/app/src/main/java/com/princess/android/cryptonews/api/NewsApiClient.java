@@ -1,5 +1,7 @@
 package com.princess.android.cryptonews.api;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -9,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NewsApiClient {
 
-    private static final String BASE_URL = "https://ccn.com/";
+    public static String BASE_URL = "https://ccn.com/";
 
     private static Retrofit retrofit = null;
     public static Retrofit getClient(){
@@ -17,6 +19,7 @@ public class NewsApiClient {
 
             retrofit = new Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .baseUrl(BASE_URL)
                     .build();
         }

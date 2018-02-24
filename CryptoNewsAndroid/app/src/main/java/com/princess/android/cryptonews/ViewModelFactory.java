@@ -12,12 +12,12 @@ import javax.inject.Provider;
  * Created by numb3rs on 2/20/18.
  */
 
-public class VieModelFactory implements ViewModelProvider.Factory {
+public class ViewModelFactory implements ViewModelProvider.Factory {
     private final Map<Class<? extends ViewModel>, Provider<ViewModel>> creators;
 
 
     @Inject
-    public VieModelFactory(Map<Class<? extends ViewModel>, Provider<ViewModel>> creators) {
+    public ViewModelFactory(Map<Class<? extends ViewModel>, Provider<ViewModel>> creators) {
         this.creators = creators;
     }
 
