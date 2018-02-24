@@ -24,15 +24,17 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.DaggerFragment;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class LatestNewsActivityFragment extends Fragment {
 
-    @Inject
-    ViewModelProvider.Factory  factory;
-    private NewsViewModel newsViewModel;
+//    @Inject
+//    ViewModelProvider.Factory factory;
+
+    public NewsViewModel newsViewModel;
 
     private NewsAdapter mAdapter;
     private List<News> newsList = new ArrayList<>();
@@ -55,7 +57,7 @@ public class LatestNewsActivityFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         mAdapter = new NewsAdapter(getActivity(), newsList);
-        newsViewModel = ViewModelProviders.of(this, factory).get(NewsViewModel.class);
+        newsViewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
         newsViewModel.getAllLatestNews().observe(this, new Observer<List<News>>() {
             @Override
             public void onChanged(@Nullable List<News> news) {

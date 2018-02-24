@@ -15,21 +15,23 @@ import javax.inject.Inject;
  * Created by Princess on 2/22/2018.
  */
 
-public class NewsViewModel extends ViewModel implements CryptoNewsComponents.Injectable{
+public class NewsViewModel extends ViewModel
+        //implements CryptoNewsComponents.Injectable
+{
 
    private NewsRepository newsRepository;
 
-   @Inject
-    public NewsViewModel(NewsRepository newsRepository) {
-        this.newsRepository = newsRepository;
+   //@Inject
+    public NewsViewModel() {
+        this.newsRepository = new NewsRepository();
     }
 
     public LiveData<List<News>> getAllLatestNews(){
         return newsRepository.getAllNews();
     }
 
-    @Override
-    public void inject(CryptoNewsComponents cryptoNewsComponents) {
-        cryptoNewsComponents.inject(this);
-    }
+//    @Override
+//    public void inject(CryptoNewsComponents cryptoNewsComponents) {
+//        cryptoNewsComponents.inject(this);
+//    }
 }
