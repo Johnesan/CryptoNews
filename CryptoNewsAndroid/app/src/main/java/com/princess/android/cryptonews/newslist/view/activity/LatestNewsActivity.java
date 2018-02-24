@@ -2,7 +2,6 @@ package com.princess.android.cryptonews.newslist.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,7 +9,10 @@ import android.view.MenuItem;
 import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.settings.SettingsActivity;
 
-public class LatestNewsActivity extends AppCompatActivity {
+import dagger.android.support.DaggerAppCompatActivity;
+
+
+public class LatestNewsActivity extends DaggerAppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

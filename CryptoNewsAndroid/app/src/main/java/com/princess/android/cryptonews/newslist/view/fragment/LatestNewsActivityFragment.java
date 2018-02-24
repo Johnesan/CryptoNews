@@ -24,17 +24,29 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+<<<<<<< HEAD
 import dagger.android.DaggerFragment;
+=======
+import dagger.android.support.DaggerFragment;
+
+>>>>>>> 15e0d7e019c0b156913bb46387d8774f66180c4e
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class LatestNewsActivityFragment extends Fragment {
+public class LatestNewsActivityFragment extends DaggerFragment {
 
+<<<<<<< HEAD
 //    @Inject
 //    ViewModelProvider.Factory factory;
 
     public NewsViewModel newsViewModel;
+=======
+    @Inject
+    ViewModelProvider.Factory  factory;
+
+    NewsViewModel newsViewModel;
+>>>>>>> 15e0d7e019c0b156913bb46387d8774f66180c4e
 
     private NewsAdapter mAdapter;
     private List<News> newsList = new ArrayList<>();

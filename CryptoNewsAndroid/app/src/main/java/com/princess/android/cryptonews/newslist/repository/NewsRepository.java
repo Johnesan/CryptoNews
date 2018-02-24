@@ -4,11 +4,14 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 
+import com.princess.android.cryptonews.AppExecutors;
 import com.princess.android.cryptonews.api.NewsApiClient;
 import com.princess.android.cryptonews.api.NewsApiService;
 import com.princess.android.cryptonews.model.News;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -20,6 +23,14 @@ import io.reactivex.schedulers.Schedulers;
 public class NewsRepository {
 
     private NewsApiService newsApiService = NewsApiClient.getClient().create(NewsApiService.class);
+
+    AppExecutors appExecutors;
+
+    @Inject
+    public NewsRepository(AppExecutors appExecutors) {
+        this.appExecutors = appExecutors;
+
+    }
 
     public LiveData<List<News>> getAllNews(){
         MutableLiveData<List<News>> newsMutableLiveData = new MutableLiveData<>();

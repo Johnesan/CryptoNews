@@ -2,7 +2,10 @@ package com.princess.android.cryptonews.api;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
+<<<<<<< HEAD
 import io.reactivex.plugins.RxJavaPlugins;
+=======
+>>>>>>> 15e0d7e019c0b156913bb46387d8774f66180c4e
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

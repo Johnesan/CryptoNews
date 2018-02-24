@@ -17,6 +17,7 @@ public class Content {
         return mProtected;
     }
 
+
     public void setProtected(Boolean protect) {
         mProtected = protect;
     }
