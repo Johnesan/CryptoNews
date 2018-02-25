@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.princess.android.cryptonews.BuildConfig;
 import com.princess.android.cryptonews.newswebsite.view.ui.NewsWebPageActivity;
 import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.api.NewsApiClient;
@@ -31,7 +32,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     private Context context;
     private List<News> newsList;
-    private NewsApiClient apiClient;
+//    private NewsApiClient apiClient;
 
     public NewsAdapter(Context context, List<News> newsList) {
         this.context = context;
@@ -59,7 +60,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         //
         holder.title.setText(result.getTitle().getRendered());
         //Set the website
-        String websiteName = apiClient.BASE_URL;
+        String websiteName = BuildConfig.BASE_URL;
         try {
             URL url = new URL(websiteName);
             String host = url.getHost();

@@ -21,7 +21,9 @@ import io.reactivex.schedulers.Schedulers;
 
 public class NewsRepository {
 
-    private NewsApiService newsApiService = NewsApiClient.getClient().create(NewsApiService.class);
+
+    @Inject
+    NewsApiService newsApiService;
 
     AppExecutors appExecutors;
 

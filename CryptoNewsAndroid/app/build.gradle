@@ -15,11 +15,13 @@ android {
                 includeCompileClasspath false
             }
         }
+        buildConfigField 'String', 'BASE_URL', '"https://ccn.com/"'
     }
 
     dataBinding {
         enabled = true
     }
+
 
     buildTypes {
         release {
@@ -35,7 +37,10 @@ android {
 
 ext {
     caligraphy = '2.3.0'
+    okHttp='3.8.0'
 }
+
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.0.2'
@@ -86,4 +91,8 @@ dependencies {
     //
     implementation 'org.glassfish:javax.annotation:10.0-b28'
 
+
+    //dependency for HttpLogging
+    compile "com.squareup.okhttp3:logging-interceptor:${okHttp}"
+    compile "com.squareup.okhttp3:okhttp:${okHttp}"
 }

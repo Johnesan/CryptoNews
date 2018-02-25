@@ -9,6 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Princess on 2/22/2018.
  */
 
+@Deprecated
 public class NewsApiClient {
 
     public static String BASE_URL = "https://ccn.com/";
