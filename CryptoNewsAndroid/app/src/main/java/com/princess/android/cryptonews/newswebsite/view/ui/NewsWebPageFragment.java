@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -72,18 +73,6 @@ public class NewsWebPageFragment extends Fragment {
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case android.R.id.home:
-
-                Intent intent = new Intent(getActivity(), LatestNewsActivityFragment.class);
-                startActivity(intent);
-                getActivity().finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onAttach(Context context) {
