@@ -44,7 +44,13 @@
                                             <Label Text="{Binding BlogWebsiteName}" FontSize="Small" TextColor="Green"/>
                                             <Label Text="{Binding PrettyDate}" FontSize="Small" FontAttributes="Italic" TextColor="PaleVioletRed"/>
 
-                                            <Image Source="{Binding FeaturedImage}" Margin="0"/>
+                                            <Image Margin="0">
+                                                <Image.Source>
+                                                    <UriImageSource Uri="{Binding FeaturedImage}" 
+                                                                CacheValidity="21" 
+                                                                CachingEnabled="true"/>
+                                                </Image.Source>                                               
+                                            </Image>
                                             <Label Text="{Binding Excerpt, StringFormat='{0} ...'}" TextColor="Black" FontSize="Medium"/>
                                             <!--<WebView>
                                                 <WebView.Source>

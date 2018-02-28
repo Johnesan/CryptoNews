@@ -1,5 +1,6 @@
 ﻿using CryptoNews.Models;
 using CryptoNews.ViewModels;
+using Plugin.Connectivity;
 using Plugin.Share;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,12 @@ namespace CryptoNews.Views
                 return;
             }
 
+            if (CrossConnectivity.Current.IsConnected == false)
+            {
+                await DisplayAlert("Not Connected", "Sorry, you cannot read this post because you are not connected to the Internet", "Ok");
+                return;
+            }
+
             ((ListView)sender).SelectedItem = null;
 
             var SinglePost = e.SelectedItem as FavouriteBlogPost;   
@@ -65,7 +72,7 @@ namespace CryptoNews.Views
             await CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
             {
                 Title = favBlogPost.Title,
-                Text = favBlogPost.Excerpt + "..." + "(By" + favBlogPost.BlogWebsiteName + ")",
+                Text = favBlogPost.Excerpt + "..." + "(By " + favBlogPost.BlogWebsiteName + ")",
                 Url = favBlogPost.Link
             });
 

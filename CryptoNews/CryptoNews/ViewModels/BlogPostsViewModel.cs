@@ -1,5 +1,6 @@
 ﻿using CryptoNews.Models;
 using CryptoNews.Services;
+using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -82,14 +83,18 @@ namespace CryptoNews.ViewModels
             }            
         }
 
-      
 
-            private async Task InitAsync()
+
+        private async Task InitAsync()
         {
-            var service = new PostsRepository();
-            var UpdatedPosts = await service.GetAllPostsAsync();
-            App.database.AddUpdatedBlogPosts(UpdatedPosts);
-            BlogPosts = App.database.GetAllBlogPosts();
+            if(CrossConnectivity.Current.IsConnected == true)
+            {
+                var service = new PostsRepository();
+                var UpdatedPosts = service.GetAllPostsAsync();
+                App.database.AddUpdatedBlogPosts(UpdatedPosts.Result);
+                BlogPosts = App.database.GetAllBlogPosts();
+            }
+                       
             IsBusy = false;
         }
 
