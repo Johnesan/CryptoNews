@@ -4,7 +4,6 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
 import com.princess.android.cryptonews.AppExecutors;
-import com.princess.android.cryptonews.api.NewsApiClient;
 import com.princess.android.cryptonews.api.NewsApiService;
 import com.princess.android.cryptonews.model.News;
 
@@ -25,10 +24,10 @@ public class NewsRepository {
     @Inject
     NewsApiService newsApiService;
 
-    AppExecutors appExecutors;
+    private AppExecutors appExecutors;
 
     @Inject
-    public NewsRepository(AppExecutors appExecutors) {
+    private NewsRepository(AppExecutors appExecutors) {
         this.appExecutors = appExecutors;
 
     }

@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide;
 import com.princess.android.cryptonews.BuildConfig;
 import com.princess.android.cryptonews.newswebsite.view.ui.NewsWebPageActivity;
 import com.princess.android.cryptonews.R;
-import com.princess.android.cryptonews.api.NewsApiClient;
 import com.princess.android.cryptonews.model.News;
 
 import java.net.MalformedURLException;
@@ -32,7 +31,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     private Context context;
     private List<News> newsList;
-//    private NewsApiClient apiClient;
 
     public NewsAdapter(Context context, List<News> newsList) {
         this.context = context;
@@ -57,7 +55,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                 .load(thumbnail_url)
                 .placeholder(R.mipmap.placeholder)
                 .into(holder.thumbnail);
-        //
+        //Set the title
         holder.title.setText(result.getTitle().getRendered());
         //Set the website
         String websiteName = BuildConfig.BASE_URL;

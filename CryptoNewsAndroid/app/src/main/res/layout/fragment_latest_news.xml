@@ -20,4 +20,4 @@
         layout="@layout/empty_item"
         android:layout_gravity="center">
     </include>
-</FrameLayout>
+    </FrameLayout>
