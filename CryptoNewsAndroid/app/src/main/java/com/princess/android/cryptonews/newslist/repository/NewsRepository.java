@@ -24,10 +24,10 @@ public class NewsRepository {
     @Inject
     NewsApiService newsApiService;
 
-    private AppExecutors appExecutors;
+    AppExecutors appExecutors;
 
     @Inject
-    private NewsRepository(AppExecutors appExecutors) {
+    NewsRepository(AppExecutors appExecutors) {
         this.appExecutors = appExecutors;
 
     }

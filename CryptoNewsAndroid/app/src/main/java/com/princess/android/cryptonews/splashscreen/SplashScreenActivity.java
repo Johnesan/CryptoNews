@@ -7,13 +7,14 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.princess.android.cryptonews.databinding.ActivitySplashScreenBinding;
 import com.princess.android.cryptonews.newslist.view.activity.LatestNewsActivity;
 import com.princess.android.cryptonews.R;
-import com.princess.android.cryptonews.databinding.ActivitySplashScreenBinding;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
     ActivitySplashScreenBinding binding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

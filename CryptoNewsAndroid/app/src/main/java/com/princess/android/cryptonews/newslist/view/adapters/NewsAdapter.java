@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.princess.android.cryptonews.BuildConfig;
 import com.princess.android.cryptonews.newswebsite.view.ui.NewsWebPageActivity;
 import com.princess.android.cryptonews.R;
@@ -57,6 +58,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                 .into(holder.thumbnail);
         //Set the title
         holder.title.setText(result.getTitle().getRendered());
+        //Set the date
+        holder.date.setReferenceTime(Long.parseLong(result.getDate()));
         //Set the website
         String websiteName = BuildConfig.BASE_URL;
         try {
@@ -86,7 +89,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         @BindView(R.id.news_title)
         TextView title;
         @BindView(R.id.news_date)
-        TextView date;
+        RelativeTimeTextView date;
         @BindView(R.id.news_site)
         TextView website;
 

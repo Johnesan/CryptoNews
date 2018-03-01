@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.princess.android.cryptonews.injection.AppComponent;
+import com.princess.android.cryptonews.injection.DaggerAppComponent;
 
 import javax.inject.Inject;
 
