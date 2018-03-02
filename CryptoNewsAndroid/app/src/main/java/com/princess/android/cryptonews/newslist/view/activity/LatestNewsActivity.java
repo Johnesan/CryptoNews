@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.princess.android.cryptonews.R;
-import com.princess.android.cryptonews.settings.SettingsActivity;
 
 import dagger.android.support.DaggerAppCompatActivity;
 
@@ -35,14 +34,14 @@ public class LatestNewsActivity extends DaggerAppCompatActivity {
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            startSettingsActivity();
+            //startSettingsActivity();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void startSettingsActivity() {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
-    }
+//    private void startSettingsActivity() {
+//        //Intent intent = new Intent(this, SettingsActivity.class);
+//        startActivity(intent);
+//    }
 }

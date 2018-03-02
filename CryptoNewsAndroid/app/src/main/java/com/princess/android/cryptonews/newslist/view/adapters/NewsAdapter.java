@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,9 @@ import com.princess.android.cryptonews.model.News;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -59,7 +63,30 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         //Set the title
         holder.title.setText(result.getTitle().getRendered());
         //Set the date
-        holder.date.setReferenceTime(Long.parseLong(result.getDate()));
+        try {
+            String date = result.getDate();
+            String[] parts = date.split("T");
+            Log.d("TIME: ", parts[1]);
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy-MM-dd'T'HH:mm:ss");
+            Date mDate = null;
+            long timeInMilliseconds = 0;
+            try {
+                Log.e("PARTS", date);
+                mDate = simpleDateFormat.parse(date);
+                Log.e("MDATE: ", mDate.toString());
+
+                timeInMilliseconds = mDate.getTime();
+                Log.e("TIME: ", "TIME"
+                        + timeInMilliseconds);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            holder.date.setReferenceTime(timeInMilliseconds);
+        }catch (NumberFormatException nfe){
+
+        }
+
         //Set the website
         String websiteName = BuildConfig.BASE_URL;
         try {

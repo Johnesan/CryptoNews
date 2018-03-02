@@ -32,14 +32,6 @@
             android:value=".newslist.view.activity.LatestNewsActivity" />
         </activity>
 
-        <activity
-            android:name=".settings.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName=".newslist.view.activity.LatestNewsActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".newslist.view.activity.LatestNewsActivity" />
-        </activity>
     </application>
 
 </manifest>
