@@ -1,11 +1,13 @@
 package com.princess.android.cryptonews.newslist.view.fragment;
 
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.res.Configuration;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,7 +32,7 @@ import dagger.android.support.DaggerFragment;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class LatestNewsActivityFragment extends DaggerFragment {
+public class LatestNewsActivityFragment extends DaggerFragment implements SwipeRefreshLayout.OnRefreshListener{
 
     @Inject
     ViewModelProvider.Factory  factory;
@@ -42,17 +44,22 @@ public class LatestNewsActivityFragment extends DaggerFragment {
     RecyclerView mRecyclerView;
     @BindView(R.id.empty_progress_bar)
     ProgressBar progressBar;
+    @BindView(R.id.swipe_container)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     RecyclerView.LayoutManager layoutManager;
 
     public LatestNewsActivityFragment() {
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view  = inflater.inflate(R.layout.fragment_latest_news, container, false);
         ButterKnife.bind(this, view);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeColors(R.color.colorAccent, R.color.colorAccent, R.color.colorAccent);
         setupViews();
     return view;
     }
@@ -84,5 +91,11 @@ public class LatestNewsActivityFragment extends DaggerFragment {
         }
 
         mRecyclerView.setLayoutManager(layoutManager);
+    }
+
+    @Override
+    public void onRefresh() {
+        newsViewModel.refresh();
+        swipeRefreshLayout.setRefreshing(false);
     }
 }

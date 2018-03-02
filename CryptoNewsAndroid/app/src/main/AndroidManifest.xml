@@ -37,6 +37,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".newslist.view.activity.LatestNewsActivity" />
         </activity>
-    </application>
+ </application>
 
 </manifest>

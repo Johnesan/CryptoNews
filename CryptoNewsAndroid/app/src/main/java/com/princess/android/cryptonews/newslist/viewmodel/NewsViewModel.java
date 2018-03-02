@@ -16,7 +16,7 @@ import javax.inject.Inject;
  * Created by Princess on 2/22/2018.
  */
 
-public class NewsViewModel extends AndroidViewModel implements CryptoNewsComponents.Injectable{
+public class NewsViewModel extends AndroidViewModel implements CryptoNewsComponents.Injectable {
 
    private  NewsRepository newsRepository;
 
@@ -33,5 +33,9 @@ public class NewsViewModel extends AndroidViewModel implements CryptoNewsCompone
     @Override
     public void inject(CryptoNewsComponents cryptoNewsComponents) {
         cryptoNewsComponents.inject(this);
+    }
+
+    public void refresh(){
+        this.newsRepository.getAllNews();
     }
 }
