@@ -59,7 +59,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         //Set the title
         holder.title.setText(result.getTitle().getRendered());
         //Set the date
-        holder.date.setReferenceTime(Long.parseLong(result.getDate()));
+//        holder.date.setReferenceTime(Long.parseLong(result.getDate()));
         //Set the website
         String websiteName = BuildConfig.BASE_URL;
         try {
