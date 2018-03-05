@@ -1,10 +1,12 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<customrenderers:SearchPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CryptoNews.Views.Page1">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin Forms!" />
-        </StackLayout>
-    </ContentPage.Content>
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<customrenderers:SearchPage xmlns="http://xamarin.com/schemas/2014/forms" 
+		xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+		xmlns:customrenderers="clr-namespace:CryptoNews.CustomRenderers;assembly=CryptoNews" 
+		x:Class="CryptoNews.Views.Page1"
+		SearchPlaceHolderText="Type to Search"
+		SearchCommand="{Binding SearchCommand}">
+    <StackLayout Spacing="20">
+        <Label Text="This is the search page" HorizontalOptions="Center" FontAttributes="Bold"/>
+        <Label Text="{Binding SearchResult}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+    </StackLayout>
 </customrenderers:SearchPage>

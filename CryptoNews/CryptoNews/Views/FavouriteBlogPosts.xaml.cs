@@ -77,5 +77,22 @@ namespace CryptoNews.Views
             });
 
         }
+
+        public void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var viewModel = BindingContext as BlogPostsViewModel;
+            var list = viewModel.FavouriteBlogPosts;
+
+            if (string.IsNullOrEmpty(e.NewTextValue))
+            {
+                BlogPostsListView.ItemsSource = list;
+            }
+
+            else
+            {
+                var newList = list.Where(x => x.Title.ToLower().Contains(e.NewTextValue.ToLower())).ToList();
+                BlogPostsListView.ItemsSource = newList;
+            }
+        }
     }
 }

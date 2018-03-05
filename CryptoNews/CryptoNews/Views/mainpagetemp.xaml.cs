@@ -1,6 +1,4 @@
-﻿using CryptoNews.CustomRenderers;
-using CryptoNews.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,12 +10,16 @@ using Xamarin.Forms.Xaml;
 namespace CryptoNews.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Page1 : SearchPage
+    public partial class mainpagetemp : ContentPage
     {
-        public Page1()
+        public mainpagetemp()
         {
-            BindingContext = new SearchPageSampleViewModel();
             InitializeComponent();
+        }
+
+        private void SearchPageSample_Clicked(object sender, System.EventArgs e)
+        {
+            Navigation.PushAsync(new Page1());
         }
     }
 }

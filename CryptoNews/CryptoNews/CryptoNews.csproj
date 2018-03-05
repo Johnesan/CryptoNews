@@ -38,6 +38,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomRenderers\SearchPage.cs" />
     <Compile Include="Database\CryptoNewsDB.cs" />
     <Compile Include="IFileHelper.cs" />
     <Compile Include="Models\BlogPost.cs" />
@@ -56,7 +57,9 @@
     <Compile Include="RootPageMenuItem.cs" />
     <Compile Include="Services\PostsRepository.cs" />
     <Compile Include="Services\PrettyDate.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\BlogPostsViewModel.cs" />
+    <Compile Include="ViewModels\SearchPageSampleViewModel.cs" />
     <Compile Include="Views\BlogPosts.xaml.cs">
       <DependentUpon>BlogPosts.xaml</DependentUpon>
     </Compile>
@@ -71,6 +74,12 @@
     </Compile>
     <Compile Include="Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\mainpagetemp.xaml.cs">
+      <DependentUpon>mainpagetemp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Page1.xaml.cs">
+      <DependentUpon>Page1.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SinglePost.xaml.cs">
       <DependentUpon>SinglePost.xaml</DependentUpon>
@@ -176,6 +185,18 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="RootPageDetail.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Page1.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\mainpagetemp.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

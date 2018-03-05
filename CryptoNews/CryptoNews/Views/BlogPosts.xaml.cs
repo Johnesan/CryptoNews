@@ -99,7 +99,7 @@ namespace CryptoNews.Views
 
             else
             {
-               var newList = list.Where(x => x.Title.Contains(e.NewTextValue)).ToList();
+               var newList = list.Where(x => x.Title.ToLower().Contains(e.NewTextValue.ToLower())).ToList();
                 BlogPostsListView.ItemsSource = newList;
             }
         }
