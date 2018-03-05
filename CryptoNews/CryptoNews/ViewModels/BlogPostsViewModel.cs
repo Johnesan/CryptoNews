@@ -90,8 +90,8 @@ namespace CryptoNews.ViewModels
             if(CrossConnectivity.Current.IsConnected == true)
             {
                 var service = new PostsRepository();
-                var UpdatedPosts = service.GetAllPostsAsync();
-                App.database.AddUpdatedBlogPosts(UpdatedPosts.Result);
+                var UpdatedPosts = await service.GetAllPostsAsync();
+                App.database.AddUpdatedBlogPosts(UpdatedPosts);
                 BlogPosts = App.database.GetAllBlogPosts();
             }
                        
@@ -104,6 +104,8 @@ namespace CryptoNews.ViewModels
             await InitAsync();
             IsRefreshing = false;
         }
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

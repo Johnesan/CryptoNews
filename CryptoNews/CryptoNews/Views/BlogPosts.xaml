@@ -17,6 +17,7 @@
                            IsVisible="{Binding IsBusy}"
                            VerticalOptions="Center"
                            HorizontalOptions="Center"/>
+            <SearchBar TextChanged="SearchBar_TextChanged"></SearchBar>
             <Grid VerticalOptions="FillAndExpand">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
