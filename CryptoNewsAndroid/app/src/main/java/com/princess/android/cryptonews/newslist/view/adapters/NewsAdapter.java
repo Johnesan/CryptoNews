@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.princess.android.cryptonews.BuildConfig;
+import com.princess.android.cryptonews.di.NetworkModule;
 import com.princess.android.cryptonews.newswebsite.view.ui.NewsWebPageActivity;
 import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.model.News;
@@ -54,31 +55,34 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         News result = newsList.get(position);
         //Set the image
-        String thumbnail_url = result.getEmbedded().getWpFeaturedmedia().get(0)
-                .getMediaDetails().getSizes().getMedium().getSourceUrl();
-        Glide.with(context)
-                .load(thumbnail_url)
-                .placeholder(R.mipmap.placeholder)
-                .into(holder.thumbnail);
+        if(result.getEmbedded().getWpFeaturedmedia().get(0).getMediaDetails() != null) {
+
+            String thumbnail_url = result.getEmbedded().getWpFeaturedmedia().get(0)
+                    .getMediaDetails().getSizes().getMedium().getSourceUrl();
+            Glide.with(context)
+                    .load(thumbnail_url)
+                    .placeholder(R.mipmap.placeholder)
+                    .into(holder.thumbnail);
+        } else {
+            Glide.with(context)
+                    .load(R.mipmap.placeholder)
+                    .into(holder.thumbnail);
+        }
         //Set the title
+        //String formattedTitle =
         holder.title.setText(result.getTitle().getRendered());
+
         //Set the date
         try {
             String date = result.getDate();
-            String[] parts = date.split("T");
-            Log.d("TIME: ", parts[1]);
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy-MM-dd'T'HH:mm:ss");
             Date mDate = null;
             long timeInMilliseconds = 0;
             try {
-                Log.e("PARTS", date);
                 mDate = simpleDateFormat.parse(date);
-                Log.e("MDATE: ", mDate.toString());
 
                 timeInMilliseconds = mDate.getTime();
-                Log.e("TIME: ", "TIME"
-                        + timeInMilliseconds);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -88,12 +92,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         }
 
         //Set the website
-        String websiteName = BuildConfig.BASE_URL;
+        String websiteName = result.getGuid().getRendered();
         try {
             URL url = new URL(websiteName);
             String host = url.getHost();
             String[] array = host.split("\\.");
-            holder.website.setText(array[0].toUpperCase());
+            holder.website.setText(array[0].toLowerCase());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

@@ -23,13 +23,13 @@
             android:name=".newslist.view.activity.LatestNewsActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
 
-        <activity
-            android:name=".newswebsite.view.ui.NewsWebPageActivity" >
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".newslist.view.activity.LatestNewsActivity" />
+        <activity android:name=".newswebsite.view.ui.NewsWebPageActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".newslist.view.activity.LatestNewsActivity" />
         </activity>
 
     </application>

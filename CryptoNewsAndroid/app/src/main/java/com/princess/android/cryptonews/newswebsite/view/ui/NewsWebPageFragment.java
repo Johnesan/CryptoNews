@@ -2,6 +2,7 @@ package com.princess.android.cryptonews.newswebsite.view.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -57,12 +59,39 @@ public class NewsWebPageFragment extends Fragment {
     public void getUrl(){
         if(getActivity().getIntent().hasExtra("url")) {
             url = getActivity().getIntent().getExtras().getString("url");
-            progressBar.setVisibility(View.GONE);
+
+            // Enable Javascript
             WebSettings webSettings = webView.getSettings();
             webSettings.setJavaScriptEnabled(true);
             webSettings.setLoadsImagesAutomatically(true);
-            webView.setWebViewClient(new WebViewClient());
+
+            // Force links and redirects to open in the WebView instead of in a browser
+            webView.setWebViewClient(new myWebClient());
+
+            // Use remote resource
             webView.loadUrl(String.valueOf(url));
+        }
+    }
+
+    //Load WebView with Progress bar
+    public class myWebClient extends WebViewClient{
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            progressBar.setVisibility(View.VISIBLE);
+            view.loadUrl(String.valueOf(url));
+            return true;
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            progressBar.setVisibility(View.GONE);
         }
     }
 

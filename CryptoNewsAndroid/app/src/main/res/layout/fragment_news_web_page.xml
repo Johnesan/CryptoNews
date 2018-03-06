@@ -5,18 +5,22 @@
     tools:context="com.princess.android.cryptonews.newswebsite.view.ui.NewsWebPageFragment"
     tools:showIn="@layout/activity_news_web_page">
 
-    <WebView
-        android:id="@+id/webView"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </WebView>
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <include
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        layout="@layout/empty_item"
-        android:layout_gravity="center">
-    </include>
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/empty_item"
+            android:layout_gravity="center"
+            android:visibility="visible"/>
+
+    </RelativeLayout>
 
 </FrameLayout>

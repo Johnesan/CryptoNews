@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,14 @@ import com.princess.android.cryptonews.newslist.view.adapters.NewsAdapter;
 import com.princess.android.cryptonews.newslist.viewmodel.NewsViewModel;
 import com.princess.android.cryptonews.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -38,8 +45,8 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
     ViewModelProvider.Factory  factory;
     NewsViewModel newsViewModel;
 
-    private NewsAdapter mAdapter;
-    private List<News> newsList = new ArrayList<>();
+    public NewsAdapter mAdapter;
+    public List<News> newsList = new ArrayList<>();
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
     @BindView(R.id.empty_progress_bar)
@@ -73,7 +80,7 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
             @Override
             public void onChanged(@Nullable List<News> news) {
                 newsList = news;
-                mAdapter = new NewsAdapter(getActivity(), newsList);
+                mAdapter = new NewsAdapter(getActivity(), sortDate(newsList));
                 progressBar.setVisibility(View.GONE);
                 mRecyclerView.setAdapter(mAdapter);
             }
@@ -86,8 +93,8 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
 
         if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             layoutManager = new GridLayoutManager(getActivity(), 2);
-        } else {
-            layoutManager = new GridLayoutManager(getActivity(), 4);
+        } else  {
+            layoutManager = new GridLayoutManager(getActivity(), 3);
         }
 
         mRecyclerView.setLayoutManager(layoutManager);
@@ -97,5 +104,34 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
     public void onRefresh() {
         newsViewModel.refresh();
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    public List<News> sortDate(List<News> list) {
+
+        Collections.sort(list, new Comparator<News>() {
+            @Override
+            public int compare(News o1, News o2) {
+
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy-MM-dd'T'HH:mm:ss");
+                Date mDate1 = null;
+                Date mDate2 = null;
+
+                try {
+                    mDate1 = simpleDateFormat.parse(o1.getDate());
+                    mDate2 = simpleDateFormat.parse(o2.getDate());
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                if (mDate1 != null && mDate1.after(mDate2)) {
+                    return -1;
+                } else {
+
+                    return 1;
+                }
+            }
+
+        });
+        return list;
     }
 }

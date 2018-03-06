@@ -1,6 +1,5 @@
 package com.princess.android.cryptonews.newslist.view.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -41,7 +40,7 @@ public class LatestNewsActivity extends DaggerAppCompatActivity {
     }
 
 //    private void startSettingsActivity() {
-//        //Intent intent = new Intent(this, SettingsActivity.class);
+//        Intent intent = new Intent(this, SettingsActivity.class);
 //        startActivity(intent);
 //    }
 }
