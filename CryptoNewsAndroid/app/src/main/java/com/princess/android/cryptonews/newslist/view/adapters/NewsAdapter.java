@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,20 +61,33 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         News result = newsList.get(position);
         //Set the image
         if(result.getEmbedded().getWpFeaturedmedia().get(0).getMediaDetails() != null) {
+            if (result.getEmbedded().getWpFeaturedmedia().get(0)
+                    .getMediaDetails().getSizes().getMediumLarge() != null) {
 
-            String thumbnail_url = result.getEmbedded().getWpFeaturedmedia().get(0)
-                    .getMediaDetails().getSizes().getMedium().getSourceUrl();
-            Glide.with(context)
-                    .load(thumbnail_url)
-                    .placeholder(R.mipmap.placeholder)
-                    .into(holder.thumbnail);
+                String thumbnail_url = result.getEmbedded().getWpFeaturedmedia().get(0)
+                        .getMediaDetails().getSizes().getMediumLarge().getSourceUrl();
+                Glide.with(context)
+                        .load(thumbnail_url)
+                        .placeholder(R.mipmap.placeholder)
+                        .into(holder.thumbnail);
+            } else {
+                String thumbnail_url = result.getEmbedded().getWpFeaturedmedia().get(0)
+                        .getMediaDetails().getSizes().getMedium().getSourceUrl();
+                Glide.with(context)
+                        .load(thumbnail_url)
+                        .placeholder(R.mipmap.placeholder)
+                        .into(holder.thumbnail);
+            }
         } else {
             Glide.with(context)
                     .load(R.mipmap.placeholder)
                     .into(holder.thumbnail);
         }
         //Set the title
-        holder.title.setText(result.getTitle().getRendered());
+        String getTheTitle = result.getTitle().getRendered();
+        //Replace ASCII codes with proper Characters
+        String formatTitle = String.valueOf(Html.fromHtml(getTheTitle));
+        holder.title.setText(formatTitle);
 
         //Set the date
         try {
