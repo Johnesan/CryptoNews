@@ -1,16 +1,12 @@
 package com.princess.android.cryptonews.newswebsite.view.ui;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebResourceRequest;
@@ -20,7 +16,6 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.princess.android.cryptonews.R;
-import com.princess.android.cryptonews.newslist.view.fragment.LatestNewsActivityFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,8 +47,9 @@ public class NewsWebPageFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getUrl();
-        getTitle();
+            getUrl();
+            getTitle();
+
     }
 
     public void getUrl(){
@@ -74,7 +70,7 @@ public class NewsWebPageFragment extends Fragment {
     }
 
     //Load WebView with Progress bar
-    public class myWebClient extends WebViewClient{
+    public class myWebClient extends WebViewClient {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -101,7 +97,6 @@ public class NewsWebPageFragment extends Fragment {
             ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(title);
         }
     }
-
 
     @Override
     public void onAttach(Context context) {

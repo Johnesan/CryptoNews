@@ -15,9 +15,12 @@ import com.bumptech.glide.Glide;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.princess.android.cryptonews.BuildConfig;
 import com.princess.android.cryptonews.di.NetworkModule;
+import com.princess.android.cryptonews.newslist.view.activity.LatestNewsActivity;
 import com.princess.android.cryptonews.newswebsite.view.ui.NewsWebPageActivity;
 import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.model.News;
+import com.princess.android.cryptonews.util.ConnectionTest;
+import com.princess.android.cryptonews.util.ShowAlert;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -37,6 +40,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     private Context context;
     private List<News> newsList;
+    ShowAlert alert = new ShowAlert();
 
     public NewsAdapter(Context context, List<News> newsList) {
         this.context = context;
@@ -69,7 +73,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                     .into(holder.thumbnail);
         }
         //Set the title
-        //String formattedTitle =
         holder.title.setText(result.getTitle().getRendered());
 
         //Set the date
@@ -97,6 +100,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             URL url = new URL(websiteName);
             String host = url.getHost();
             String[] array = host.split("\\.");
+            if(array[0].equals("www")){
+                holder.website.setText(array[1].toLowerCase());
+            } else
             holder.website.setText(array[0].toLowerCase());
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -133,6 +139,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         @Override
         public void onClick(View v) {
             Context context = v.getContext();
+            if (ConnectionTest.isNetworkAvailable(v.getContext())) {
+
             Intent intent = new Intent(context, NewsWebPageActivity.class);
             News data = newsList.get(getLayoutPosition());
             String link = data.getGuid().getRendered();
@@ -140,6 +148,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             intent.putExtra("url", link);
             intent.putExtra("title", title);
             context.startActivity(intent);
+            }
+            else {
+                alert.showAlertDialog(v.getContext(),
+                        "Network Error",
+                        "Internet not available, Check your internet connectivity and try again",
+                        true);
+            }
         }
     }
 }

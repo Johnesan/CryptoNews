@@ -4,22 +4,26 @@ import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.princess.android.cryptonews.model.News;
 import com.princess.android.cryptonews.newslist.view.adapters.NewsAdapter;
 import com.princess.android.cryptonews.newslist.viewmodel.NewsViewModel;
 import com.princess.android.cryptonews.R;
+import com.princess.android.cryptonews.util.ConnectionTest;
+import com.princess.android.cryptonews.util.ShowAlert;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,7 +32,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -55,6 +58,8 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
     SwipeRefreshLayout swipeRefreshLayout;
 
     RecyclerView.LayoutManager layoutManager;
+    // Alert Dialog Manager
+    ShowAlert alert = new ShowAlert();
 
     public LatestNewsActivityFragment() {
     }
@@ -76,15 +81,28 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
         super.onActivityCreated(savedInstanceState);
 
         newsViewModel = ViewModelProviders.of(this, factory).get(NewsViewModel.class);
-        newsViewModel.getAllLatestNews().observe(this, new Observer<List<News>>() {
-            @Override
-            public void onChanged(@Nullable List<News> news) {
-                newsList = news;
-                mAdapter = new NewsAdapter(getActivity(), sortDate(newsList));
-                progressBar.setVisibility(View.GONE);
-                mRecyclerView.setAdapter(mAdapter);
+        if (checkConnection()) {
+            newsViewModel.getAllLatestNews().observe(this, new Observer<List<News>>() {
+                @Override
+                public void onChanged(@Nullable List<News> news) {
+                    newsList = news;
+                    mAdapter = new NewsAdapter(getActivity(), sortDate(newsList));
+                    progressBar.setVisibility(View.GONE);
+                    mRecyclerView.setAdapter(mAdapter);
+                }
+            });
+        } else {
+            progressBar.setVisibility(View.GONE);
+                alert.showAlertDialog(getActivity(),
+                        "Network Error",
+                        "Internet not available, Check your internet connectivity and try again",
+                        true);
+                return;
             }
-        });
+    }
+
+    private boolean checkConnection(){
+        return ConnectionTest.isNetworkAvailable(getActivity());
     }
 
     private void setupViews(){
@@ -99,6 +117,7 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
 
         mRecyclerView.setLayoutManager(layoutManager);
     }
+
 
     @Override
     public void onRefresh() {
