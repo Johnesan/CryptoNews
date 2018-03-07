@@ -44,4 +44,6 @@ public class LatestNewsActivity extends DaggerAppCompatActivity {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
+
+
 }

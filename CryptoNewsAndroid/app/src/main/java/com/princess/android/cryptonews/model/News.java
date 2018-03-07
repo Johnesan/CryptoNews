@@ -3,6 +3,10 @@ package com.princess.android.cryptonews.model;
 import javax.annotation.Generated;
 import com.google.gson.annotations.SerializedName;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Generated("com.robohorse.robopojogenerator")
 public class News{
 
@@ -84,4 +88,5 @@ public class News{
 			",guid = '" + guid + '\'' +
 			"}";
 		}
+
 }

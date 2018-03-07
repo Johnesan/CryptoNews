@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 
 import com.princess.android.cryptonews.AppExecutors;
 import com.princess.android.cryptonews.api.NewsApiService;
+import com.princess.android.cryptonews.api.TestApiService;
 import com.princess.android.cryptonews.model.News;
 
 import java.util.List;
@@ -23,7 +24,7 @@ import io.reactivex.schedulers.Schedulers;
 public class CheckValidUrlRepository {
 
     @Inject
-    NewsApiService newsApiService;
+    TestApiService newsApiService;
 
     boolean isValidUrl;
 

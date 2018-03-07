@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +15,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.princess.android.cryptonews.BuildConfig;
+import com.princess.android.cryptonews.di.NetworkModule;
+import com.princess.android.cryptonews.newslist.view.activity.LatestNewsActivity;
 import com.princess.android.cryptonews.newswebsite.view.ui.NewsWebPageActivity;
 import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.model.News;
+import com.princess.android.cryptonews.util.ConnectionTest;
+import com.princess.android.cryptonews.util.ShowAlert;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -36,6 +41,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     private Context context;
     private List<News> newsList;
+    ShowAlert alert = new ShowAlert();
 
     public NewsAdapter(Context context, List<News> newsList) {
         this.context = context;
@@ -54,32 +60,47 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         News result = newsList.get(position);
         //Set the image
-        String thumbnail_url = result.getEmbedded().getWpFeaturedmedia().get(0)
-                .getMediaDetails().getSizes().getMedium().getSourceUrl();
-        Glide.with(context)
-                .load(thumbnail_url)
-                .placeholder(R.mipmap.placeholder)
-                .into(holder.thumbnail);
+        if(result.getEmbedded().getWpFeaturedmedia().get(0).getMediaDetails() != null) {
+            if (result.getEmbedded().getWpFeaturedmedia().get(0)
+                    .getMediaDetails().getSizes().getMediumLarge() != null) {
+
+                String thumbnail_url = result.getEmbedded().getWpFeaturedmedia().get(0)
+                        .getMediaDetails().getSizes().getMediumLarge().getSourceUrl();
+                Glide.with(context)
+                        .load(thumbnail_url)
+                        .placeholder(R.mipmap.placeholder)
+                        .into(holder.thumbnail);
+            } else {
+                String thumbnail_url = result.getEmbedded().getWpFeaturedmedia().get(0)
+                        .getMediaDetails().getSizes().getMedium().getSourceUrl();
+                Glide.with(context)
+                        .load(thumbnail_url)
+                        .placeholder(R.mipmap.placeholder)
+                        .into(holder.thumbnail);
+            }
+        } else {
+            Glide.with(context)
+                    .load(R.mipmap.placeholder)
+                    .into(holder.thumbnail);
+        }
         //Set the title
-        holder.title.setText(result.getTitle().getRendered());
+        String getTheTitle = result.getTitle().getRendered();
+        //Replace ASCII codes with proper Characters
+        String formatTitle = String.valueOf(Html.fromHtml(getTheTitle));
+        holder.title.setText(formatTitle);
+
         //Set the date
 //        holder.date.setReferenceTime(Long.parseLong(result.getDate()));
         try {
             String date = result.getDate();
-            String[] parts = date.split("T");
-            Log.d("TIME: ", parts[1]);
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy-MM-dd'T'HH:mm:ss");
             Date mDate = null;
             long timeInMilliseconds = 0;
             try {
-                Log.e("PARTS", date);
                 mDate = simpleDateFormat.parse(date);
-                Log.e("MDATE: ", mDate.toString());
 
                 timeInMilliseconds = mDate.getTime();
-                Log.e("TIME: ", "TIME"
-                        + timeInMilliseconds);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -89,12 +110,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         }
 
         //Set the website
-        String websiteName = BuildConfig.BASE_URL;
+        String websiteName = result.getGuid().getRendered();
         try {
             URL url = new URL(websiteName);
             String host = url.getHost();
             String[] array = host.split("\\.");
-            holder.website.setText(array[0].toUpperCase());
+            if(array[0].equals("www")){
+                holder.website.setText(array[1].toLowerCase());
+            } else
+            holder.website.setText(array[0].toLowerCase());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -130,6 +154,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         @Override
         public void onClick(View v) {
             Context context = v.getContext();
+            if (ConnectionTest.isNetworkAvailable(v.getContext())) {
+
             Intent intent = new Intent(context, NewsWebPageActivity.class);
             News data = newsList.get(getLayoutPosition());
             String link = data.getGuid().getRendered();
@@ -137,6 +163,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             intent.putExtra("url", link);
             intent.putExtra("title", title);
             context.startActivity(intent);
+            }
+            else {
+                alert.showAlertDialog(v.getContext(),
+                        "Network Error",
+                        "Internet not available, Check your internet connectivity and try again",
+                        true);
+            }
         }
     }
 }

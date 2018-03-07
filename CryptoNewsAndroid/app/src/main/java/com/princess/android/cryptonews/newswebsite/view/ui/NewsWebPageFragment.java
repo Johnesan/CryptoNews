@@ -1,24 +1,21 @@
 package com.princess.android.cryptonews.newswebsite.view.ui;
 
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.princess.android.cryptonews.R;
-import com.princess.android.cryptonews.newslist.view.fragment.LatestNewsActivityFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,19 +47,47 @@ public class NewsWebPageFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getUrl();
-        getTitle();
+            getUrl();
+            getTitle();
+
     }
 
     public void getUrl(){
         if(getActivity().getIntent().hasExtra("url")) {
             url = getActivity().getIntent().getExtras().getString("url");
-            progressBar.setVisibility(View.GONE);
+
+            // Enable Javascript
             WebSettings webSettings = webView.getSettings();
             webSettings.setJavaScriptEnabled(true);
             webSettings.setLoadsImagesAutomatically(true);
-            webView.setWebViewClient(new WebViewClient());
+
+            // Force links and redirects to open in the WebView instead of in a browser
+            webView.setWebViewClient(new myWebClient());
+
+            // Use remote resource
             webView.loadUrl(String.valueOf(url));
+        }
+    }
+
+    //Load WebView with Progress bar
+    public class myWebClient extends WebViewClient {
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            progressBar.setVisibility(View.VISIBLE);
+            view.loadUrl(String.valueOf(url));
+            return true;
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            progressBar.setVisibility(View.GONE);
         }
     }
 
@@ -72,7 +97,6 @@ public class NewsWebPageFragment extends Fragment {
             ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(title);
         }
     }
-
 
     @Override
     public void onAttach(Context context) {

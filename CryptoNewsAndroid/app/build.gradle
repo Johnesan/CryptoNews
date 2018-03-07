@@ -15,7 +15,6 @@ android {
                 includeCompileClasspath false
             }
         }
-        buildConfigField 'String', 'BASE_URL', '"https://ccn.com/"'
     }
     dataBinding {
         enabled = true
@@ -24,6 +23,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        buildTypes.each {
+            it.buildConfigField 'String', 'BASE_URL1', '"https://ccn.com/"'
+            it.buildConfigField 'String', 'BASE_URL2', '"https://cryptorecorder.com/"'
+            it.buildConfigField 'String', 'BASE_URL3', '"https://cryptoclarified.com/"'
+            it.buildConfigField 'String', 'BASE_URL4', '"https://cryptoscoop.net/"'
         }
     }
     compileOptions {
@@ -79,8 +84,10 @@ dependencies {
     implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
     //dependency for Font
     compile "uk.co.chrisjenx:calligraphy:${caligraphy}"
-    //
+
+    //POJO Generator
     implementation 'org.glassfish:javax.annotation:10.0-b28'
+
     //dependency for HttpLogging
     compile "com.squareup.okhttp3:logging-interceptor:${okHttp}"
     compile "com.squareup.okhttp3:okhttp:${okHttp}"
