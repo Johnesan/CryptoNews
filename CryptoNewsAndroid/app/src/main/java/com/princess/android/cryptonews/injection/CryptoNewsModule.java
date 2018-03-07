@@ -3,6 +3,9 @@ package com.princess.android.cryptonews.injection;
 import android.content.Context;
 
 import com.princess.android.cryptonews.AppController;
+import com.princess.android.cryptonews.util.PreferenceUtils;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -24,6 +27,13 @@ public class CryptoNewsModule {
     Context provideApplicationContext() {
         return  appController;
     }
+
+    @Provides
+    @Singleton
+    PreferenceUtils providePreferenceUtil(Context context){
+        return new PreferenceUtils(context);
+    }
+
 
 
 }

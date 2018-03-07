@@ -90,6 +90,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         holder.title.setText(formatTitle);
 
         //Set the date
+//        holder.date.setReferenceTime(Long.parseLong(result.getDate()));
         try {
             String date = result.getDate();
 

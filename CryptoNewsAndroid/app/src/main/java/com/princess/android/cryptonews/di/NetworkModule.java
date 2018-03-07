@@ -3,8 +3,12 @@ package com.princess.android.cryptonews.di;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.princess.android.cryptonews.BuildConfig;
 import com.princess.android.cryptonews.api.NewsApiService;
+import com.princess.android.cryptonews.api.TestApiService;
+import com.princess.android.cryptonews.util.PreferenceUtils;
 
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
 
 import dagger.Module;
 import dagger.Provides;
@@ -25,8 +29,6 @@ public class NetworkModule {
 
     public static String BASE_URL = "https://ccn.com/";
     public static NewsApiService api, api2, api3, api4;
-
-
 
     @Provides
     public static OkHttpClient providesOkHttpClientBuilder() {
@@ -52,17 +54,18 @@ public class NetworkModule {
     }
 
     @Provides
-    public static NewsApiService provideWebService(){
+    public static NewsApiService provideWebService(PreferenceUtils preferenceUtils){
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl(BASE_URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(providesOkHttpClientBuilder());
 
-        api = builder.baseUrl(BuildConfig.BASE_URL1).build().create(NewsApiService.class);
-        api2 = builder.baseUrl(BuildConfig.BASE_URL2).build().create(NewsApiService.class);
-        api3 = builder.baseUrl(BuildConfig.BASE_URL3).build().create(NewsApiService.class);
-        api4 = builder.baseUrl(BuildConfig.BASE_URL4).build().create(NewsApiService.class);
+
+        api = builder.baseUrl(preferenceUtils.getFirstUrl()).build().create(NewsApiService.class);
+        api2 = builder.baseUrl(preferenceUtils.getSecondUrl()).build().create(NewsApiService.class);
+        api3 = builder.baseUrl(preferenceUtils.getThirdUrl()).build().create(NewsApiService.class);
+        api4 = builder.baseUrl(preferenceUtils.getFourthUrl()).build().create(NewsApiService.class);
 
         return builder.build().create(NewsApiService.class);
 //      Retrofit retrofit = builder
@@ -70,6 +73,18 @@ public class NetworkModule {
 //              //.build();
       //return  retrofit.create(NewsApiService.class);
     }
+
+    @Provides
+    public  static TestApiService provideTestWebService(PreferenceUtils preferenceUtils){
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl(preferenceUtils.getTestUrl())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(providesOkHttpClientBuilder());
+
+        return  builder.build().create(TestApiService.class);
+    }
+
 
 
     @Provides
