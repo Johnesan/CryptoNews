@@ -4,18 +4,15 @@ import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.princess.android.cryptonews.model.News;
@@ -80,7 +77,6 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        newsViewModel = ViewModelProviders.of(this, factory).get(NewsViewModel.class);
         if (checkConnection()) {
             newsViewModel.getAllLatestNews().observe(this, new Observer<List<News>>() {
                 @Override
@@ -97,7 +93,6 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
                         "Network Error",
                         "Internet not available, Check your internet connectivity and try again",
                         true);
-                return;
             }
     }
 
@@ -107,6 +102,7 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
 
     private void setupViews(){
 
+        newsViewModel = ViewModelProviders.of(this, factory).get(NewsViewModel.class);
         layoutManager = new GridLayoutManager(getActivity(),2);
 
         if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -121,8 +117,16 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
 
     @Override
     public void onRefresh() {
-        newsViewModel.refresh();
-        swipeRefreshLayout.setRefreshing(false);
+        if(checkConnection()){
+            newsViewModel.refresh();
+            swipeRefreshLayout.setRefreshing(false);
+        } else {
+            alert.showAlertDialog(getActivity(),
+                    "Network Error",
+                    "Internet not available, Check your internet connectivity and try again",
+                    true);
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     public List<News> sortDate(List<News> list) {

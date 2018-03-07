@@ -18,15 +18,15 @@ import javax.inject.Inject;
 
 public class NewsViewModel extends AndroidViewModel implements CryptoNewsComponents.Injectable {
 
-   private  NewsRepository newsRepository;
+    private NewsRepository newsRepository;
 
-   @Inject
+    @Inject
     public NewsViewModel(NewsRepository newsRepository) {
-       super(AppController.getInstance());
+        super(AppController.getInstance());
         this.newsRepository = newsRepository;
     }
 
-    public LiveData<List<News>> getAllLatestNews(){
+    public LiveData<List<News>> getAllLatestNews() {
         return newsRepository.getAllNews();
     }
 
@@ -35,7 +35,7 @@ public class NewsViewModel extends AndroidViewModel implements CryptoNewsCompone
         cryptoNewsComponents.inject(this);
     }
 
-    public void refresh(){
+    public void refresh() {
         this.newsRepository.getAllNews();
     }
 }

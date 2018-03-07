@@ -57,6 +57,7 @@ public class AppController extends Application implements HasActivityInjector {
         return INSTANCE.getApplicationContext();
     }
 
+
     @Override
     public AndroidInjector<Activity> activityInjector() {
         return activityDispatchingAndroidInjector;

@@ -20,8 +20,6 @@ import com.princess.android.cryptonews.newslist.view.activity.LatestNewsActivity
 import com.princess.android.cryptonews.newswebsite.view.ui.NewsWebPageActivity;
 import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.model.News;
-import com.princess.android.cryptonews.util.ConnectionTest;
-import com.princess.android.cryptonews.util.ShowAlert;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -41,7 +39,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     private Context context;
     private List<News> newsList;
-    ShowAlert alert = new ShowAlert();
 
     public NewsAdapter(Context context, List<News> newsList) {
         this.context = context;
@@ -60,7 +57,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         News result = newsList.get(position);
         //Set the image
-        if(result.getEmbedded().getWpFeaturedmedia().get(0).getMediaDetails() != null) {
+        if (result.getEmbedded().getWpFeaturedmedia().get(0).getMediaDetails() != null) {
             if (result.getEmbedded().getWpFeaturedmedia().get(0)
                     .getMediaDetails().getSizes().getMediumLarge() != null) {
 
@@ -104,7 +101,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                 e.printStackTrace();
             }
             holder.date.setReferenceTime(timeInMilliseconds);
-        }catch (NumberFormatException nfe){
+        } catch (NumberFormatException nfe) {
 
         }
 
@@ -114,10 +111,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             URL url = new URL(websiteName);
             String host = url.getHost();
             String[] array = host.split("\\.");
-            if(array[0].equals("www")){
+            if (array[0].equals("www")) {
                 holder.website.setText(array[1].toLowerCase());
             } else
-            holder.website.setText(array[0].toLowerCase());
+                holder.website.setText(array[0].toLowerCase());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -126,12 +123,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @Override
     public int getItemCount() {
-        if(newsList == null)
+        if (newsList == null)
             return 0;
         return newsList.size();
     }
 
-    public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.news_layout)
         CardView newsLayout;
@@ -153,22 +150,21 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         @Override
         public void onClick(View v) {
             Context context = v.getContext();
-            if (ConnectionTest.isNetworkAvailable(v.getContext())) {
 
             Intent intent = new Intent(context, NewsWebPageActivity.class);
             News data = newsList.get(getLayoutPosition());
+
+            //Get the link of the website to be opened on the Web page
             String link = data.getGuid().getRendered();
-            String title = data.getTitle().getRendered();
+
+            //Get the title of each news and format it to normal characters
+            String title = String.valueOf(Html.fromHtml(data.getTitle().getRendered()));
+
+            //Pass the title and link to the next activity
             intent.putExtra("url", link);
             intent.putExtra("title", title);
             context.startActivity(intent);
-            }
-            else {
-                alert.showAlertDialog(v.getContext(),
-                        "Network Error",
-                        "Internet not available, Check your internet connectivity and try again",
-                        true);
-            }
+
         }
     }
 }

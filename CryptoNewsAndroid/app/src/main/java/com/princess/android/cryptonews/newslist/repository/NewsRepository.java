@@ -41,7 +41,7 @@ public class NewsRepository {
 
     }
 
-    public LiveData<List<News>> getAllNews(){
+    public LiveData<List<News>> getAllNews() {
         MutableLiveData<List<News>> newsMutableLiveData = new MutableLiveData<>();
 
         Observable<List<News>> getNews = NetworkModule.api.getLatestNews().subscribeOn(Schedulers.io());
@@ -54,16 +54,16 @@ public class NewsRepository {
                     @Override
                     public List<News> apply(List<News> news, List<News> news2, List<News> news3, List<News> news4) throws Exception {
                         List<News> newsList = new ArrayList<>();
-                        for(News newsObj: news){
+                        for (News newsObj : news) {
                             newsList.add(newsObj);
                         }
-                        for(News newsObj: news2){
+                        for (News newsObj : news2) {
                             newsList.add(newsObj);
                         }
-                        for(News newsObj: news3){
+                        for (News newsObj : news3) {
                             newsList.add(newsObj);
                         }
-                        for(News newsObj: news4){
+                        for (News newsObj : news4) {
                             newsList.add(newsObj);
                         }
 

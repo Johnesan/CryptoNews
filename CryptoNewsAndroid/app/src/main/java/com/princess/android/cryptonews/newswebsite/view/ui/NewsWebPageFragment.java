@@ -16,6 +16,8 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.princess.android.cryptonews.R;
+import com.princess.android.cryptonews.util.ConnectionTest;
+import com.princess.android.cryptonews.util.ShowAlert;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +30,7 @@ public class NewsWebPageFragment extends Fragment {
     ProgressBar progressBar;
     String url;
     String title;
+    ShowAlert alert = new ShowAlert();
 
     public NewsWebPageFragment() {
         // Required empty public constructor
@@ -47,25 +50,35 @@ public class NewsWebPageFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-            getUrl();
-            getTitle();
+
+        getUrl();
+        getTitle();
 
     }
 
-    public void getUrl(){
-        if(getActivity().getIntent().hasExtra("url")) {
+    public void getUrl() {
+        if (getActivity().getIntent().hasExtra("url")) {
             url = getActivity().getIntent().getExtras().getString("url");
 
-            // Enable Javascript
-            WebSettings webSettings = webView.getSettings();
-            webSettings.setJavaScriptEnabled(true);
-            webSettings.setLoadsImagesAutomatically(true);
 
-            // Force links and redirects to open in the WebView instead of in a browser
-            webView.setWebViewClient(new myWebClient());
+            if (ConnectionTest.isNetworkAvailable(getActivity())) {
+                // Enable Javascript
+                WebSettings webSettings = webView.getSettings();
+                webSettings.setJavaScriptEnabled(true);
+                webSettings.setLoadsImagesAutomatically(true);
 
-            // Use remote resource
-            webView.loadUrl(String.valueOf(url));
+                // Force links and redirects to open in the WebView instead of in a browser
+                webView.setWebViewClient(new myWebClient());
+
+                // Use remote resource
+                webView.loadUrl(String.valueOf(url));
+            } else {
+                progressBar.setVisibility(View.GONE);
+                alert.showAlertDialog(getActivity(),
+                        "Network Error",
+                        "Internet not available, Check your internet connectivity and try again",
+                        true);
+            }
         }
     }
 
@@ -81,6 +94,7 @@ public class NewsWebPageFragment extends Fragment {
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
             progressBar.setVisibility(View.VISIBLE);
             view.loadUrl(String.valueOf(url));
+
             return true;
         }
 
@@ -91,10 +105,10 @@ public class NewsWebPageFragment extends Fragment {
         }
     }
 
-    public void getTitle(){
-        if(getActivity().getIntent().hasExtra("title")) {
+    public void getTitle() {
+        if (getActivity().getIntent().hasExtra("title")) {
             title = getActivity().getIntent().getExtras().getString("title");
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(title);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
         }
     }
 
