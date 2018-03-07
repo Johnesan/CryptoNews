@@ -6,6 +6,8 @@ import com.princess.android.cryptonews.AppController;
 import com.princess.android.cryptonews.injection.CryptoNewsComponents;
 import com.princess.android.cryptonews.settings.repository.CheckValidUrlRepository;
 
+import javax.inject.Inject;
+
 /**
  * Created by numb3rs on 3/7/18.
  */
@@ -13,14 +15,15 @@ import com.princess.android.cryptonews.settings.repository.CheckValidUrlReposito
 public class ValidUrlViewModel extends AndroidViewModel implements CryptoNewsComponents.Injectable {
     private  CheckValidUrlRepository checkValidUrlRepository;
 
+    @Inject
     public ValidUrlViewModel(CheckValidUrlRepository repository) {
         super(AppController.getInstance());
         this.checkValidUrlRepository = repository;
 
     }
 
-    public  boolean isValidUrl(String url){
-        return  checkValidUrlRepository.isValidUrl(url);
+    public  boolean isValidUrl(){
+        return  checkValidUrlRepository.isValidUrl();
     }
 
 

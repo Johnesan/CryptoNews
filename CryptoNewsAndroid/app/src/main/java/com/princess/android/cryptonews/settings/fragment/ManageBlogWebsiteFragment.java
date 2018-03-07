@@ -13,6 +13,10 @@ import android.support.v7.preference.PreferenceScreen;
 import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.settings.Activity.EditWebsitePreferenceActivity;
 
+import static com.princess.android.cryptonews.util.PreferenceUtils.FIRST_URL;
+import static com.princess.android.cryptonews.util.PreferenceUtils.FOURTH_URL;
+import static com.princess.android.cryptonews.util.PreferenceUtils.THIRD_URL;
+
 /**
  * Created by numb3rs on 3/6/18.
  */
@@ -20,6 +24,9 @@ import com.princess.android.cryptonews.settings.Activity.EditWebsitePreferenceAc
 public class ManageBlogWebsiteFragment extends
         PreferenceFragmentCompat
         implements SharedPreferences.OnSharedPreferenceChangeListener{
+
+    public  static  String URL_KEY = "url_key";
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         Preference preference = findPreference(s);
@@ -69,7 +76,9 @@ public class ManageBlogWebsiteFragment extends
                 preference -> {
 
                     try {
-                        startActivity(new Intent(getActivity(), EditWebsitePreferenceActivity.class));
+                        Intent intent = new Intent(getActivity(), EditWebsitePreferenceActivity.class);
+                        intent.putExtra(URL_KEY, FIRST_URL);
+                        startActivity(intent);
                     }catch (ActivityNotFoundException ignored){
 
                     }
@@ -82,7 +91,9 @@ public class ManageBlogWebsiteFragment extends
                 preference -> {
 
                     try {
-                        startActivity(new Intent(getActivity(), EditWebsitePreferenceActivity.class));
+                        Intent  intent = new Intent(getActivity(), EditWebsitePreferenceActivity.class);
+                        intent.putExtra(URL_KEY, getString(R.string.pref_second_url));
+                        startActivity(intent);
                     }catch (ActivityNotFoundException ignored){
 
                     }
@@ -94,7 +105,9 @@ public class ManageBlogWebsiteFragment extends
                 preference -> {
 
                     try {
-                        startActivity(new Intent(getActivity(), EditWebsitePreferenceActivity.class));
+                        Intent intent = new Intent(getActivity(), EditWebsitePreferenceActivity.class);
+                        intent.putExtra(URL_KEY, THIRD_URL);
+                        startActivity(intent);
                     }catch (ActivityNotFoundException ignored){
 
                     }
@@ -108,7 +121,9 @@ public class ManageBlogWebsiteFragment extends
                 preference -> {
 
                     try {
-                        startActivity(new Intent(getActivity(), EditWebsitePreferenceActivity.class));
+                        Intent  intent= new Intent(getActivity(), EditWebsitePreferenceActivity.class);
+                        intent.putExtra(URL_KEY, FOURTH_URL);
+                        startActivity(intent);
                     }catch (ActivityNotFoundException ignored){
 
                     }

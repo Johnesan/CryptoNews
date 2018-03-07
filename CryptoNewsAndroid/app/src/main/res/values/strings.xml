@@ -60,5 +60,6 @@
     <string name="manage_blog_title">Manage the Blog Websites you want to receive updates from. Due to scalability issues and API timeouts, you can only have a maximum of 4 websites.</string>
     <string name="demp_string_header">CCN</string>
     <string name="demo_website_url">https://ccn.com</string>
+    <string name="pref_second_url">second_url</string>
 
 </resources>

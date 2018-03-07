@@ -24,12 +24,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        buildTypes.each {
-            it.buildConfigField 'String', 'BASE_URL1', '"https://ccn.com/"'
-            it.buildConfigField 'String', 'BASE_URL2', '"https://cryptorecorder.com/"'
-            it.buildConfigField 'String', 'BASE_URL3', '"https://cryptoclarified.com/"'
-            it.buildConfigField 'String', 'BASE_URL4', '"https://cryptoscoop.net/"'
-        }
+
+//        Replaced this with sharedPreferences
+//        buildTypes.each {
+//            it.buildConfigField 'String', 'BASE_URL1', '"https://ccn.com/"'
+//            it.buildConfigField 'String', 'BASE_URL2', '"https://cryptorecorder.com/"'
+//            it.buildConfigField 'String', 'BASE_URL3', '"https://cryptoclarified.com/"'
+//            it.buildConfigField 'String', 'BASE_URL4', '"https://cryptoscoop.net/"'
+//        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
