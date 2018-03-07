@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.princess.android.cryptonews.R;
-import com.princess.android.cryptonews.settings.SettingsActivity;
+import com.princess.android.cryptonews.settings.Activity.SettingsActivity;
 
 import dagger.android.support.DaggerAppCompatActivity;
 

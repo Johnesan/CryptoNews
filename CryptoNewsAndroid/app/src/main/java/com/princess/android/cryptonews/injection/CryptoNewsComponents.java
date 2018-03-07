@@ -1,6 +1,7 @@
 package com.princess.android.cryptonews.injection;
 
 import com.princess.android.cryptonews.newslist.viewmodel.NewsViewModel;
+import com.princess.android.cryptonews.settings.viewmodel.ValidUrlViewModel;
 
 import javax.inject.Singleton;
 
@@ -15,6 +16,7 @@ import dagger.Component;
 public interface CryptoNewsComponents {
 
     void inject(NewsViewModel newsViewModel);
+    void inject(ValidUrlViewModel validUrlViewModel);
 
     interface  Injectable{
         void inject (CryptoNewsComponents cryptoNewsComponents);
