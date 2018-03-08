@@ -2,9 +2,12 @@ package com.princess.android.cryptonews.settings.repository;
 
 import android.arch.lifecycle.MutableLiveData;
 
+import com.princess.android.cryptonews.AppController;
 import com.princess.android.cryptonews.AppExecutors;
 import com.princess.android.cryptonews.api.TestApiService;
+import com.princess.android.cryptonews.api.TestWebServiceNoDagger;
 import com.princess.android.cryptonews.model.News;
+import com.princess.android.cryptonews.util.PreferenceUtils;
 
 import java.util.List;
 
@@ -21,16 +24,17 @@ import io.reactivex.schedulers.Schedulers;
 
 public class CheckValidUrlRepository {
 
-    @Inject
-    TestApiService newsApiService;
+
+    PreferenceUtils preferenceUtils = new PreferenceUtils(AppController.getContextInstance());
+
+
+    TestApiService newsApiService  = TestWebServiceNoDagger.
+            provideTestWebService(preferenceUtils.getTestUrl());
 
     boolean isValidUrl;
 
-    AppExecutors appExecutors;
 
-    @Inject
-    CheckValidUrlRepository(AppExecutors appExecutors) {
-        this.appExecutors = appExecutors;
+    public CheckValidUrlRepository() {
 
     }
 

@@ -2,8 +2,6 @@ package com.princess.android.cryptonews.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceManager;
 
 import javax.inject.Inject;
 
@@ -15,10 +13,6 @@ public class PreferenceUtils {
 
 
     private SharedPreferences mSharedPreferences;
-    PreferenceManager preferenceManager;
-    private Context mContext;
-
-
 
     public static final String  FIRST_URL = "first_url";
     public static final String  SECOND_URL = "second_url";
@@ -38,12 +32,7 @@ public class PreferenceUtils {
     public PreferenceUtils(Context context) {
         mSharedPreferences = context.getSharedPreferences("cryptoNews_key",
                 Context.MODE_PRIVATE);
-
-
-        this.mContext = context;
-
     }
-
 
 
     public void storeFirstUrl(String url) {

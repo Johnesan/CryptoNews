@@ -74,16 +74,16 @@ public class NetworkModule {
       //return  retrofit.create(NewsApiService.class);
     }
 
-    @Provides
-    public  static TestApiService provideTestWebService(PreferenceUtils preferenceUtils){
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(preferenceUtils.getTestUrl())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(providesOkHttpClientBuilder());
-
-        return  builder.build().create(TestApiService.class);
-    }
+//    @Provides
+//    public  static TestApiService provideTestWebService(PreferenceUtils preferenceUtils){
+//        Retrofit.Builder builder = new Retrofit.Builder()
+//                .baseUrl(preferenceUtils.getTestUrl())
+//                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .client(providesOkHttpClientBuilder());
+//
+//        return  builder.build().create(TestApiService.class);
+//    }
 
 
 
