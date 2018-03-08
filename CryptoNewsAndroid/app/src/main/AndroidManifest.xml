@@ -38,7 +38,7 @@
         <activity
             android:name=".settings.Activity.SettingsActivity"
             android:label="Settings"
-            android:theme="@style/AppTheme">
+            android:theme="@style/SettingsTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".newslist.view.activity.LatestNewsActivity" />
@@ -46,12 +46,15 @@
         </activity>
 
         <activity android:name=".settings.Activity.ManageBlogSettings"
+            android:theme="@style/SettingsTheme"
             android:label="@string/manage_blog_websites">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".settings.Activity.SettingsActivity" />
         </activity>
+
         <activity android:name=".settings.Activity.EditWebsitePreferenceActivity"
+            android:theme="@style/SettingsTheme"
             android:label="Edit Website Preferences">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

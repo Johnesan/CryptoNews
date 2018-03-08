@@ -16,13 +16,13 @@ public class ValidUrlViewModel extends AndroidViewModel implements CryptoNewsCom
     private  CheckValidUrlRepository checkValidUrlRepository;
 
     @Inject
-    public ValidUrlViewModel(CheckValidUrlRepository repository) {
+    public ValidUrlViewModel() {
         super(AppController.getInstance());
-        this.checkValidUrlRepository = repository;
 
     }
 
     public  boolean isValidUrl(){
+        checkValidUrlRepository = new CheckValidUrlRepository();
         return  checkValidUrlRepository.isValidUrl();
     }
 
