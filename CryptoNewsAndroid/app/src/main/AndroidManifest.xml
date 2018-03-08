@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.princess.android.cryptonews">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <application
+        android:name=".AppController"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity android:name=".splashscreen.SplashScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".newslist.view.activity.LatestNewsActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+
+
+        <activity android:name=".newswebsite.view.ui.NewsWebPageActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".newslist.view.activity.LatestNewsActivity" />
+        </activity>
+        <activity
+            android:name=".settings.Activity.SettingsActivity"
+            android:label="Settings"
+            android:theme="@style/SettingsTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".newslist.view.activity.LatestNewsActivity" />
+
+        </activity>
+
+        <activity android:name=".settings.Activity.ManageBlogSettings"
+            android:theme="@style/SettingsTheme"
+            android:label="@string/manage_blog_websites">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".settings.Activity.SettingsActivity" />
+        </activity>
+
+        <activity android:name=".settings.Activity.EditWebsitePreferenceActivity"
+            android:theme="@style/SettingsTheme"
+            android:label="Edit Website Preferences">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".settings.Activity.ManageBlogSettings" />
+        </activity>
+
+ </application>
+
+</manifest>

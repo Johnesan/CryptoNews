@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">Crypto News</string>
+    <string name="action_settings">Settings</string>
+    <string name="empty_view_text">There is no News at the moment</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+
+    <string name="title_activity_settings">Settings</string><!-- Strings related to Settings --><!-- Settings for managing Blog Services -->
+    <string name="pref_header_manage">Manage Blog Websites</string>
+    <string name="pref_title_font_size">Font Size (List &amp; Comment )</string>
+    <string-array name="pref_font_Size_list">
+        <item>Normal</item>
+        <item>Medium</item>
+        <item>Large</item>
+    </string-array>
+    <string-array name="pref_font_Size_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string name="pref_title_view_articles_via">View Articles via...</string>
+    <string-array name="pref_view_articles_titles_via">
+        <item>Google for Mobile Devices</item>
+        <item>Tiny Papers</item>
+        <item>Some Other Preferred Format</item>
+    </string-array>
+    <string-array name="pref_view_articles_via_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    Settings for Viewing Articles in web Browser or in App -->
+
+    <string name="pref_title_view_articles_within">View Articles within…</string>
+    <string-array name="pref_view_articles_within_titles">
+        <item>The App</item>
+        <item>Web Browsers</item>
+    </string-array>
+    <string-array name="pref_view_articles_within_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="manage_blog_websites">Manage Blog Websites</string>
+    <string name="manage_blog_title">Manage the Blog Websites you want to receive updates from. Due to scalability issues and API timeouts, you can only have a maximum of 4 websites.</string>
+    <string name="demp_string_header">CCN</string>
+    <string name="demo_website_url">https://ccn.com</string>
+    <string name="pref_second_url">second_url</string>
+
+</resources>
