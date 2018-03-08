@@ -93,6 +93,8 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
                         "Network Error",
                         "Internet not available, Check your internet connectivity and try again",
                         true);
+
+
             }
     }
 
