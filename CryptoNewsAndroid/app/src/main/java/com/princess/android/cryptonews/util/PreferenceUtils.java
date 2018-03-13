@@ -38,7 +38,8 @@ public class PreferenceUtils {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(FIRST_URL, url);
         editor.apply();
-    } public void storeSecondUrl(String url) {
+    }
+    public void storeSecondUrl(String url) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(SECOND_URL, url);
         editor.apply();
@@ -50,9 +51,29 @@ public class PreferenceUtils {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(FOURTH_URL, url);
         editor.apply();
-    } public void storeTestUrl(String url) {
+    }
+
+    public void storeTestUrl(String url) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(TEST_URL, url);
+        editor.apply();
+    }
+
+    public void storeFirstTitle(String url) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(FIRST_TITLE, url);
+        editor.apply();
+    }  public void storeSecondTitle(String url) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(SECOND_TITLE, url);
+        editor.apply();
+    }  public void storeThirdTitle(String url) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(THIRD_TITLE, url);
+        editor.apply();
+    }  public void storeFourthTitle(String url) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(FOURTH_TITLE, url);
         editor.apply();
     }
 

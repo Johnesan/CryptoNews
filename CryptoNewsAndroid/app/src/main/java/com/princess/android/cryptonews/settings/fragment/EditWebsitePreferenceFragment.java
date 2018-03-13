@@ -2,14 +2,18 @@ package com.princess.android.cryptonews.settings.fragment;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NavUtils;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.URLUtil;
@@ -19,6 +23,7 @@ import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.binding.FragmentDataBindingComponent;
 import com.princess.android.cryptonews.commons.AutoClearedValue;
 import com.princess.android.cryptonews.databinding.FragmentManageEditBinding;
+import com.princess.android.cryptonews.settings.Activity.ManageBlogSettings;
 import com.princess.android.cryptonews.settings.viewmodel.ValidUrlViewModel;
 import com.princess.android.cryptonews.util.PreferenceUtils;
 
@@ -49,11 +54,15 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
 
     String testUrl;
 
+    ProgressDialog progressDialog;
+
 
     android.databinding.DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
     AutoClearedValue<FragmentManageEditBinding> binding;
 
     Bundle b;
+
+    boolean savedItem;
 
 
     public EditWebsitePreferenceFragment() {
@@ -121,21 +130,17 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
                 testUrl = binding.get().websiteUrl.getText().toString();
                 if (isValidUrl(testUrl)) {
                     preferenceUtils.storeTestUrl(testUrl);
+                    progressDialog =  new ProgressDialog(getContext());
+                    progressDialog.setCancelable(false);
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setView(R.layout.empty_item);
-                    builder.setCancelable(false);
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
 
                     if (validUrlViewModel.isValidUrl()){
 
-                        alertDialog.dismiss();
+                        progressDialog.dismiss();
+
                     } else {
 
-                        alertDialog.setCancelable(true);
-                        alertDialog.dismiss();
-                        binding.get().websiteUrl.setError("Url Not Valid");
+                      progressDialog.dismiss();
 
                     }
 
@@ -143,12 +148,32 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
                 }
             }
 
-
-
-
-
         });
-        binding.get().saveButton.setOnClickListener(view -> Toast.makeText(getContext(), "This Feature is Coming Soon", Toast.LENGTH_SHORT));
+        binding.get().saveButton.setOnClickListener(view -> {
+
+            switch (value){
+                case  FIRST_URL:
+                    preferenceUtils.storeFirstUrl(binding.get().websiteUrl.getText().toString());
+                    preferenceUtils.storeFirstTitle(binding.get().websiteTitle.getText().toString());
+                    break;
+                case SECOND_URL:
+                    preferenceUtils.storeSecondTitle(binding.get().websiteUrl.getText().toString());
+                    preferenceUtils.storeSecondUrl(binding.get().websiteTitle.getText().toString());
+                    break;
+                case THIRD_URL:
+                    preferenceUtils.storeThirdUrl(binding.get().websiteUrl.getText().toString());
+                    preferenceUtils.storeThirdTitle(binding.get().websiteTitle.getText().toString());
+                    break;
+                case  FOURTH_URL:
+                    preferenceUtils.storeFourthUrl(binding.get().websiteUrl.getText().toString());
+                    preferenceUtils.storeFourthTitle(binding.get().websiteTitle.getText().toString());
+                    break;
+                default:
+                    break;
+            }
+
+        savedItem = true;
+        });
     }
 
 
@@ -160,16 +185,25 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
 
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+         if (id == android.R.id.home) {
+            //This method returns the User to the same state of the previous  Activity
 
+             if (savedItem){
+                 Intent  intent = new Intent(getActivity(), ManageBlogSettings.class);
+                 startActivity(intent);
+             }
+             else {
+                 NavUtils.navigateUpFromSameTask(getActivity());
+             }
+
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
     private  boolean isValidUrl(String url){
         boolean check;
 
