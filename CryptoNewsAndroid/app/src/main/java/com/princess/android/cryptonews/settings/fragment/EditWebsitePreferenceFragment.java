@@ -89,15 +89,19 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
 
             switch (value){
                 case  FIRST_URL:
+                    binding.get().websiteTitle.setText(preferenceUtils.getFirstTitle());
                     binding.get().websiteUrl.setText(preferenceUtils.getFirstUrl());
                     break;
                 case SECOND_URL:
+                    binding.get().websiteTitle.setText(preferenceUtils.getSecondTitle());
                     binding.get().websiteUrl.setText(preferenceUtils.getSecondUrl());
                     break;
                 case THIRD_URL:
+                    binding.get().websiteTitle.setText(preferenceUtils.getThirdTitle());
                     binding.get().websiteUrl.setText(preferenceUtils.getThirdUrl());
                     break;
                 case  FOURTH_URL:
+                    binding.get().websiteTitle.setText(preferenceUtils.getFourthTitle());
                     binding.get().websiteUrl.setText(preferenceUtils.getFourthUrl());
                     break;
                 default:

@@ -23,9 +23,8 @@ public class PreferenceUtils {
 
     public static final String  FIRST_TITLE = "first_title";
     public static final String  SECOND_TITLE = "second_title";
-    public static final String  THIRD_THIRD = "third_title";
-    public static final String  FOURTH_FOURTH = "fourth_title";
-
+    public static final String  THIRD_TITLE = "third_title";
+    public static final String  FOURTH_TITLE = "fourth_title";
 
 
     @Inject
@@ -57,10 +56,24 @@ public class PreferenceUtils {
         editor.apply();
     }
 
-//    public String getFirstTitle (){
-//
-//
-//    }
+    public String getFirstTitle (){
+        return  mSharedPreferences.getString(FIRST_TITLE, "CCN");
+
+    }
+    public String getSecondTitle (){
+        return  mSharedPreferences.getString(SECOND_TITLE, "Crypto Recorder");
+
+    }
+    public String getThirdTitle (){
+        return  mSharedPreferences.getString(THIRD_TITLE, "Crypto Clarified");
+
+    }
+    public String getFourthTitle (){
+        return  mSharedPreferences.getString(FOURTH_TITLE, "Crypto Scoop");
+
+    }
+
+
 
     public String getFirstUrl(){
         return  mSharedPreferences.getString(FIRST_URL, "https://ccn.com");
