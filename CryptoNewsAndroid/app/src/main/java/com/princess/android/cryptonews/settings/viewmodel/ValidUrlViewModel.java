@@ -1,10 +1,14 @@
 package com.princess.android.cryptonews.settings.viewmodel;
 
 import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.LiveData;
 
 import com.princess.android.cryptonews.AppController;
 import com.princess.android.cryptonews.injection.CryptoNewsComponents;
+import com.princess.android.cryptonews.model.News;
 import com.princess.android.cryptonews.settings.repository.CheckValidUrlRepository;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -21,7 +25,7 @@ public class ValidUrlViewModel extends AndroidViewModel implements CryptoNewsCom
 
     }
 
-    public  boolean isValidUrl(){
+    public LiveData<List<News>> isValidUrl(){
         checkValidUrlRepository = new CheckValidUrlRepository();
         return  checkValidUrlRepository.isValidUrl();
     }

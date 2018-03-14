@@ -3,6 +3,7 @@ package com.princess.android.cryptonews.settings.fragment;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -24,9 +25,12 @@ import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.binding.FragmentDataBindingComponent;
 import com.princess.android.cryptonews.commons.AutoClearedValue;
 import com.princess.android.cryptonews.databinding.FragmentManageEditBinding;
+import com.princess.android.cryptonews.model.News;
 import com.princess.android.cryptonews.settings.Activity.ManageBlogSettings;
 import com.princess.android.cryptonews.settings.viewmodel.ValidUrlViewModel;
 import com.princess.android.cryptonews.util.PreferenceUtils;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -63,7 +67,7 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
 
     Bundle b;
 
-    boolean savedItem;
+    boolean savedItem = false;
 
     public  fragmentInteractionListener listener;
 
@@ -139,36 +143,56 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
 
         }
 
+        //This code disables the save Button
         binding.get().saveButton.setClickable(false);
+        binding.get().saveButton.setEnabled(false);
 
-        binding.get().testButton.setOnClickListener(view -> {
+
+        //This code makes the test when the Test Button is Clicked
+        binding.get().testButton.setOnClickListener((View view) -> {
 
 
+            //Check if the user entered anything in the textField
             if (TextUtils.isEmpty(binding.get().websiteUrl.getText().toString())) {
+
+                //Tell the user to enter correct url
                 binding.get().websiteUrl.setError("Enter a Url in the specified Format");
             } else {
+                //get The url from the ui
                 testUrl = binding.get().websiteUrl.getText().toString();
                 if (isValidUrl(testUrl)) {
+
+                    //save the url to sharedpreferences
                     preferenceUtils.storeTestUrl(testUrl);
-                    progressDialog =  new ProgressDialog(getContext());
-                    progressDialog.setCancelable(false);
+
+                    //show User Dialog
+                    startDialog();
 
 
-                    if (validUrlViewModel.isValidUrl()){
+                    validUrlViewModel.isValidUrl().observe(this, news -> {
+                        //This will only be called if the url returns data
+                        //this way we can know if the url is supported
+                        if (news == null || news.size() == 0){
+                            Toast.makeText(getContext(), "Url is not Supported", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                        }else {
+                            //dismiss the url and enabe the save button , so user can new url
+                            progressDialog.dismiss();
+                            binding.get().saveButton.setClickable(true);
+                            binding.get().saveButton.setEnabled(true);
 
-                        progressDialog.dismiss();
 
-                    } else {
+                        }
 
-                      progressDialog.dismiss();
-
-                    }
+                    });
 
 
                 }
             }
 
         });
+
+        //Save the new data to the appropriate preference
         binding.get().saveButton.setOnClickListener(view -> {
 
             switch (value){
@@ -192,16 +216,26 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
                     break;
             }
 
-        savedItem = true;
-            listener.onBackPressed(savedItem);
+            savedItem = true;
         });
+
+        //this wil notify the activity, that the user has saved his data because we want to restart the previous activity to show the changes
+        listener.onBackPressed(savedItem);
+    }
+
+    private void startDialog() {
+        progressDialog =  new ProgressDialog(getContext());
+        progressDialog.setCancelable(false);
+        progressDialog.setTitle("Checking Validity of Url");
+        progressDialog.show();
     }
 
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        validUrlViewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(ValidUrlViewModel.class);
+        //creating instances of the viewModel
+        validUrlViewModel = ViewModelProviders.of(this, viewModelFactory).get(ValidUrlViewModel.class);
     }
 
 
@@ -210,12 +244,12 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
         int id = item.getItemId();
          if (id == android.R.id.home) {
             //This method returns the User to the same state of the previous  Activity
-
              if (savedItem){
                  Intent  intent = new Intent(getActivity(), ManageBlogSettings.class);
                  startActivity(intent);
              }
              else {
+                 //if the user did not save, just go back to where he came from without changing anything
                  NavUtils.navigateUpFromSameTask(getActivity());
              }
 
@@ -225,6 +259,9 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+    //Util to check if the value entered is a valid Url
     private  boolean isValidUrl(String url){
         boolean check;
 
@@ -234,7 +271,6 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
         else {
             check = false;
         }
-
 
         return  check;
     }
