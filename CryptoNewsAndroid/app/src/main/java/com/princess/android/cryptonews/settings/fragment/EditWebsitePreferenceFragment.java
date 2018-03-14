@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -64,6 +65,7 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
 
     boolean savedItem;
 
+    public  fragmentInteractionListener listener;
 
     public EditWebsitePreferenceFragment() {
     }
@@ -76,6 +78,24 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
         return  editWebsitePreferenceFragment;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof fragmentInteractionListener) {
+            listener = (fragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        listener = null;
+
+    }
 
     @Nullable
     @Override
@@ -173,6 +193,7 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
             }
 
         savedItem = true;
+            listener.onBackPressed(savedItem);
         });
     }
 
@@ -216,6 +237,10 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
 
 
         return  check;
+    }
+
+    public interface  fragmentInteractionListener{
+        void onBackPressed(boolean isSaved);
     }
 
 
