@@ -15,7 +15,16 @@
             android:layout_width="match_parent"
             android:textSize="14dp"
             android:layout_height="wrap_content"
-            android:text="@string/manage_blog_title"/>
+            android:text="@string/edit_reason"/>
+        <TextView
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:textColor="@color/colorAccent"
+            android:layout_width="match_parent"
+            android:textSize="14dp"
+            android:layout_height="wrap_content"
+            android:text="Use the test button to check if the website meets the requirements before saving"/>
 
 
 
@@ -27,8 +36,10 @@
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/website_title"
+                android:inputType="text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
                 android:layout_margin="16dp"
                 android:hint="@string/demp_string_header"
                 tools:text="CCN"
@@ -36,9 +47,11 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_marginTop="8dp"
                 android:id="@+id/website_url"
+                android:inputType="text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:maxLines="1"
                 android:layout_below="@+id/website_title"
                 android:layout_margin="16dp"
                 android:hint="@string/demo_website_url"

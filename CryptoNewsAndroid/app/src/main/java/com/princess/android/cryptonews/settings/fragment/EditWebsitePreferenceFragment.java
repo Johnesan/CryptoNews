@@ -1,9 +1,6 @@
 package com.princess.android.cryptonews.settings.fragment;
 
-import android.app.AlertDialog;
-import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -18,19 +15,18 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.URLUtil;
-import android.widget.Toast;
 
 import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.binding.FragmentDataBindingComponent;
 import com.princess.android.cryptonews.commons.AutoClearedValue;
 import com.princess.android.cryptonews.databinding.FragmentManageEditBinding;
-import com.princess.android.cryptonews.model.News;
 import com.princess.android.cryptonews.settings.Activity.ManageBlogSettings;
 import com.princess.android.cryptonews.settings.viewmodel.ValidUrlViewModel;
 import com.princess.android.cryptonews.util.PreferenceUtils;
-
-import java.util.List;
+import com.princess.android.cryptonews.util.ShowAlert;
 
 import javax.inject.Inject;
 
@@ -70,6 +66,8 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
     boolean savedItem = false;
 
     public  fragmentInteractionListener listener;
+
+    ShowAlert alert = new ShowAlert();
 
     public EditWebsitePreferenceFragment() {
     }
@@ -147,50 +145,19 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
         binding.get().saveButton.setClickable(false);
         binding.get().saveButton.setEnabled(false);
 
-
-        //This code makes the test when the Test Button is Clicked
-        binding.get().testButton.setOnClickListener((View view) -> {
-
-
-            //Check if the user entered anything in the textField
-            if (TextUtils.isEmpty(binding.get().websiteUrl.getText().toString())) {
-
-                //Tell the user to enter correct url
-                binding.get().websiteUrl.setError("Enter a Url in the specified Format");
-            } else {
-                //get The url from the ui
-                testUrl = binding.get().websiteUrl.getText().toString();
-                if (isValidUrl(testUrl)) {
-
-                    //save the url to sharedpreferences
-                    preferenceUtils.storeTestUrl(testUrl);
-
-                    //show User Dialog
-                    startDialog();
-
-
-                    validUrlViewModel.isValidUrl().observe(this, news -> {
-                        //This will only be called if the url returns data
-                        //this way we can know if the url is supported
-                        if (news == null || news.size() == 0){
-                            Toast.makeText(getContext(), "Url is not Supported", Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
-                        }else {
-                            //dismiss the url and enabe the save button , so user can new url
-                            progressDialog.dismiss();
-                            binding.get().saveButton.setClickable(true);
-                            binding.get().saveButton.setEnabled(true);
-
-
-                        }
-
-                    });
-
-
-                }
-            }
+        binding.get().websiteUrl.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        binding.get().websiteUrl.setOnEditorActionListener((textView, i, keyEvent) -> {
+            if(i == EditorInfo.IME_ACTION_DONE){
+                startTest();
+                hideKeyBoard();
+                return true;
+        }
+        return false;
 
         });
+
+        //This code makes the test when the Test Button is Clicked
+        binding.get().testButton.setOnClickListener((View view) -> startTest());
 
         //Save the new data to the appropriate preference
         binding.get().saveButton.setOnClickListener(view -> {
@@ -217,17 +184,86 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
             }
 
             savedItem = true;
+
+            //this wil notify the activity, that the user has saved his data because we want to restart the previous activity to show the changes
+            listener.onBackPressed(savedItem);
+            alert.showAlertDialog(getActivity(),
+                    "Successful",
+                    "Your Settings has been successful saved!!",
+                    true);
         });
 
-        //this wil notify the activity, that the user has saved his data because we want to restart the previous activity to show the changes
-        listener.onBackPressed(savedItem);
+    }
+
+    private void startTest() {
+
+        //Check if the user entered anything in the textField
+        if (TextUtils.isEmpty(binding.get().websiteUrl.getText().toString())) {
+
+            //Tell the user to enter correct url
+            binding.get().websiteUrl.setError("Enter a Url in the specified Format");
+        } else {
+            //get The url from the ui
+            testUrl = binding.get().websiteUrl.getText().toString();
+            if (isValidUrl(testUrl)) {
+
+                //save the url to sharedpreferences
+                preferenceUtils.storeTestUrl(testUrl);
+
+                //show User Dialog
+                startDialog();
+
+
+                validUrlViewModel.isValidUrl().observe(this, news -> {
+                    //This will only be called if the url returns data
+                    //this way we can know if the url is supported
+                    if (news == null || news.size() == 0){
+                        progressDialog.dismiss();
+                        alert.showAlertDialog(getActivity(),
+                                "UnSuccessful",
+                                "Url is not Supported",
+                                true);
+                    }else {
+                        //dismiss the url and enable the save button , so user can new url
+                        progressDialog.dismiss();
+                        binding.get().saveButton.setClickable(true);
+                        binding.get().saveButton.setEnabled(true);
+
+                        alert.showAlertDialog(getActivity(),
+                                "Successful",
+                                "This website has been tested and it meets the requirements to fetch its blog feed. You can now save it",
+                                true);
+                    }
+
+                });
+
+
+            }
+        }
+
     }
 
     private void startDialog() {
         progressDialog =  new ProgressDialog(getContext());
         progressDialog.setCancelable(false);
-        progressDialog.setTitle("Checking Validity of Url");
+        progressDialog.setMessage("Checking Validity of Url");
         progressDialog.show();
+    }
+
+    private void hideKeyBoard(){
+        // Check if no view has focus:
+        if (getActivity() != null){
+
+            View view = getActivity().getCurrentFocus();
+            if (view != null) {
+                InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                if (inputManager != null) {
+                    inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);}
+
+            }
+        }
+
     }
 
 

@@ -1,6 +1,7 @@
 package com.princess.android.cryptonews.newslist.view.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -12,7 +13,7 @@ import com.princess.android.cryptonews.settings.Activity.SettingsActivity;
 import dagger.android.support.DaggerAppCompatActivity;
 
 
-public class LatestNewsActivity extends DaggerAppCompatActivity {
+public class LatestNewsActivity extends DaggerAppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,5 +46,8 @@ public class LatestNewsActivity extends DaggerAppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
 
+    }
 }
