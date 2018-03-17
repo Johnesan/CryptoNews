@@ -58,7 +58,9 @@ public class EditWebsitePreferenceActivity  extends DaggerAppCompatActivity impl
     public void onBackPressed() {
         if (hasSaved){
             Intent intent = new Intent(this, ManageBlogSettings.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP );
             startActivity(intent);
+            
         }
         else {
             super.onBackPressed();

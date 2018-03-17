@@ -26,6 +26,8 @@ public class PreferenceUtils {
     public static final String  THIRD_TITLE = "third_title";
     public static final String  FOURTH_TITLE = "fourth_title";
 
+    public static  final String URLCHANGED = "url_change";
+
 
     @Inject
     public PreferenceUtils(Context context) {
@@ -115,5 +117,16 @@ public class PreferenceUtils {
 
     public String getTestUrl(){
         return  mSharedPreferences.getString(TEST_URL, "https://ccn.com");
+    }
+
+
+    public boolean hasPreferenceUrlChanged(){
+        return mSharedPreferences.getBoolean(URLCHANGED, false);
+    }
+
+    public void storeUrlPreference(boolean changed){
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putBoolean(URLCHANGED, changed);
+        editor.apply();
     }
 }

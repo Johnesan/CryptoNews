@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.princess.android.cryptonews.model.News;
 import com.princess.android.cryptonews.newslist.view.adapters.NewsAdapter;
@@ -39,7 +41,7 @@ import dagger.android.support.DaggerFragment;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class LatestNewsActivityFragment extends DaggerFragment implements SwipeRefreshLayout.OnRefreshListener{
+public class LatestNewsActivityFragment extends DaggerFragment implements SwipeRefreshLayout.OnRefreshListener, SharedPreferences.OnSharedPreferenceChangeListener{
 
     @Inject
     ViewModelProvider.Factory  factory;
@@ -85,6 +87,7 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
                     mAdapter = new NewsAdapter(getActivity(), sortDate(newsList));
                     progressBar.setVisibility(View.GONE);
                     mRecyclerView.setAdapter(mAdapter);
+                    Toast.makeText(getContext(), "News Loaded", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
@@ -158,5 +161,12 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
 
         });
         return list;
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+
+        Toast.makeText(getContext(), "I was Changed", Toast.LENGTH_SHORT).show();
+
     }
 }

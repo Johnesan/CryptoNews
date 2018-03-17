@@ -13,7 +13,7 @@ import com.princess.android.cryptonews.settings.Activity.SettingsActivity;
 import dagger.android.support.DaggerAppCompatActivity;
 
 
-public class LatestNewsActivity extends DaggerAppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
+public class LatestNewsActivity extends DaggerAppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +46,4 @@ public class LatestNewsActivity extends DaggerAppCompatActivity implements Share
         startActivity(intent);
     }
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-
-    }
 }

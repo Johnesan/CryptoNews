@@ -14,6 +14,7 @@ import com.princess.android.cryptonews.AppController;
 import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.settings.Activity.EditWebsitePreferenceActivity;
 import com.princess.android.cryptonews.util.PreferenceUtils;
+import com.princess.android.cryptonews.util.ShowAlert;
 
 import javax.inject.Inject;
 
@@ -30,6 +31,7 @@ public class ManageBlogWebsiteFragment extends
         PreferenceFragmentCompat
         implements SharedPreferences.OnSharedPreferenceChangeListener{
 
+    ShowAlert alert = new ShowAlert();
 
     PreferenceUtils preferenceUtils = new PreferenceUtils(AppController.getContextInstance());
 
@@ -149,6 +151,29 @@ public class ManageBlogWebsiteFragment extends
 
                     }
                     return  false;
+                }
+        );
+
+
+        Preference clearPreference = getPreferenceManager().findPreference("button_preference");
+        clearPreference.setOnPreferenceClickListener(
+                preference -> {
+
+                    //reset the Preference url to default value
+                    preferenceUtils.storeFourthUrl(null);
+                    preferenceUtils.storeThirdUrl(null);
+                    preferenceUtils.storeSecondUrl(null);
+                    preferenceUtils.storeFirstUrl(null);
+
+                    //reset the prference title to default values
+                    preferenceUtils.storeFourthTitle(null);
+                    preferenceUtils.storeThirdTitle(null);
+                    preferenceUtils.storeSecondTitle(null);
+                    preferenceUtils.storeFirstTitle(null);
+
+                    alert.showAlertDialog(getContext(), "Successful", "Website Preference restored back to default", true);
+
+                return false;
                 }
         );
 

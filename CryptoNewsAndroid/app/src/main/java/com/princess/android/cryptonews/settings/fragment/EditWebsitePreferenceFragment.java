@@ -163,7 +163,8 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
 
         //Save the new data to the appropriate preference
         binding.get().saveButton.setOnClickListener(view -> {
-
+            savedItem = true;
+            listener.onBackPressed(savedItem);
             switch (value){
                 case  FIRST_URL:
                     preferenceUtils.storeFirstUrl(binding.get().websiteUrl.getText().toString());
@@ -185,10 +186,10 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
                     break;
             }
 
-            savedItem = true;
+
 
             //this wil notify the activity, that the user has saved his data because we want to restart the previous activity to show the changes
-            listener.onBackPressed(savedItem);
+
             alert.showAlertDialog(getActivity(),
                     "Successful",
                     "Your Settings has been successful saved!!",
@@ -305,6 +306,7 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
             //This method returns the User to the same state of the previous  Activity
              if (savedItem){
                  Intent  intent = new Intent(getActivity(), ManageBlogSettings.class);
+                 intent.putExtra("RESTART", "RESTART");
                  startActivity(intent);
              }
              else {
