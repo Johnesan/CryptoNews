@@ -2,6 +2,9 @@ package com.princess.android.cryptonews.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v7.preference.PreferenceManager;
+
+import com.princess.android.cryptonews.R;
 
 import javax.inject.Inject;
 
@@ -13,6 +16,7 @@ public class PreferenceUtils {
 
 
     private SharedPreferences mSharedPreferences;
+    private SharedPreferences mSharedPreferencesTest;
 
     public static final String  FIRST_URL = "first_url";
     public static final String  SECOND_URL = "second_url";
@@ -33,6 +37,7 @@ public class PreferenceUtils {
     public PreferenceUtils(Context context) {
         mSharedPreferences = context.getSharedPreferences("cryptoNews_key",
                 Context.MODE_PRIVATE);
+        mSharedPreferencesTest = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
 
@@ -129,4 +134,17 @@ public class PreferenceUtils {
         editor.putBoolean(URLCHANGED, changed);
         editor.apply();
     }
+
+    public String getFontSize(){
+        return  mSharedPreferencesTest.getString("font_size", "");
+    }
+
+    public String getViewNewsWithIn(){
+        return  mSharedPreferencesTest.getString("view_within", "");
+    }
+
+    public String getViewNewsAppVia(){
+        return  mSharedPreferencesTest.getString("view_via", "");
+    }
+
 }

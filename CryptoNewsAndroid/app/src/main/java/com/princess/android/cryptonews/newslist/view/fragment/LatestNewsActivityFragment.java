@@ -22,6 +22,7 @@ import com.princess.android.cryptonews.newslist.view.adapters.NewsAdapter;
 import com.princess.android.cryptonews.newslist.viewmodel.NewsViewModel;
 import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.util.ConnectionTest;
+import com.princess.android.cryptonews.util.PreferenceUtils;
 import com.princess.android.cryptonews.util.ShowAlert;
 
 import java.text.ParseException;
@@ -41,11 +42,13 @@ import dagger.android.support.DaggerFragment;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class LatestNewsActivityFragment extends DaggerFragment implements SwipeRefreshLayout.OnRefreshListener, SharedPreferences.OnSharedPreferenceChangeListener{
-
+public class LatestNewsActivityFragment extends DaggerFragment implements SwipeRefreshLayout.OnRefreshListener{
     @Inject
     ViewModelProvider.Factory  factory;
     NewsViewModel newsViewModel;
+
+    @Inject
+    PreferenceUtils preferenceUtils;
 
     public NewsAdapter mAdapter;
     public List<News> newsList = new ArrayList<>();
@@ -164,9 +167,20 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+    public void onResume() {
+        super.onResume();
 
-        Toast.makeText(getContext(), "I was Changed", Toast.LENGTH_SHORT).show();
+        //refresh if font size Changed
 
+        if(refreshFontSize()){
+//            mAdapter.notifyDataSetChanged();
+            Toast.makeText(getContext(), preferenceUtils.getFontSize() , Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
+    private boolean refreshFontSize() {
+        return  true;
     }
 }

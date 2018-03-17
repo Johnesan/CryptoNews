@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.settings.Activity.ManageBlogSettings;
 
+import static android.preference.PreferenceManager.getDefaultSharedPreferences;
+
 
 public class GeneralPreferenceFragment extends
         PreferenceFragmentCompat
@@ -28,6 +30,19 @@ public class GeneralPreferenceFragment extends
         }
     }
 
+
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        SharedPreferences sharedPrefs = getDefaultSharedPreferences(getContext());
+        onSharedPreferenceChanged(sharedPrefs, "font_size");
+        onSharedPreferenceChanged(sharedPrefs, "view_via");
+        onSharedPreferenceChanged(sharedPrefs, "view_within");
+
+
+    }
 
     private void  setPreferenceSummary(Preference preference, Object value ) {
         String stringValue = value.toString();
@@ -62,6 +77,7 @@ public class GeneralPreferenceFragment extends
                String value = sharedPreferences.getString(p.getKey(), "");
                setPreferenceSummary(p, value);
            }
+
        }
 
 
