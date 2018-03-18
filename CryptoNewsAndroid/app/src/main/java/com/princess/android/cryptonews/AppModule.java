@@ -52,7 +52,7 @@ public class AppModule {
 
     //class to get access to DAO
     @Singleton  @Provides
-    NewsDao provideUserClubsDao (NewsDatabase newsDatabase){
+    NewsDao provideNewsDao(NewsDatabase newsDatabase){
         return newsDatabase.newsDao();
     }
 }

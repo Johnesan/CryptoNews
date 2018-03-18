@@ -76,7 +76,7 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        newsViewModel = ViewModelProviders.of(this, factory).get(NewsViewModel.class);
         if (checkConnection()) {
             newsViewModel.getAllLatestNews().observe(this, new Observer<List<News>>() {
                 @Override
@@ -104,7 +104,6 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
 
     private void setupViews(){
 
-        newsViewModel = ViewModelProviders.of(this, factory).get(NewsViewModel.class);
         layoutManager = new GridLayoutManager(getActivity(),2);
 
         if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {

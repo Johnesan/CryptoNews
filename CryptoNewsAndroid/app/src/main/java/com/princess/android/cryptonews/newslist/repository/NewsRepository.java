@@ -42,8 +42,9 @@ public class NewsRepository {
     NewsDao newsDao;
 
     @Inject
-    NewsRepository(AppExecutors appExecutors) {
+    NewsRepository(AppExecutors appExecutors, NewsDao newsDao) {
         this.appExecutors = appExecutors;
+        this.newsDao = newsDao;
 
     }
 
