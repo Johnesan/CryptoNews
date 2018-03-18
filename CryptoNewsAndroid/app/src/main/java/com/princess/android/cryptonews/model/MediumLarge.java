@@ -1,5 +1,7 @@
 package com.princess.android.cryptonews.model;
 
+import android.arch.persistence.room.Entity;
+
 import com.google.gson.annotations.SerializedName;
 
 import javax.annotation.Generated;
@@ -9,6 +11,7 @@ import javax.annotation.Generated;
  */
 
 @Generated("com.robohorse.robopojogenerator")
+@Entity
 public class MediumLarge {
 
     @SerializedName("source_url")

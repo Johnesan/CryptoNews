@@ -4,13 +4,18 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 
+import com.princess.android.cryptonews.AppController;
 import com.princess.android.cryptonews.AppExecutors;
+import com.princess.android.cryptonews.AppModule;
 import com.princess.android.cryptonews.api.NewsApiService;
 import com.princess.android.cryptonews.di.NetworkModule;
 import com.princess.android.cryptonews.model.News;
+import com.princess.android.cryptonews.newslist.database.NewsDao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
@@ -34,6 +39,7 @@ public class NewsRepository {
     NewsApiService newsApiService;
 
     AppExecutors appExecutors;
+    NewsDao newsDao;
 
     @Inject
     NewsRepository(AppExecutors appExecutors) {
@@ -55,15 +61,29 @@ public class NewsRepository {
                     public List<News> apply(List<News> news, List<News> news2, List<News> news3, List<News> news4) throws Exception {
                         List<News> newsList = new ArrayList<>();
                         for (News newsObj : news) {
+
+                            Executors.newSingleThreadExecutor().execute(() -> {
+                                newsDao.save(newsObj);
+                            });
                             newsList.add(newsObj);
                         }
                         for (News newsObj : news2) {
+                            Executors.newSingleThreadExecutor().execute(() -> {
+                                newsDao.save(newsObj);
+                            });
                             newsList.add(newsObj);
                         }
                         for (News newsObj : news3) {
+                            Executors.newSingleThreadExecutor().execute(() -> {
+                                newsDao.save(newsObj);
+                            });
                             newsList.add(newsObj);
                         }
                         for (News newsObj : news4) {
+                            Executors.newSingleThreadExecutor().execute(() -> {
+                                newsDao.save(newsObj);
+                                //AppController.db.newsDao().save(newsObj);
+                            });
                             newsList.add(newsObj);
                         }
 
@@ -78,8 +98,8 @@ public class NewsRepository {
                     newsMutableLiveData.setValue(news);
                 });
 
-        return newsMutableLiveData;
-
+        //return AppController.db.newsDao().queryNews();
+        return newsDao.queryNews();
 
     }
 }
