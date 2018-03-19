@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,9 @@ import butterknife.ButterKnife;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
 
+    int mFontSizeTitle;
+    int mFontSizeDetails;
+
 
     PreferenceUtils preferenceUtils = new PreferenceUtils(AppController.getInstance());
 
@@ -46,9 +50,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     private Context context;
     private List<News> newsList;
 
-    public NewsAdapter(Context context, List<News> newsList) {
+    public NewsAdapter(Context context) {
         this.context = context;
-        this.newsList = newsList;
     }
 
     @Override
@@ -94,6 +97,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         //Replace ASCII codes with proper Characters
         String formatTitle = String.valueOf(Html.fromHtml(getTheTitle));
         holder.title.setText(formatTitle);
+        holder.title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSizeTitle);
 
 
         //Set the date
@@ -112,6 +116,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                 e.printStackTrace();
             }
             holder.date.setReferenceTime(timeInMilliseconds);
+            holder.date.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSizeDetails);
         } catch (NumberFormatException nfe) {
 
         }
@@ -126,6 +131,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                 holder.website.setText(array[1].toLowerCase());
             } else
                 holder.website.setText(array[0].toLowerCase());
+                holder.website.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSizeDetails);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -137,6 +143,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         if (newsList == null)
             return 0;
         return newsList.size();
+    }
+
+    public void setFontSizes(int mCurrentFontSize, int mFontSizeDetails) {
+        this.mFontSizeTitle = mCurrentFontSize;
+        this.mFontSizeDetails = mFontSizeDetails;
+    }
+
+    public  void setItems (List<News> newsList){
+        this.newsList = newsList;
     }
 
     public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

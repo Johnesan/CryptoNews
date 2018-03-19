@@ -97,9 +97,9 @@ public class NewsWebPageFragment extends Fragment {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
             progressBar.setVisibility(View.VISIBLE);
-            view.loadUrl(String.valueOf(url));
+//            view.loadUrl(String.valueOf(url));
 
-            return true;
+            return false;
         }
 
         @Override

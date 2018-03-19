@@ -21,9 +21,9 @@
     <string name="pref_header_manage">Manage Blog Websites</string>
     <string name="pref_title_font_size">Font Size (List &amp; Comment )</string>
     <string-array name="pref_font_Size_list">
+        <item>Tiny</item>
         <item>Normal</item>
         <item>Medium</item>
-        <item>Large</item>
     </string-array>
     <string-array name="pref_font_Size_values">
         <item>0</item>

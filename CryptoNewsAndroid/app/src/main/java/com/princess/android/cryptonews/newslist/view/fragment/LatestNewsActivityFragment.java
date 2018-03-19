@@ -63,6 +63,10 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
     // Alert Dialog Manager
     ShowAlert alert = new ShowAlert();
 
+    String mCurrentFontSize = null;
+    int mFontSizeTitle;
+    int mFontSizeDetails;
+
     public LatestNewsActivityFragment() {
     }
 
@@ -87,7 +91,7 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
                 @Override
                 public void onChanged(@Nullable List<News> news) {
                     newsList = news;
-                    mAdapter = new NewsAdapter(getActivity(), sortDate(newsList));
+                    mAdapter.setItems(sortDate(newsList));
                     progressBar.setVisibility(View.GONE);
                     mRecyclerView.setAdapter(mAdapter);
                     Toast.makeText(getContext(), "News Loaded", Toast.LENGTH_SHORT).show();
@@ -173,14 +177,37 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
         //refresh if font size Changed
 
         if(refreshFontSize()){
-//            mAdapter.notifyDataSetChanged();
-            Toast.makeText(getContext(), preferenceUtils.getFontSize() , Toast.LENGTH_SHORT).show();
+            if (mAdapter == null) {
+                mAdapter = new NewsAdapter(getContext());
+            }
+
+                mAdapter.setFontSizes(mFontSizeTitle, mFontSizeDetails);
+                mAdapter.notifyDataSetChanged();
+                Toast.makeText(getContext(), preferenceUtils.getFontSize(), Toast.LENGTH_SHORT).show();
 
         }
 
     }
 
     private boolean refreshFontSize() {
-        return  true;
+        final String fontSize = preferenceUtils.getFontSize();
+        if ((mCurrentFontSize == null || (!mCurrentFontSize.equals(fontSize)))){
+            mCurrentFontSize = fontSize;
+
+            if (fontSize.equals("0")){
+                mFontSizeTitle = 10;
+                mFontSizeDetails = 9;
+            }else  if (fontSize.equals("1"))
+            {mFontSizeTitle = 13;
+                mFontSizeDetails = 10;}
+                else {
+                mFontSizeTitle = 14;
+                mFontSizeDetails = 11;
+            }
+            return true;
+        }else {
+
+            return false;
+        }
     }
 }
