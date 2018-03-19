@@ -91,6 +91,7 @@ public class NewsRepository {
 //                            Executors.newSingleThreadExecutor().execute(() -> {
 //                                newsDao.save(newsObj);
 //                            });
+
                             newsList.add(newsObj);
                         }
                         for (News newsObj : news2) {
@@ -143,6 +144,7 @@ public class NewsRepository {
                                }
                            });
     }
+
 
     private void getNewsForuser(List<News> newsList) {
         Log.e(TAG, "Loading News for user was successful");
@@ -197,7 +199,7 @@ public class NewsRepository {
         return  newsList.size() <1 || Calendar.getInstance().getTimeInMillis() > timeOut;
     }
 
-    public LiveData<List<News>> asLiveData(){
+    public LiveData<List<News>  > asLiveData(){
         return newsLiveData;
     }
 

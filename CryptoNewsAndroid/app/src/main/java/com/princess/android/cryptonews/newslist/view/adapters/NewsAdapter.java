@@ -67,14 +67,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                         .load(thumbnail_url)
                         .placeholder(R.mipmap.placeholder)
                         .into(holder.thumbnail);
-            } else {
+            } /*else {
                 String thumbnail_url = result.getEmbedded().getWpFeaturedmedia().get(0)
                         .getMediaDetails().getSizes().getMedium().getSourceUrl();
                 Glide.with(context)
                         .load(thumbnail_url)
                         .placeholder(R.mipmap.placeholder)
                         .into(holder.thumbnail);
-            }
+            }*/
         } else {
             Glide.with(context)
                     .load(R.mipmap.placeholder)
