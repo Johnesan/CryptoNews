@@ -62,7 +62,6 @@ public class NewsRepository {
                     public List<News> apply(List<News> news, List<News> news2, List<News> news3, List<News> news4) throws Exception {
                         List<News> newsList = new ArrayList<>();
                         for (News newsObj : news) {
-
                             Executors.newSingleThreadExecutor().execute(() -> {
                                 newsDao.save(newsObj);
                             });
@@ -96,6 +95,7 @@ public class NewsRepository {
                 // Be notified on the main thread
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(news -> {
+                    //newsDao.save(news);
                     newsMutableLiveData.setValue(news);
                 });
 

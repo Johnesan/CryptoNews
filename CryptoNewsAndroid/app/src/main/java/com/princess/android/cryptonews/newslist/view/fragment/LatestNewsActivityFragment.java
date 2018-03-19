@@ -77,17 +77,17 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         newsViewModel = ViewModelProviders.of(this, factory).get(NewsViewModel.class);
-        if (checkConnection()) {
+        //if (checkConnection()) {
             newsViewModel.getAllLatestNews().observe(this, new Observer<List<News>>() {
                 @Override
                 public void onChanged(@Nullable List<News> news) {
                     newsList = news;
                     mAdapter = new NewsAdapter(getActivity(), sortDate(newsList));
-                    progressBar.setVisibility(View.GONE);
+                    //progressBar.setVisibility(View.GONE);
                     mRecyclerView.setAdapter(mAdapter);
                 }
             });
-        } else {
+        /*} else {
             progressBar.setVisibility(View.GONE);
                 alert.showAlertDialog(getActivity(),
                         "Network Error",
@@ -95,7 +95,7 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
                         true);
 
 
-            }
+            }*/
     }
 
     private boolean checkConnection(){

@@ -26,10 +26,6 @@ public class AppModule {
     }
 
 
-     /**
-    * provide the database to Use
-    * */
-
      @Singleton @Provides
      AppExecutors providesExecutors () {
          return appExecutors;
@@ -41,12 +37,16 @@ public class AppModule {
          return AppController.getContextInstance();
      }
 
+
+    /**
+   * provide the database to Use
+   * */
     @Provides @Singleton
     NewsDatabase provideDb(Context  context){
         return Room.databaseBuilder(
                 context,
                 NewsDatabase.class,
-                "newsDatabase.db")
+                "newsDatabase")
                 .build();
     }
 
