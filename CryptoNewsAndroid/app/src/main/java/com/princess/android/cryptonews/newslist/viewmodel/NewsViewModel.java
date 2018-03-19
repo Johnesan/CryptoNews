@@ -27,7 +27,7 @@ public class NewsViewModel extends AndroidViewModel implements CryptoNewsCompone
     }
 
     public LiveData<List<News>> getAllLatestNews() {
-        return newsRepository.getAllNews();
+        return newsRepository.asLiveData();
     }
 
     @Override
