@@ -6,6 +6,8 @@ import android.support.v7.preference.PreferenceManager;
 
 import com.princess.android.cryptonews.R;
 
+import java.util.Calendar;
+
 import javax.inject.Inject;
 
 /**
@@ -32,6 +34,7 @@ public class PreferenceUtils {
 
     public static  final String URLCHANGED = "url_change";
 
+    public static final String NEWS_WAS_STORED = "news_was_Stored";
 
     @Inject
     public PreferenceUtils(Context context) {
@@ -124,7 +127,6 @@ public class PreferenceUtils {
         return  mSharedPreferences.getString(TEST_URL, "https://ccn.com");
     }
 
-
     public boolean hasPreferenceUrlChanged(){
         return mSharedPreferences.getBoolean(URLCHANGED, false);
     }
@@ -145,6 +147,16 @@ public class PreferenceUtils {
 
     public String getViewNewsAppVia(){
         return  mSharedPreferencesTest.getString("view_via", "");
+    }
+
+    public long getLastTimeNewsWasStored() {
+        return mSharedPreferences.getLong(NEWS_WAS_STORED, 0);
+    }
+
+    public void storeTimeNewswasReceived() {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putLong(NEWS_WAS_STORED, Calendar.getInstance().getTimeInMillis());
+        editor.apply();
     }
 
 }

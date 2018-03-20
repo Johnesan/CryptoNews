@@ -29,7 +29,6 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="userPortrait"/>
 
-
         <activity android:name=".newswebsite.view.ui.NewsWebPageActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

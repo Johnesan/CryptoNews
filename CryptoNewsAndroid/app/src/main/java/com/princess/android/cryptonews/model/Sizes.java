@@ -1,10 +1,13 @@
 package com.princess.android.cryptonews.model;
 
+import android.arch.persistence.room.Entity;
+
 import javax.annotation.Generated;
 
 import com.google.gson.annotations.SerializedName;
 
 @Generated("com.robohorse.robopojogenerator")
+@Entity
 public class Sizes {
 
     @SerializedName("medium")

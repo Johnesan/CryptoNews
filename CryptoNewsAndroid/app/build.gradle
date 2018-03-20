@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.princess.android.cryptonews"
-        minSdkVersion 21
+        minSdkVersion 18
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -74,10 +74,10 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
 
     //Dagger
-    compile 'com.google.dagger:dagger:2.11'
-    compile 'com.google.dagger:dagger-android-support:2.11'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
-    annotationProcessor 'com.google.dagger:dagger-android-processor:2.11'
+    compile 'com.google.dagger:dagger:2.12'
+    compile 'com.google.dagger:dagger-android-support:2.12'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.12'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.12'
 
     //RxJava
     implementation 'io.reactivex.rxjava2:rxjava:2.1.7'

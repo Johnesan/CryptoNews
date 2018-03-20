@@ -85,8 +85,8 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        if (checkConnection()) {
+        newsViewModel = ViewModelProviders.of(this, factory).get(NewsViewModel.class);
+        //if (checkConnection()) {
             newsViewModel.getAllLatestNews().observe(this, new Observer<List<News>>() {
                 @Override
                 public void onChanged(@Nullable List<News> news) {
@@ -94,10 +94,10 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
                     mAdapter.setItems(sortDate(newsList));
                     progressBar.setVisibility(View.GONE);
                     mRecyclerView.setAdapter(mAdapter);
-                    Toast.makeText(getContext(), "News Loaded", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "News Loaded", Toast.LENGTH_SHORT).show();
                 }
             });
-        } else {
+        /*} else {
             progressBar.setVisibility(View.GONE);
                 alert.showAlertDialog(getActivity(),
                         "Network Error",
@@ -105,7 +105,7 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
                         true);
 
 
-            }
+            }*/
     }
 
     private boolean checkConnection(){
@@ -114,7 +114,6 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
 
     private void setupViews(){
 
-        newsViewModel = ViewModelProviders.of(this, factory).get(NewsViewModel.class);
         layoutManager = new GridLayoutManager(getActivity(),2);
 
         if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -136,7 +135,7 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
             alert.showAlertDialog(getActivity(),
                     "Network Error",
                     "Internet not available, Check your internet connectivity and try again",
-                    true);
+                    true, false, null, null);
             swipeRefreshLayout.setRefreshing(false);
         }
     }
@@ -183,7 +182,7 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
 
                 mAdapter.setFontSizes(mFontSizeTitle, mFontSizeDetails);
                 mAdapter.notifyDataSetChanged();
-                Toast.makeText(getContext(), preferenceUtils.getFontSize(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), preferenceUtils.getFontSize(), Toast.LENGTH_SHORT).show();
 
         }
 

@@ -1,13 +1,13 @@
 package com.princess.android.cryptonews.model;
 
-import javax.annotation.Generated;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-@Generated("com.robohorse.robopojogenerator")
+@Entity(tableName = "news")
 public class News{
 
 	@SerializedName("date")
@@ -22,6 +22,8 @@ public class News{
 	@SerializedName("_embedded")
 	private Embedded embedded;
 
+	@NonNull
+	@PrimaryKey()
 	@SerializedName("id")
 	private int id;
 

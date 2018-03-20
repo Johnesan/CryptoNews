@@ -193,7 +193,7 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
             alert.showAlertDialog(getActivity(),
                     "Successful",
                     "Your Settings has been successful saved!!",
-                    true);
+                    true, false, null, null);
         });
 
         //if the user Decides to edit the Edit Text after saving, disable the save button to avoid saving wrong data
@@ -246,7 +246,7 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
                         alert.showAlertDialog(getActivity(),
                                 "UnSuccessful",
                                 "Url is not Supported",
-                                true);
+                                true, false, null, null);
                     }else {
                         //dismiss the url and enable the save button , so user can new url
                         progressDialog.dismiss();
@@ -256,7 +256,7 @@ public class EditWebsitePreferenceFragment extends DaggerFragment {
                         alert.showAlertDialog(getActivity(),
                                 "Successful",
                                 "This website has been tested and it meets the requirements to fetch its blog feed. You can now save it",
-                                true);
+                                true, false, null, null);
                     }
 
                 });

@@ -13,19 +13,14 @@ import android.support.v7.preference.PreferenceScreen;
 import com.princess.android.cryptonews.AppController;
 import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.settings.Activity.EditWebsitePreferenceActivity;
+import com.princess.android.cryptonews.settings.Activity.ManageBlogSettings;
 import com.princess.android.cryptonews.util.PreferenceUtils;
 import com.princess.android.cryptonews.util.ShowAlert;
 
-import javax.inject.Inject;
-
-import static com.princess.android.cryptonews.util.PreferenceUtils.FIRST_TITLE;
 import static com.princess.android.cryptonews.util.PreferenceUtils.FIRST_URL;
 import static com.princess.android.cryptonews.util.PreferenceUtils.FOURTH_URL;
 import static com.princess.android.cryptonews.util.PreferenceUtils.THIRD_URL;
 
-/**
- * Created by numb3rs on 3/6/18.
- */
 
 public class ManageBlogWebsiteFragment extends
         PreferenceFragmentCompat
@@ -171,7 +166,9 @@ public class ManageBlogWebsiteFragment extends
                     preferenceUtils.storeSecondTitle(null);
                     preferenceUtils.storeFirstTitle(null);
 
-                    alert.showAlertDialog(getContext(), "Successful", "Website Preference restored back to default", true);
+                    alert.showAlertDialog(getContext(), "Successful", "Website Preference restored back to default",
+                            true, true, getActivity(), ManageBlogSettings.class);
+
 
                 return false;
                 }

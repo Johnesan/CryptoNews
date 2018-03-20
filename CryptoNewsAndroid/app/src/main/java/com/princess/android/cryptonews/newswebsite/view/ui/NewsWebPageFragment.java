@@ -19,6 +19,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.princess.android.cryptonews.R;
+import com.princess.android.cryptonews.settings.Activity.ManageBlogSettings;
 import com.princess.android.cryptonews.util.ConnectionTest;
 import com.princess.android.cryptonews.util.ShowAlert;
 
@@ -81,7 +82,7 @@ public class NewsWebPageFragment extends Fragment {
                 alert.showAlertDialog(getActivity(),
                         "Network Error",
                         "Internet not available, Check your internet connectivity and try again",
-                        true);
+                        true, false, null, null);
             }
         }
     }
