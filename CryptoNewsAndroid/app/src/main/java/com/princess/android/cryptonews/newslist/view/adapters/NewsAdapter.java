@@ -27,6 +27,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,7 +57,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     public void onBindViewHolder(NewsAdapter.NewsViewHolder holder, int position) {
 
         News result = newsList.get(position);
-        //Set the image
+
+        /**Set the image
+         **/
         if (result.getEmbedded().getWpFeaturedmedia().get(0).getMediaDetails() != null) {
             if (result.getEmbedded().getWpFeaturedmedia().get(0)
                     .getMediaDetails().getSizes().getMediumLarge() != null) {
@@ -67,27 +70,32 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                         .load(thumbnail_url)
                         .placeholder(R.mipmap.placeholder)
                         .into(holder.thumbnail);
-            } /*else {
+            } else if (result.getEmbedded().getWpFeaturedmedia().get(0)
+                    .getMediaDetails().getSizes().getMedium() != null) {
+
                 String thumbnail_url = result.getEmbedded().getWpFeaturedmedia().get(0)
                         .getMediaDetails().getSizes().getMedium().getSourceUrl();
                 Glide.with(context)
                         .load(thumbnail_url)
                         .placeholder(R.mipmap.placeholder)
                         .into(holder.thumbnail);
-            }*/
+            }
         } else {
             Glide.with(context)
                     .load(R.mipmap.placeholder)
                     .into(holder.thumbnail);
         }
-        //Set the title
+        /** Set the title
+         *
+         */
         String getTheTitle = result.getTitle().getRendered();
         //Replace ASCII codes with proper Characters
         String formatTitle = String.valueOf(Html.fromHtml(getTheTitle));
         holder.title.setText(formatTitle);
 
-        //Set the date
-//        holder.date.setReferenceTime(Long.parseLong(result.getDate()));
+        /** Set the date
+         *
+         */
         try {
             String date = result.getDate();
 
@@ -106,7 +114,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         }
 
-        //Set the website
+        /** Set the website
+         *
+         */
         String websiteName = result.getGuid().getRendered();
         try {
             URL url = new URL(websiteName);

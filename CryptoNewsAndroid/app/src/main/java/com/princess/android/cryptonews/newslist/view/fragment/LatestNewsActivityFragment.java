@@ -83,7 +83,7 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
                 public void onChanged(@Nullable List<News> news) {
                     newsList = news;
                     mAdapter = new NewsAdapter(getActivity(), sortDate(newsList));
-                    //progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
                     mRecyclerView.setAdapter(mAdapter);
                 }
             });

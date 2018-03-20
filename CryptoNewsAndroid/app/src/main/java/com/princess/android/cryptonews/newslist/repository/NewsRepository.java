@@ -46,9 +46,6 @@ public class NewsRepository {
     private Executor diskExecutor;
     private Executor mainThreadExecutor;
     AppExecutors appExecutors;
-
-
-
     NewsDao newsDao;
 
     private MediatorLiveData<List<News>> newsLiveData = new MediatorLiveData<>();
@@ -199,7 +196,7 @@ public class NewsRepository {
         return  newsList.size() <1 || Calendar.getInstance().getTimeInMillis() > timeOut;
     }
 
-    public LiveData<List<News>  > asLiveData(){
+    public LiveData<List<News>> asLiveData(){
         return newsLiveData;
     }
 
