@@ -1,6 +1,5 @@
 package com.princess.android.cryptonews.binding;
 
-import android.databinding.DataBindingComponent;
 import android.support.v4.app.Fragment;
 
 /**

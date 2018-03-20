@@ -3,6 +3,8 @@ package com.princess.android.cryptonews.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.Calendar;
+
 import javax.inject.Inject;
 
 /**
@@ -26,6 +28,7 @@ public class PreferenceUtils {
     public static final String  THIRD_THIRD = "third_title";
     public static final String  FOURTH_FOURTH = "fourth_title";
 
+    public static final String NEWS_WAS_STORED = "news_was_Stored";
 
 
     @Inject
@@ -81,5 +84,15 @@ public class PreferenceUtils {
 
     public String getTestUrl(){
         return  mSharedPreferences.getString(TEST_URL, "https://ccn.com");
+    }
+
+    public long getLastTimeNewsWasStored() {
+        return mSharedPreferences.getLong(NEWS_WAS_STORED, 0);
+    }
+
+    public void storeTimeNewswasReceived() {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putLong(NEWS_WAS_STORED, Calendar.getInstance().getTimeInMillis());
+        editor.apply();
     }
 }
