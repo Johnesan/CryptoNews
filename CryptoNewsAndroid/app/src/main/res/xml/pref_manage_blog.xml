@@ -4,7 +4,8 @@
         android:title="default">
         <!-- NOTE: EditTextPreference accepts EditText attributes. -->
         <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
-
+        <Preference
+            android:summary="@string/manage_blog_title"/>
 
         <Preference
             android:capitalize="words"

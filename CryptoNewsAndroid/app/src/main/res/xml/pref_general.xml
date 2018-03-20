@@ -18,35 +18,32 @@
 
     </PreferenceCategory>
 
-        <PreferenceCategory
+    <PreferenceCategory
             android:title="Appearance">
 
             <ListPreference
                 android:defaultValue="0"
-                android:summary="Normal"
                 android:entries="@array/pref_font_Size_list"
                 android:entryValues="@array/pref_font_Size_values"
                 android:key="font_size"
                 android:negativeButtonText="@null"
                 android:positiveButtonText="@null"
-                android:title="Font Size" />
+                android:title="Font Size (experimental)" />
 
       <ListPreference
                 android:defaultValue="0"
-                android:summary="Google for Mobile Devices"
                 android:entries="@array/pref_view_articles_titles_via"
                 android:entryValues="@array/pref_view_articles_via_values"
-                android:key="@string/pref_title_view_articles_via"
+                android:key="view_via"
                 android:negativeButtonText="@null"
                 android:positiveButtonText="@null"
                 android:title="@string/pref_title_view_articles_via" />
 
       <ListPreference
                 android:defaultValue="0"
-                android:summary="The App"
                 android:entries="@array/pref_view_articles_within_titles"
                 android:entryValues="@array/pref_view_articles_within_values"
-                android:key="@string/pref_title_view_articles_within"
+                android:key="view_within"
                 android:negativeButtonText="@null"
                 android:positiveButtonText="@null"
                 android:title="@string/pref_title_view_articles_within" />

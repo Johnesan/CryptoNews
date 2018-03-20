@@ -1,8 +1,10 @@
 package com.princess.android.cryptonews.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.app.AlertDialog;
+import android.content.Intent;
 
 import com.princess.android.cryptonews.R;
 
@@ -12,10 +14,13 @@ import com.princess.android.cryptonews.R;
 
 public class ShowAlert {
 
-    public void showAlertDialog(Context context, String title, String message, Boolean status) {
+    // Build an AlertDialog
+    AlertDialog.Builder builder;
 
-        // Build an AlertDialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+    public void showAlertDialog(Context context, String title, String message, Boolean status, boolean restart, Activity Source, Class Destination) {
+
+
+        builder = new AlertDialog.Builder(context);
         // Set a title for alert dialog
         builder.setTitle(title);
         builder.setMessage(message);
@@ -24,11 +29,18 @@ public class ShowAlert {
         builder.setIcon(R.mipmap.ic_alert);
 
         // Set the alert dialog yes button click listener
-        builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
+        builder.setNegativeButton("OK", (dialog, whichButton) -> {
 
+            if (restart){
+                Source.finish();
+                Intent  intent = new Intent(Source, Destination);
+                context.startActivity(intent);
             }
         });
         builder.show();
     }
+
+
+
+
 }

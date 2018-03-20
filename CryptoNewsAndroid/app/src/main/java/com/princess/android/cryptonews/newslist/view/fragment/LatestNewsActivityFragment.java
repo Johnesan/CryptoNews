@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -14,12 +15,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.princess.android.cryptonews.model.News;
 import com.princess.android.cryptonews.newslist.view.adapters.NewsAdapter;
 import com.princess.android.cryptonews.newslist.viewmodel.NewsViewModel;
 import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.util.ConnectionTest;
+import com.princess.android.cryptonews.util.PreferenceUtils;
 import com.princess.android.cryptonews.util.ShowAlert;
 
 import java.text.ParseException;
@@ -40,10 +43,12 @@ import dagger.android.support.DaggerFragment;
  * A placeholder fragment containing a simple view.
  */
 public class LatestNewsActivityFragment extends DaggerFragment implements SwipeRefreshLayout.OnRefreshListener{
-
     @Inject
     ViewModelProvider.Factory  factory;
     NewsViewModel newsViewModel;
+
+    @Inject
+    PreferenceUtils preferenceUtils;
 
     public NewsAdapter mAdapter;
     public List<News> newsList = new ArrayList<>();
@@ -57,6 +62,10 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
     RecyclerView.LayoutManager layoutManager;
     // Alert Dialog Manager
     ShowAlert alert = new ShowAlert();
+
+    String mCurrentFontSize = null;
+    int mFontSizeTitle;
+    int mFontSizeDetails;
 
     public LatestNewsActivityFragment() {
     }
@@ -82,9 +91,10 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
                 @Override
                 public void onChanged(@Nullable List<News> news) {
                     newsList = news;
-                    mAdapter = new NewsAdapter(getActivity(), sortDate(newsList));
+                    mAdapter.setItems(sortDate(newsList));
                     progressBar.setVisibility(View.GONE);
                     mRecyclerView.setAdapter(mAdapter);
+//                    Toast.makeText(getContext(), "News Loaded", Toast.LENGTH_SHORT).show();
                 }
             });
         /*} else {
@@ -125,7 +135,7 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
             alert.showAlertDialog(getActivity(),
                     "Network Error",
                     "Internet not available, Check your internet connectivity and try again",
-                    true);
+                    true, false, null, null);
             swipeRefreshLayout.setRefreshing(false);
         }
     }
@@ -157,5 +167,46 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
 
         });
         return list;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //refresh if font size Changed
+
+        if(refreshFontSize()){
+            if (mAdapter == null) {
+                mAdapter = new NewsAdapter(getContext());
+            }
+
+                mAdapter.setFontSizes(mFontSizeTitle, mFontSizeDetails);
+                mAdapter.notifyDataSetChanged();
+//                Toast.makeText(getContext(), preferenceUtils.getFontSize(), Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
+    private boolean refreshFontSize() {
+        final String fontSize = preferenceUtils.getFontSize();
+        if ((mCurrentFontSize == null || (!mCurrentFontSize.equals(fontSize)))){
+            mCurrentFontSize = fontSize;
+
+            if (fontSize.equals("0")){
+                mFontSizeTitle = 10;
+                mFontSizeDetails = 9;
+            }else  if (fontSize.equals("1"))
+            {mFontSizeTitle = 13;
+                mFontSizeDetails = 10;}
+                else {
+                mFontSizeTitle = 14;
+                mFontSizeDetails = 11;
+            }
+            return true;
+        }else {
+
+            return false;
+        }
     }
 }

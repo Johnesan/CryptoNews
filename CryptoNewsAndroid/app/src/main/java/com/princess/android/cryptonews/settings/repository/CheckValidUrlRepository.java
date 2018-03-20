@@ -1,6 +1,9 @@
 package com.princess.android.cryptonews.settings.repository;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.princess.android.cryptonews.AppController;
 import com.princess.android.cryptonews.AppExecutors;
@@ -38,36 +41,35 @@ public class CheckValidUrlRepository {
 
     }
 
-    public boolean isValidUrl(){
+    public LiveData<List<News>> isValidUrl(){
+        MutableLiveData<List<News>> newsMutableLiveData = new MutableLiveData<>();
         newsApiService.getLatestNews()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<News>>() {
-
                     @Override
                     public void onSubscribe(Disposable d) {
-
-                        isValidUrl = true;
 
                     }
 
                     @Override
                     public void onNext(List<News> news) {
-                        isValidUrl = true;
-                    }
-
-                    @Override
-                    public void onComplete() {
+                        newsMutableLiveData.setValue(news);
 
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        isValidUrl = false;
+                        newsMutableLiveData.setValue(null);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.e("TAG", "onComplete was reached");
 
                     }
                 });
+        return  newsMutableLiveData;
 
-        return isValidUrl;
     }
 }

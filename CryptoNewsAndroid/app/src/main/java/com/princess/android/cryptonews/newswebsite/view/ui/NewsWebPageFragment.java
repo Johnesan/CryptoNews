@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.ConsoleMessage;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -16,11 +19,13 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.princess.android.cryptonews.R;
+import com.princess.android.cryptonews.settings.Activity.ManageBlogSettings;
 import com.princess.android.cryptonews.util.ConnectionTest;
 import com.princess.android.cryptonews.util.ShowAlert;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 
 public class NewsWebPageFragment extends Fragment {
 
@@ -77,7 +82,7 @@ public class NewsWebPageFragment extends Fragment {
                 alert.showAlertDialog(getActivity(),
                         "Network Error",
                         "Internet not available, Check your internet connectivity and try again",
-                        true);
+                        true, false, null, null);
             }
         }
     }
@@ -93,9 +98,9 @@ public class NewsWebPageFragment extends Fragment {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
             progressBar.setVisibility(View.VISIBLE);
-            view.loadUrl(String.valueOf(url));
+//            view.loadUrl(String.valueOf(url));
 
-            return true;
+            return false;
         }
 
         @Override

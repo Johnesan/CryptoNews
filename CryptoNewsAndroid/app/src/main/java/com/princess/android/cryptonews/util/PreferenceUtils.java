@@ -2,6 +2,9 @@ package com.princess.android.cryptonews.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v7.preference.PreferenceManager;
+
+import com.princess.android.cryptonews.R;
 
 import java.util.Calendar;
 
@@ -15,6 +18,7 @@ public class PreferenceUtils {
 
 
     private SharedPreferences mSharedPreferences;
+    private SharedPreferences mSharedPreferencesTest;
 
     public static final String  FIRST_URL = "first_url";
     public static final String  SECOND_URL = "second_url";
@@ -25,16 +29,18 @@ public class PreferenceUtils {
 
     public static final String  FIRST_TITLE = "first_title";
     public static final String  SECOND_TITLE = "second_title";
-    public static final String  THIRD_THIRD = "third_title";
-    public static final String  FOURTH_FOURTH = "fourth_title";
+    public static final String  THIRD_TITLE = "third_title";
+    public static final String  FOURTH_TITLE = "fourth_title";
+
+    public static  final String URLCHANGED = "url_change";
 
     public static final String NEWS_WAS_STORED = "news_was_Stored";
-
 
     @Inject
     public PreferenceUtils(Context context) {
         mSharedPreferences = context.getSharedPreferences("cryptoNews_key",
                 Context.MODE_PRIVATE);
+        mSharedPreferencesTest = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
 
@@ -42,7 +48,8 @@ public class PreferenceUtils {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(FIRST_URL, url);
         editor.apply();
-    } public void storeSecondUrl(String url) {
+    }
+    public void storeSecondUrl(String url) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(SECOND_URL, url);
         editor.apply();
@@ -54,16 +61,50 @@ public class PreferenceUtils {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(FOURTH_URL, url);
         editor.apply();
-    } public void storeTestUrl(String url) {
+    }
+
+    public void storeTestUrl(String url) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(TEST_URL, url);
         editor.apply();
     }
 
-//    public String getFirstTitle (){
-//
-//
-//    }
+    public void storeFirstTitle(String url) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(FIRST_TITLE, url);
+        editor.apply();
+    }  public void storeSecondTitle(String url) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(SECOND_TITLE, url);
+        editor.apply();
+    }  public void storeThirdTitle(String url) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(THIRD_TITLE, url);
+        editor.apply();
+    }  public void storeFourthTitle(String url) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(FOURTH_TITLE, url);
+        editor.apply();
+    }
+
+    public String getFirstTitle (){
+        return  mSharedPreferences.getString(FIRST_TITLE, "CCN");
+
+    }
+    public String getSecondTitle (){
+        return  mSharedPreferences.getString(SECOND_TITLE, "Crypto Recorder");
+
+    }
+    public String getThirdTitle (){
+        return  mSharedPreferences.getString(THIRD_TITLE, "Crypto Clarified");
+
+    }
+    public String getFourthTitle (){
+        return  mSharedPreferences.getString(FOURTH_TITLE, "Crypto Scoop");
+
+    }
+
+
 
     public String getFirstUrl(){
         return  mSharedPreferences.getString(FIRST_URL, "https://ccn.com");
@@ -86,6 +127,28 @@ public class PreferenceUtils {
         return  mSharedPreferences.getString(TEST_URL, "https://ccn.com");
     }
 
+    public boolean hasPreferenceUrlChanged(){
+        return mSharedPreferences.getBoolean(URLCHANGED, false);
+    }
+
+    public void storeUrlPreference(boolean changed){
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putBoolean(URLCHANGED, changed);
+        editor.apply();
+    }
+
+    public String getFontSize(){
+        return  mSharedPreferencesTest.getString("font_size", "");
+    }
+
+    public String getViewNewsWithIn(){
+        return  mSharedPreferencesTest.getString("view_within", "");
+    }
+
+    public String getViewNewsAppVia(){
+        return  mSharedPreferencesTest.getString("view_via", "");
+    }
+
     public long getLastTimeNewsWasStored() {
         return mSharedPreferences.getLong(NEWS_WAS_STORED, 0);
     }
@@ -95,4 +158,5 @@ public class PreferenceUtils {
         editor.putLong(NEWS_WAS_STORED, Calendar.getInstance().getTimeInMillis());
         editor.apply();
     }
+
 }

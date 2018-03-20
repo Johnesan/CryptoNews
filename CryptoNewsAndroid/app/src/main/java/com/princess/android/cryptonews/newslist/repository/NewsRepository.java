@@ -2,9 +2,6 @@ package com.princess.android.cryptonews.newslist.repository;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 import android.util.Log;
 
@@ -14,7 +11,6 @@ import com.princess.android.cryptonews.di.NetworkModule;
 import com.princess.android.cryptonews.model.News;
 import com.princess.android.cryptonews.newslist.database.NewsDao;
 import com.princess.android.cryptonews.util.PreferenceUtils;
-import com.princess.android.cryptonews.util.Resource;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,12 +24,7 @@ import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function4;
 import io.reactivex.schedulers.Schedulers;
-
-/**
- * Created by Princess on 2/23/2018.
- */
 
 public class NewsRepository {
 
@@ -79,40 +70,23 @@ public class NewsRepository {
         Observable<List<News>> getNews4 = NetworkModule.api4.getLatestNews().subscribeOn(Schedulers.io());
 
         Observable.zip(getNews, getNews2, getNews3, getNews4,
-                new Function4<List<News>, List<News>, List<News>, List<News>, List<News>>() {
-                    @Override
-                    public List<News> apply(List<News> news, List<News> news2, List<News> news3, List<News> news4) throws Exception {
-                        List<News> newsList = new ArrayList<>();
-                        for (News newsObj : news) {
+                (news, news2, news3, news4) -> {
+                    List<News> newsList = new ArrayList<>();
+                    for (News newsObj : news) {
 
-//                            Executors.newSingleThreadExecutor().execute(() -> {
-//                                newsDao.save(newsObj);
-//                            });
-
-                            newsList.add(newsObj);
-                        }
-                        for (News newsObj : news2) {
-//                            Executors.newSingleThreadExecutor().execute(() -> {
-//                                newsDao.save(newsObj);
-//                            });
-                            newsList.add(newsObj);
-                        }
-                        for (News newsObj : news3) {
-//                            Executors.newSingleThreadExecutor().execute(() -> {
-//                                newsDao.save(newsObj);
-//                            });
-                            newsList.add(newsObj);
-                        }
-                        for (News newsObj : news4) {
-//                            Executors.newSingleThreadExecutor().execute(() -> {
-//                                newsDao.save(newsObj);
-//                                //AppController.db.newsDao().save(newsObj);
-//                            });
-                            newsList.add(newsObj);
-                        }
-
-                        return newsList;
+                        newsList.add(newsObj);
                     }
+                    for (News newsObj : news2) {
+                        newsList.add(newsObj);
+                    }
+                    for (News newsObj : news3) {
+                        newsList.add(newsObj);
+                    }
+                    for (News newsObj : news4) {
+                        newsList.add(newsObj);
+                    }
+
+                    return newsList;
                 })
                 // Run on a background thread
                 .subscribeOn(Schedulers.io())
