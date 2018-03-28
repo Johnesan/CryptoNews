@@ -1,9 +1,6 @@
 package com.princess.android.cryptonews.newslist.view.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -17,7 +14,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.princess.android.cryptonews.AppController;
-import com.princess.android.cryptonews.newswebsite.view.ui.NewsWebPageActivity;
 import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.model.News;
 import com.princess.android.cryptonews.util.PreferenceUtils;
@@ -28,9 +24,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,12 +40,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     PreferenceUtils preferenceUtils = new PreferenceUtils(AppController.getInstance());
 
+    ItemClicked onItemClicked;
+
 
     private Context context;
     private List<News> newsList;
 
-    public NewsAdapter(Context context) {
+    public NewsAdapter(Context context, ItemClicked itemClicked) {
         this.context = context;
+        this.onItemClicked = itemClicked;
     }
 
     @Override
@@ -184,30 +180,36 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         @Override
         public void onClick(View v) {
-            Context context = v.getContext();
-            Intent intent = new Intent(context, NewsWebPageActivity.class);
+//            Context context = v.getContext();
+//            Intent intent = new Intent(context, NewsWebPageActivity.class);
 
             News data = newsList.get(getLayoutPosition());
+            onItemClicked.onClick(data);
 
-            //Get the link of the website to be opened on the Web page
-            String link = data.getGuid().getRendered();
-            //Get the title of each news and format it to normal characters
-            String title = String.valueOf(Html.fromHtml(data.getTitle().getRendered()));
 
-            if (!preferenceUtils.getViewNewsWithIn().equals("0")){
-                openURLInBrowser(link);
-            }else {
-            //Pass the title and link to the next activity
-            intent.putExtra("url", link);
-            intent.putExtra("title", title);
-            context.startActivity(intent);
+//            //Get the link of the website to be opened on the Web page
+//            String link = data.getGuid().getRendered();
+//            //Get the title of each news and format it to normal characters
+//            String title = String.valueOf(Html.fromHtml(data.getTitle().getRendered()));
+//
+//            if (!preferenceUtils.getViewNewsWithIn().equals("0")){
+//                openURLInBrowser(link);
+//            }else {
+//            //Pass the title and link to the next activity
+//            intent.putExtra("url", link);
+//            intent.putExtra("title", title);
+//            context.startActivity(intent);
             }
 
         }
+//
+//        private void openURLInBrowser(String url) {
+//            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//            context.startActivity(browserIntent);
+//        }
 
-        private void openURLInBrowser(String url) {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            context.startActivity(browserIntent);
-        }
+
+    public interface ItemClicked {
+        void onClick(News data);
     }
 }

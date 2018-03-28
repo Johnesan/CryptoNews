@@ -1,26 +1,30 @@
 package com.princess.android.cryptonews.newslist.view.fragment;
 
 import android.annotation.SuppressLint;
-import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.princess.android.cryptonews.model.News;
 import com.princess.android.cryptonews.newslist.view.adapters.NewsAdapter;
 import com.princess.android.cryptonews.newslist.viewmodel.NewsViewModel;
 import com.princess.android.cryptonews.R;
+import com.princess.android.cryptonews.newswebsite.view.ui.NewsWebPageActivity;
+import com.princess.android.cryptonews.util.ConnectionClassLiveData;
 import com.princess.android.cryptonews.util.ConnectionTest;
 import com.princess.android.cryptonews.util.PreferenceUtils;
 import com.princess.android.cryptonews.util.ShowAlert;
@@ -42,7 +46,7 @@ import dagger.android.support.DaggerFragment;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class LatestNewsActivityFragment extends DaggerFragment implements SwipeRefreshLayout.OnRefreshListener{
+public class LatestNewsActivityFragment extends DaggerFragment implements SwipeRefreshLayout.OnRefreshListener, NewsAdapter.ItemClicked {
     @Inject
     ViewModelProvider.Factory  factory;
     NewsViewModel newsViewModel;
@@ -54,18 +58,27 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
     public List<News> newsList = new ArrayList<>();
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
-    @BindView(R.id.empty_progress_bar)
-    ProgressBar progressBar;
     @BindView(R.id.swipe_container)
     SwipeRefreshLayout swipeRefreshLayout;
 
+    @BindView(R.id.news_container)
+    View mContainer;
+
     RecyclerView.LayoutManager layoutManager;
-    // Alert Dialog Manager
-    ShowAlert alert = new ShowAlert();
 
     String mCurrentFontSize = null;
     int mFontSizeTitle;
     int mFontSizeDetails;
+
+    public  static  final int MobileData = 2;
+    public static final int WifiData = 1;
+
+    boolean isConnected;
+
+    LiveData<List<News>> news;
+
+    @Inject
+    ConnectionClassLiveData connectionClassLiveData;
 
     public LatestNewsActivityFragment() {
     }
@@ -77,35 +90,50 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
         View view  = inflater.inflate(R.layout.fragment_latest_news, container, false);
         ButterKnife.bind(this, view);
         swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setRefreshing(true);
         swipeRefreshLayout.setColorSchemeColors(R.color.colorAccent, R.color.colorAccent, R.color.colorAccent);
         setupViews();
-    return view;
+
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         newsViewModel = ViewModelProviders.of(this, factory).get(NewsViewModel.class);
-        //if (checkConnection()) {
-            newsViewModel.getAllLatestNews().observe(this, new Observer<List<News>>() {
-                @Override
-                public void onChanged(@Nullable List<News> news) {
-                    newsList = news;
-                    mAdapter.setItems(sortDate(newsList));
-                    progressBar.setVisibility(View.GONE);
-                    mRecyclerView.setAdapter(mAdapter);
-//                    Toast.makeText(getContext(), "News Loaded", Toast.LENGTH_SHORT).show();
-                }
+        if (mAdapter == null) {
+            mAdapter = new NewsAdapter(getContext(),  this);
+        }
+
+        //Connection Listener to give us rea time internet connection status
+        connectionClassLiveData.observe(this, connectionModel -> {
+            if (connectionModel.isConnected()) {
+                isConnected = true;
+
+            } else {
+
+                isConnected = false;
+                Snackbar.make(mContainer, R.string.error, Snackbar.LENGTH_LONG).show();
+
+            }
+        });
+        getNews();
+
+
+    }
+
+    //Make a call to the repositroru to get the available News
+    private void getNews() {
+        news = newsViewModel.getAllLatestNews();
+        if (news != null) {
+            news.observe(this, news -> {
+                newsList = news;
+                mAdapter.setItems(sortDate(newsList));
+                mRecyclerView.setAdapter(mAdapter);
+                swipeRefreshLayout.setRefreshing(false);
             });
-        /*} else {
-            progressBar.setVisibility(View.GONE);
-                alert.showAlertDialog(getActivity(),
-                        "Network Error",
-                        "Internet not available, Check your internet connectivity and try again",
-                        true);
 
-
-            }*/
+        }
     }
 
     private boolean checkConnection(){
@@ -113,7 +141,7 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
     }
 
     private void setupViews(){
-
+        //This layout controls how many items are shown in portrait and Landscape
         layoutManager = new GridLayoutManager(getActivity(),2);
 
         if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -123,19 +151,36 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
         }
 
         mRecyclerView.setLayoutManager(layoutManager);
+
+
+        // we want to watch if the user scrolls down  when there is no internet connection
+        // to tell the user the news will not be loaded
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (!isConnected){
+                    if (newState == RecyclerView.SCROLL_STATE_DRAGGING){
+                        Snackbar.make(mContainer, R.string.error, Snackbar.LENGTH_LONG).show();
+
+                    }
+                }
+            }
+        });
+
+
     }
 
 
     @Override
     public void onRefresh() {
-        if(checkConnection()){
+        if(isConnected){
             newsViewModel.refresh();
             swipeRefreshLayout.setRefreshing(false);
         } else {
-            alert.showAlertDialog(getActivity(),
-                    "Network Error",
-                    "Internet not available, Check your internet connectivity and try again",
-                    true, false, null, null);
+
+            //Show Snackbar item when there is no internet
+            Snackbar.make(mContainer, R.string.error, Snackbar.LENGTH_LONG).show();
             swipeRefreshLayout.setRefreshing(false);
         }
     }
@@ -176,9 +221,6 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
         //refresh if font size Changed
 
         if(refreshFontSize()){
-            if (mAdapter == null) {
-                mAdapter = new NewsAdapter(getContext());
-            }
 
                 mAdapter.setFontSizes(mFontSizeTitle, mFontSizeDetails);
                 mAdapter.notifyDataSetChanged();
@@ -208,5 +250,34 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
 
             return false;
         }
+    }
+
+    @Override
+    public void onClick(News data) {
+        Intent intent = new Intent(getContext(), NewsWebPageActivity.class);
+        //Get the link of the website to be opened on the Web page
+        String link = data.getGuid().getRendered();
+        //Get the title of each news and format it to normal characters
+        String title = String.valueOf(Html.fromHtml(data.getTitle().getRendered()));
+
+        if (isConnected){
+
+        if (!preferenceUtils.getViewNewsWithIn().equals("0")){
+            openURLInBrowser(link);
+        }else {
+            //Pass the title and link to the next activity
+            intent.putExtra("url", link);
+            intent.putExtra("title", title);
+            startActivity(intent);
+        }}else {
+            Snackbar.make(mContainer, R.string.error, Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+
+    // method to open the the browser to read news
+    private void openURLInBrowser(String url) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(browserIntent);
     }
 }

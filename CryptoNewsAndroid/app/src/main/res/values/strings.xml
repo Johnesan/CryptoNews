@@ -62,5 +62,6 @@
     <string name="demo_website_url">https://ccn.com</string>
     <string name="pref_second_url">second_url</string>
     <string name="edit_reason">Please note that this application is designed to work specifically with WORDPRESS API only.The websites you add must be running on WORDPRESS and has its API return the appropraite json.</string>
+    <string name="error">Internet Connection is required</string>
 
 </resources>

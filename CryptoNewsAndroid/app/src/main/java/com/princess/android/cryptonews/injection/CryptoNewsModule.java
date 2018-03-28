@@ -3,6 +3,7 @@ package com.princess.android.cryptonews.injection;
 import android.content.Context;
 
 import com.princess.android.cryptonews.AppController;
+import com.princess.android.cryptonews.util.ConnectionClassLiveData;
 import com.princess.android.cryptonews.util.PreferenceUtils;
 
 import javax.inject.Singleton;
@@ -32,6 +33,12 @@ public class CryptoNewsModule {
     @Singleton
     PreferenceUtils providePreferenceUtil(Context context){
         return new PreferenceUtils(context);
+    }
+
+    @Provides
+    @Singleton
+    ConnectionClassLiveData provideLiveNetworkTest (Context context){
+        return  new ConnectionClassLiveData(context);
     }
 
 
