@@ -109,9 +109,10 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
         connectionClassLiveData.observe(this, connectionModel -> {
             if (connectionModel.isConnected()) {
                 isConnected = true;
-
+                if (newsList.size() == 0) {
+                    newsViewModel.refresh();
+                }
             } else {
-
                 isConnected = false;
                 Snackbar.make(mContainer, R.string.error, Snackbar.LENGTH_LONG).show();
 
@@ -122,18 +123,15 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
 
     }
 
-    //Make a call to the repositroru to get the available News
+    //Make a call to the repository to get the available News
     private void getNews() {
-        news = newsViewModel.getAllLatestNews();
-        if (news != null) {
-            news.observe(this, news -> {
+        newsViewModel.getAllLatestNews()
+            .observe(this, news -> {
                 newsList = news;
                 mAdapter.setItems(sortDate(newsList));
                 mRecyclerView.setAdapter(mAdapter);
                 swipeRefreshLayout.setRefreshing(false);
             });
-
-        }
     }
 
     private boolean checkConnection(){

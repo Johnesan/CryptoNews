@@ -142,7 +142,7 @@ public class PreferenceUtils {
     }
 
     public String getViewNewsWithIn(){
-        return  mSharedPreferencesTest.getString("view_within", "");
+        return  mSharedPreferencesTest.getString("view_within", "0");
     }
 
     public String getViewNewsAppVia(){
