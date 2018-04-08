@@ -1,9 +1,11 @@
 package com.princess.android.cryptonews.newslist.view.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.SearchManager;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -15,9 +17,13 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 
 import com.princess.android.cryptonews.model.News;
 import com.princess.android.cryptonews.newslist.view.adapters.NewsAdapter;
@@ -36,6 +42,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -46,7 +53,11 @@ import dagger.android.support.DaggerFragment;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class LatestNewsActivityFragment extends DaggerFragment implements SwipeRefreshLayout.OnRefreshListener, NewsAdapter.ItemClicked {
+public class LatestNewsActivityFragment extends DaggerFragment
+        implements SwipeRefreshLayout.OnRefreshListener,
+        NewsAdapter.ItemClicked,
+        SearchView.OnQueryTextListener {
+
     @Inject
     ViewModelProvider.Factory  factory;
     NewsViewModel newsViewModel;
@@ -65,6 +76,7 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
     View mContainer;
 
     RecyclerView.LayoutManager layoutManager;
+    private SearchView searchView;
 
     String mCurrentFontSize = null;
     int mFontSizeTitle;
@@ -102,7 +114,7 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
         super.onActivityCreated(savedInstanceState);
         newsViewModel = ViewModelProviders.of(this, factory).get(NewsViewModel.class);
         if (mAdapter == null) {
-            mAdapter = new NewsAdapter(getContext(),  this);
+            mAdapter = new NewsAdapter(getContext(), newsList, this);
         }
 
         //Connection Listener to give us rea time internet connection status
@@ -278,4 +290,37 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(browserIntent);
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_latest_news, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setOnQueryTextListener(this);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        newText = newText.toLowerCase();
+        /*List<News> newsListFiltered = new ArrayList<>();
+
+        for (News myNews : newsList){
+            String titleFiltered = myNews.getTitle().getRendered().toLowerCase();
+            if(titleFiltered.contains(newText)) {
+                newsListFiltered.add(myNews);
+            }
+        }
+        mAdapter.setFilter(newsListFiltered);*/
+
+        newText = newText.toLowerCase(Locale.getDefault());
+        mAdapter.filter(newText);
+        return false;
+    }
+
 }

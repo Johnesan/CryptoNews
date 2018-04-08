@@ -33,6 +33,7 @@
             layout="@layout/empty_item"
             android:layout_gravity="center"
             android:visibility="invisible"/>
+
     </RelativeLayout>
 
 </FrameLayout>

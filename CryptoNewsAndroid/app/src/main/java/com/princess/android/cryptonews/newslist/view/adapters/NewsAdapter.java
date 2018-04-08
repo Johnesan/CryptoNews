@@ -8,6 +8,8 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,8 +24,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,11 +48,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
 
     private Context context;
-    private List<News> newsList;
+    private List<News> newsList = null;
+    private ArrayList<News> arrayList;
 
-    public NewsAdapter(Context context, ItemClicked itemClicked) {
+    public NewsAdapter(Context context, List<News> newsList, ItemClicked itemClicked) {
         this.context = context;
         this.onItemClicked = itemClicked;
+        this.newsList = newsList;
+        this.arrayList = new ArrayList<News>();
+        this.arrayList.addAll(newsList);
+
     }
 
     @Override
@@ -159,6 +168,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         this.newsList = newsList;
     }
 
+
     public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.news_layout)
@@ -212,4 +222,27 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     public interface ItemClicked {
         void onClick(News data);
     }
+
+
+    //Filter Class
+    public void filter(String text){
+        text = text.toLowerCase(Locale.getDefault());
+        newsList.clear();
+        if(text.length() == 0){
+            newsList.addAll(arrayList);
+        } else {
+            for(News news : arrayList){
+                if(news.getTitle().getRendered().toLowerCase(Locale.getDefault())
+                        .contains(text)){
+                    newsList.add(news);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+    /*public void setFilter(List<News> current){
+        newsList = new ArrayList<>();
+        newsList.addAll(current);
+        notifyDataSetChanged();
+    }*/
 }
