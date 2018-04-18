@@ -17,9 +17,9 @@ import com.princess.android.cryptonews.settings.Activity.ManageBlogSettings;
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 
-public class GeneralPreferenceFragment extends
-        PreferenceFragmentCompat
+public class GeneralPreferenceFragment extends PreferenceFragmentCompat
         implements SharedPreferences.OnSharedPreferenceChangeListener {
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         Preference preference = findPreference(s);

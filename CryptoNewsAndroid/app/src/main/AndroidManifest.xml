@@ -26,7 +26,8 @@
             android:name=".newslist.view.activity.LatestNewsActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
 
         <activity android:name=".newswebsite.view.ui.NewsWebPageActivity">
             <meta-data

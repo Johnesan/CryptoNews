@@ -43,7 +43,7 @@
         <item>2</item>
     </string-array>
 
-    Settings for Viewing Articles in web Browser or in App -->
+    <!--Settings for Viewing Articles in web Browser or in App -->
 
     <string name="pref_title_view_articles_within">View Articles within…</string>
     <string-array name="pref_view_articles_within_titles">
@@ -63,5 +63,20 @@
     <string name="pref_second_url">second_url</string>
     <string name="edit_reason">Please note that this application is designed to work specifically with WORDPRESS API only.The websites you add must be running on WORDPRESS and has its API return the appropraite json.</string>
     <string name="error">Internet Connection is required</string>
+
+    <!--Sort by items-->
+    <string-array name="pref_sort_by">
+        <item>Default</item>
+        <item>Website</item>
+    </string-array>
+    <string-array name="pref_sort_by_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <!--strings for menu items-->
+    <string name="share">Share</string>
+    <string name="search">Search</string>
+    <string name="sort_by">Sort by</string>
 
 </resources>

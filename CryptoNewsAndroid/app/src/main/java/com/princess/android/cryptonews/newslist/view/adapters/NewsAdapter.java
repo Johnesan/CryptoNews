@@ -4,10 +4,13 @@ import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,8 +25,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +38,8 @@ import butterknife.ButterKnife;
  */
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
+
+    private final String TAG = NewsAdapter.class.getSimpleName();
 
     int mFontSizeTitle;
     int mFontSizeDetails;
@@ -46,9 +53,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     private Context context;
     private List<News> newsList;
 
-    public NewsAdapter(Context context, ItemClicked itemClicked) {
+    public NewsAdapter(Context context, List<News> newsList, ItemClicked itemClicked) {
         this.context = context;
         this.onItemClicked = itemClicked;
+        this.newsList = newsList;
     }
 
     @Override
@@ -157,7 +165,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     public  void setItems (List<News> newsList){
         this.newsList = newsList;
+//        this.newsListFiltered = this.newsList;
+        notifyDataSetChanged();
     }
+
 
     public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -212,4 +223,5 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     public interface ItemClicked {
         void onClick(News data);
     }
+
 }

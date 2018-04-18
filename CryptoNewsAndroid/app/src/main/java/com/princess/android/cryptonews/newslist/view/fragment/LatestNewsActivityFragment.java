@@ -15,9 +15,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.princess.android.cryptonews.model.News;
 import com.princess.android.cryptonews.newslist.view.adapters.NewsAdapter;
@@ -27,7 +28,6 @@ import com.princess.android.cryptonews.newswebsite.view.ui.NewsWebPageActivity;
 import com.princess.android.cryptonews.util.ConnectionClassLiveData;
 import com.princess.android.cryptonews.util.ConnectionTest;
 import com.princess.android.cryptonews.util.PreferenceUtils;
-import com.princess.android.cryptonews.util.ShowAlert;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,6 +36,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -46,7 +47,10 @@ import dagger.android.support.DaggerFragment;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class LatestNewsActivityFragment extends DaggerFragment implements SwipeRefreshLayout.OnRefreshListener, NewsAdapter.ItemClicked {
+public class LatestNewsActivityFragment extends DaggerFragment
+        implements SwipeRefreshLayout.OnRefreshListener,
+        NewsAdapter.ItemClicked {
+
     @Inject
     ViewModelProvider.Factory  factory;
     NewsViewModel newsViewModel;
@@ -54,16 +58,15 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
     @Inject
     PreferenceUtils preferenceUtils;
 
-    public NewsAdapter mAdapter;
-    public List<News> newsList = new ArrayList<>();
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
     @BindView(R.id.swipe_container)
     SwipeRefreshLayout swipeRefreshLayout;
-
     @BindView(R.id.news_container)
     View mContainer;
 
+    public NewsAdapter mAdapter;
+    public List<News> newsList = new ArrayList<>();
     RecyclerView.LayoutManager layoutManager;
 
     String mCurrentFontSize = null;
@@ -102,10 +105,10 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
         super.onActivityCreated(savedInstanceState);
         newsViewModel = ViewModelProviders.of(this, factory).get(NewsViewModel.class);
         if (mAdapter == null) {
-            mAdapter = new NewsAdapter(getContext(),  this);
+            mAdapter = new NewsAdapter(getContext(), newsList, this);
         }
 
-        //Connection Listener to give us rea time internet connection status
+        //Connection Listener to give us real time internet connection status
         connectionClassLiveData.observe(this, connectionModel -> {
             if (connectionModel.isConnected()) {
                 isConnected = true;
@@ -277,5 +280,12 @@ public class LatestNewsActivityFragment extends DaggerFragment implements SwipeR
     private void openURLInBrowser(String url) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(browserIntent);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_latest_news, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+
     }
 }
