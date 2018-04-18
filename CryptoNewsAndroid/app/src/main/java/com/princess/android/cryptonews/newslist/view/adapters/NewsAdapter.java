@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,8 @@ import butterknife.ButterKnife;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
 
+    private final String TAG = NewsAdapter.class.getSimpleName();
+
     int mFontSizeTitle;
     int mFontSizeDetails;
 
@@ -48,16 +51,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
 
     private Context context;
-    private List<News> newsList = null;
-    private ArrayList<News> arrayList;
+    private List<News> newsList;
 
     public NewsAdapter(Context context, List<News> newsList, ItemClicked itemClicked) {
         this.context = context;
         this.onItemClicked = itemClicked;
         this.newsList = newsList;
-        this.arrayList = new ArrayList<News>();
-        this.arrayList.addAll(newsList);
-
     }
 
     @Override
@@ -166,6 +165,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     public  void setItems (List<News> newsList){
         this.newsList = newsList;
+//        this.newsListFiltered = this.newsList;
+        notifyDataSetChanged();
     }
 
 
@@ -223,26 +224,4 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         void onClick(News data);
     }
 
-
-    //Filter Class
-    public void filter(String text){
-        text = text.toLowerCase(Locale.getDefault());
-        newsList.clear();
-        if(text.length() == 0){
-            newsList.addAll(arrayList);
-        } else {
-            for(News news : arrayList){
-                if(news.getTitle().getRendered().toLowerCase(Locale.getDefault())
-                        .contains(text)){
-                    newsList.add(news);
-                }
-            }
-        }
-        notifyDataSetChanged();
-    }
-    /*public void setFilter(List<News> current){
-        newsList = new ArrayList<>();
-        newsList.addAll(current);
-        notifyDataSetChanged();
-    }*/
 }

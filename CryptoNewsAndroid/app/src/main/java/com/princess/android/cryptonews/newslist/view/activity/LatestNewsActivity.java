@@ -2,7 +2,6 @@ package com.princess.android.cryptonews.newslist.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,8 +13,6 @@ import dagger.android.support.DaggerAppCompatActivity;
 
 
 public class LatestNewsActivity extends DaggerAppCompatActivity {
-
-    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +42,6 @@ public class LatestNewsActivity extends DaggerAppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-        // close search view on back button pressed
-        if (!searchView.isIconified()) {
-            searchView.setIconified(true);
-            return;
-        }
-        super.onBackPressed();
-    }
 
     private void startSettingsActivity() {
         Intent intent = new Intent(this, SettingsActivity.class);

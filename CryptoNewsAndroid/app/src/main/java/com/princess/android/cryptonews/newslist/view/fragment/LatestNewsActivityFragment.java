@@ -1,11 +1,9 @@
 package com.princess.android.cryptonews.newslist.view.fragment;
 
 import android.annotation.SuppressLint;
-import android.app.SearchManager;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -19,11 +17,8 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.SearchView;
 
 import com.princess.android.cryptonews.model.News;
 import com.princess.android.cryptonews.newslist.view.adapters.NewsAdapter;
@@ -33,7 +28,6 @@ import com.princess.android.cryptonews.newswebsite.view.ui.NewsWebPageActivity;
 import com.princess.android.cryptonews.util.ConnectionClassLiveData;
 import com.princess.android.cryptonews.util.ConnectionTest;
 import com.princess.android.cryptonews.util.PreferenceUtils;
-import com.princess.android.cryptonews.util.ShowAlert;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -55,8 +49,7 @@ import dagger.android.support.DaggerFragment;
  */
 public class LatestNewsActivityFragment extends DaggerFragment
         implements SwipeRefreshLayout.OnRefreshListener,
-        NewsAdapter.ItemClicked,
-        SearchView.OnQueryTextListener {
+        NewsAdapter.ItemClicked {
 
     @Inject
     ViewModelProvider.Factory  factory;
@@ -65,18 +58,16 @@ public class LatestNewsActivityFragment extends DaggerFragment
     @Inject
     PreferenceUtils preferenceUtils;
 
-    public NewsAdapter mAdapter;
-    public List<News> newsList = new ArrayList<>();
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
     @BindView(R.id.swipe_container)
     SwipeRefreshLayout swipeRefreshLayout;
-
     @BindView(R.id.news_container)
     View mContainer;
 
+    public NewsAdapter mAdapter;
+    public List<News> newsList = new ArrayList<>();
     RecyclerView.LayoutManager layoutManager;
-    private SearchView searchView;
 
     String mCurrentFontSize = null;
     int mFontSizeTitle;
@@ -117,7 +108,7 @@ public class LatestNewsActivityFragment extends DaggerFragment
             mAdapter = new NewsAdapter(getContext(), newsList, this);
         }
 
-        //Connection Listener to give us rea time internet connection status
+        //Connection Listener to give us real time internet connection status
         connectionClassLiveData.observe(this, connectionModel -> {
             if (connectionModel.isConnected()) {
                 isConnected = true;
@@ -294,33 +285,7 @@ public class LatestNewsActivityFragment extends DaggerFragment
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_latest_news, menu);
-        MenuItem menuItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.setOnQueryTextListener(this);
         super.onCreateOptionsMenu(menu, inflater);
+
     }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        newText = newText.toLowerCase();
-        /*List<News> newsListFiltered = new ArrayList<>();
-
-        for (News myNews : newsList){
-            String titleFiltered = myNews.getTitle().getRendered().toLowerCase();
-            if(titleFiltered.contains(newText)) {
-                newsListFiltered.add(myNews);
-            }
-        }
-        mAdapter.setFilter(newsListFiltered);*/
-
-        newText = newText.toLowerCase(Locale.getDefault());
-        mAdapter.filter(newText);
-        return false;
-    }
-
 }
