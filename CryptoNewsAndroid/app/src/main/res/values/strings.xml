@@ -78,5 +78,6 @@
     <string name="share">Share</string>
     <string name="search">Search</string>
     <string name="sort_by">Sort by</string>
+    <string name="action_favorite">favorite</string>
 
 </resources>
