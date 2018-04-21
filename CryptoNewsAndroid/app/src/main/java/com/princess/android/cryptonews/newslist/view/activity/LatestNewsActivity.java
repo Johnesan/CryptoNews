@@ -6,8 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.princess.android.cryptonews.Favourite.FavoriteActivityFragment;
-import com.princess.android.cryptonews.Favourite.FavouriteActivity;
+import com.princess.android.cryptonews.Favourite.FavoriteActivity;
 import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.settings.Activity.SettingsActivity;
 
@@ -51,7 +50,7 @@ public class LatestNewsActivity extends DaggerAppCompatActivity {
     }
 
     private void startFavoriteActivity() {
-        Intent intent = new Intent(this, FavouriteActivity.class);
+        Intent intent = new Intent(this, FavoriteActivity.class);
         startActivity(intent);
     }
 

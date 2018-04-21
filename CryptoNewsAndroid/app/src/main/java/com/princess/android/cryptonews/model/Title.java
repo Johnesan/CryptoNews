@@ -20,7 +20,11 @@ public class Title{
 		return rendered;
 	}
 
-	@Override
+    public Title(String rendered) {
+        this.rendered = rendered;
+    }
+
+    @Override
  	public String toString(){
 		return 
 			"Title{" + 

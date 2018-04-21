@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 
 @Entity(tableName = "news")
-public class News{
+public class News {
 
 	@SerializedName("date")
 	private String date;

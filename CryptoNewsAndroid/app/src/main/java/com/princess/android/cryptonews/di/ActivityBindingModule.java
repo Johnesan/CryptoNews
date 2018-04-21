@@ -1,5 +1,6 @@
 package com.princess.android.cryptonews.di;
 
+import com.princess.android.cryptonews.Favourite.FavoriteActivity;
 import com.princess.android.cryptonews.newslist.view.activity.LatestNewsActivity;
 import com.princess.android.cryptonews.settings.Activity.EditWebsitePreferenceActivity;
 
@@ -19,4 +20,7 @@ public abstract  class ActivityBindingModule {
 
    @ContributesAndroidInjector(modules = TestWebsiteFragmentModule.class)
    abstract EditWebsitePreferenceActivity editWebsitePreferenceActivity();
+
+   @ContributesAndroidInjector (modules =  FavoriteFragmentModule.class)
+   abstract FavoriteActivity favoriteActivity();
 }

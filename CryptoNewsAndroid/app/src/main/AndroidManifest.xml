@@ -51,10 +51,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".settings.Activity.SettingsActivity" />
         </activity>
-
         <activity android:name=".settings.Activity.EditWebsitePreferenceActivity"
             android:theme="@style/SettingsTheme"
             android:label="Edit Website Preferences">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".settings.Activity.ManageBlogSettings" />
+        </activity>
+        <activity android:name=".Favourite.FavoriteActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".settings.Activity.ManageBlogSettings" />

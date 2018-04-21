@@ -96,4 +96,9 @@ dependencies {
 
     //Android Ago
     implementation 'com.github.curioustechizen.android-ago:library:1.3.4'
+
+    //Dependency for Flexible Adepter
+    implementation 'eu.davidea:flexible-adapter:5.0.3'
+    implementation 'eu.davidea:flexible-adapter-ui:1.0.0-b3'
+    implementation 'eu.davidea:flexible-adapter-livedata:1.0.0-b2'
 }
