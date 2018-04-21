@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.google.gson.annotations.SerializedName;
 import com.princess.android.cryptonews.R;
@@ -161,6 +160,12 @@ public class NewsTest extends AbstractFlexibleItem<NewsTest.NewsViewHolder> {
         public  TextView mTitle;
         ImageView thumbnail;
         RelativeTimeTextView date;
+
+        @Override
+        public float getActivationElevation() {
+            return 2f;
+        }
+
         TextView website;
 
         public NewsViewHolder(View view, FlexibleAdapter adapter) {

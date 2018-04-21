@@ -128,4 +128,6 @@ public class NewsWebPageFragment extends Fragment {
         super.onDetach();
     }
 
+
+
 }

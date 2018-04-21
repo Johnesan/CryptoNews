@@ -8,6 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
         <!--<item name="windowActionBar">false</item>-->
         <!--<item name="windowNoTitle">true</item>-->
+
+        <!-- For selection -->
+        <item name="selectableItemBackground">@drawable/selector_item_light</item>
+        <!--<item name="primaryTextSelector">@drawable/primary_text_selector_light</item>-->
+
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 

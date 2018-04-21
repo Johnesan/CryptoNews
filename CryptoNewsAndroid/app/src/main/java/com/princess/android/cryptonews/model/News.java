@@ -30,6 +30,22 @@ public class News {
 	@SerializedName("guid")
 	private Guid guid;
 
+    @NonNull
+	public Boolean favorite;
+
+    public News() {
+    }
+
+    public News(String date, String link, Title title, Embedded embedded, @NonNull int id, Guid guid, @NonNull Boolean favourite) {
+		this.date = date;
+		this.link = link;
+		this.title = title;
+		this.embedded = embedded;
+		this.id = id;
+		this.guid = guid;
+		this.favorite = favourite;
+	}
+
 	public void setDate(String date){
 		this.date = date;
 	}
@@ -78,6 +94,13 @@ public class News {
 		return guid;
 	}
 
+    @NonNull
+	public Boolean isFavourite() {
+		return favorite;
+	}
+	public void setFavourite(@NonNull Boolean favourite) {
+		this.favorite = favourite;
+	}
 	@Override
  	public String toString(){
 		return 

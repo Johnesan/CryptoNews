@@ -10,7 +10,7 @@ import com.princess.android.cryptonews.model.News;
  * Created by Princess on 3/16/2018.
  */
 
-@Database(entities = {News.class}, version = 1)
+@Database(entities = {News.class}, version = 2)
 @TypeConverters({Converters.class})
 public abstract class NewsDatabase extends RoomDatabase {
     public abstract NewsDao newsDao();
