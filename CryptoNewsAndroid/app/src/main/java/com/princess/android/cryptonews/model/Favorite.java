@@ -15,7 +15,6 @@ import com.bumptech.glide.Glide;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.google.gson.annotations.SerializedName;
 import com.princess.android.cryptonews.R;
-import com.princess.android.cryptonews.model.modelTest.NewsTest;
 
 import org.parceler.Parcel;
 
@@ -31,119 +30,117 @@ import eu.davidea.flexibleadapter.items.AbstractFlexibleItem;
 import eu.davidea.flexibleadapter.items.IFlexible;
 import eu.davidea.viewholders.FlexibleViewHolder;
 
-@Parcel
-@Entity(tableName = "news")
-public class News extends AbstractFlexibleItem<News.NewsViewHolder>{
+/**
+ * Created by numb3rs on 4/24/18.
+ */
 
-	@SerializedName("date")
-	private String date;
+@Entity(tableName = "favorite")
+public class Favorite extends AbstractFlexibleItem<Favorite.NewsViewHolder> {
 
-	@SerializedName("link")
-	private String link;
+    @SerializedName("date")
+    private String date;
 
-	@SerializedName("title")
-	private Title title;
+    @SerializedName("link")
+    private String link;
 
-	@SerializedName("_embedded")
-	private Embedded embedded;
+    @SerializedName("title")
+    private Title title;
 
-	@NonNull
-	@PrimaryKey()
-	@SerializedName("id")
-	private int id;
+    @SerializedName("_embedded")
+    private Embedded embedded;
 
-	@SerializedName("guid")
-	private Guid guid;
+    @NonNull
+    @PrimaryKey()
+    @SerializedName("id")
+    private int id;
 
-     @Ignore
+    @SerializedName("guid")
+    private Guid guid;
+
+    @Ignore
     int mFontSizeTitle = 13;
-     @Ignore
+    @Ignore
     int mFontSizeDetails = 10;
 
-    public News() {
+    public Favorite(String date, String link, Title title, Embedded embedded, @NonNull int id, Guid guid) {
+        this.date = date;
+        this.link = link;
+        this.title = title;
+        this.embedded = embedded;
+        this.id = id;
+        this.guid = guid;
     }
 
-    public News(String date, String link, Title title, Embedded embedded, @NonNull int id, Guid guid) {
-		this.date = date;
-		this.link = link;
-		this.title = title;
-		this.embedded = embedded;
-		this.id = id;
-		this.guid = guid;
+    public Favorite(@NonNull int id) {
+        this.id = id;
+    }
 
-	}
+    public Favorite() {
 
-	public void setDate(String date){
-		this.date = date;
-	}
+    }
 
-	public String getDate(){
-		return date;
-	}
+    public String getDate() {
+        return date;
+    }
 
-	public void setLink(String link){
-		this.link = link;
-	}
+    public void setDate(String date) {
+        this.date = date;
+    }
 
-	public String getLink(){
-		return link;
-	}
+    public String getLink() {
+        return link;
+    }
 
-	public void setTitle(Title title){
-		this.title = title;
-	}
+    public void setLink(String link) {
+        this.link = link;
+    }
 
-	public Title getTitle(){
-		return title;
-	}
+    public Title getTitle() {
+        return title;
+    }
 
-	public void setEmbedded(Embedded embedded){
-		this.embedded = embedded;
-	}
+    public void setTitle(Title title) {
+        this.title = title;
+    }
 
-	public Embedded getEmbedded(){
-		return embedded;
-	}
+    public Embedded getEmbedded() {
+        return embedded;
+    }
 
-	public void setId(int id){
-		this.id = id;
-	}
+    public void setEmbedded(Embedded embedded) {
+        this.embedded = embedded;
+    }
 
-	public int getId(){
-		return id;
-	}
+    @NonNull
+    public int getId() {
+        return id;
+    }
 
-	public void setGuid(Guid guid){
-		this.guid = guid;
-	}
+    public void setId(@NonNull int id) {
+        this.id = id;
+    }
 
-	public Guid getGuid(){
-		return guid;
-	}
+    public Guid getGuid() {
+        return guid;
+    }
 
-
-	@Override
- 	public String toString(){
-		return
-			"News{" +
-			"date = '" + date + '\'' +
-			",link = '" + link + '\'' +
-			",title = '" + title + '\'' +
-			",_embedded = '" + embedded + '\'' +
-			",id = '" + id + '\'' +
-			",guid = '" + guid + '\'' +
-			"}";
-		}
+    public void setGuid(Guid guid) {
+        this.guid = guid;
+    }
 
 
     @Override
-    public boolean equals(Object o) {
-        if (o instanceof News){
-            News news = (News) o;
-            return this.id ==(news.id);
-
-        }
-        return false;
+    public String toString() {
+        return "Favorite{" +
+                "date='" + date + '\'' +
+                ", link='" + link + '\'' +
+                ", title=" + title +
+                ", embedded=" + embedded +
+                ", id=" + id +
+                ", guid=" + guid +
+                ", mFontSizeTitle=" + mFontSizeTitle +
+                ", mFontSizeDetails=" + mFontSizeDetails +
+                '}';
     }
 
     @Override
@@ -152,12 +149,20 @@ public class News extends AbstractFlexibleItem<News.NewsViewHolder>{
     }
 
     @Override
-    public News.NewsViewHolder createViewHolder(View view, FlexibleAdapter<IFlexible> adapter) {
-        return new NewsViewHolder(view, adapter);
+    public Favorite.NewsViewHolder createViewHolder(View view, FlexibleAdapter<IFlexible> adapter) {
+        return new Favorite.NewsViewHolder(view, adapter);
     }
-
     @Override
-    public void bindViewHolder(FlexibleAdapter<IFlexible> adapter, News.NewsViewHolder holder, int position, List<Object> payloads) {
+    public boolean equals(Object o) {
+        if (o instanceof Favorite){
+            Favorite news = (Favorite) o;
+            return this.id ==(news.id);
+
+        }
+        return false;
+    }
+    @Override
+    public void bindViewHolder(FlexibleAdapter<IFlexible> adapter, Favorite.NewsViewHolder holder, int position, List<Object> payloads) {
 
         String getTheTitle = title.getRendered();
         //Replace ASCII codes with proper Characters
@@ -194,24 +199,24 @@ public class News extends AbstractFlexibleItem<News.NewsViewHolder>{
 
 
     private void setDateOn(NewsViewHolder holder) {
- 	    try {
-        String date = getDate();
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy-MM-dd'T'HH:mm:ss");
-        Date mDate = null;
-        long timeInMilliseconds = 0;
         try {
-            mDate = simpleDateFormat.parse(date);
+            String date = getDate();
 
-            timeInMilliseconds = mDate.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy-MM-dd'T'HH:mm:ss");
+            Date mDate = null;
+            long timeInMilliseconds = 0;
+            try {
+                mDate = simpleDateFormat.parse(date);
+
+                timeInMilliseconds = mDate.getTime();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            holder.date.setReferenceTime(timeInMilliseconds);
+            holder.date.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSizeDetails);
+        } catch (NumberFormatException nfe) {
+
         }
-        holder.date.setReferenceTime(timeInMilliseconds);
-        holder.date.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSizeDetails);
-    } catch (NumberFormatException nfe) {
-
-    }
     }
 
     private void setImage (NewsViewHolder holder) {
@@ -266,5 +271,6 @@ public class News extends AbstractFlexibleItem<News.NewsViewHolder>{
             date =view.findViewById(R.id.news_date);
         }
     }
+
 
 }

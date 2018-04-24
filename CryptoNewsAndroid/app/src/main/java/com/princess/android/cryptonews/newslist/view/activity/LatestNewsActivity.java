@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.princess.android.cryptonews.Favourite.FavoriteActivity;
 import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.settings.Activity.SettingsActivity;
 
@@ -34,12 +35,23 @@ public class LatestNewsActivity extends DaggerAppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            startSettingsActivity();
-            return true;
+        switch (id){
+            //noinspection SimplifiableIfStatement
+
+            case R.id.action_settings:
+                startSettingsActivity();
+                return true;
+            case R.id.action_favorite:
+                startFavoriteActivity();
+                return  true;
         }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startFavoriteActivity() {
+        Intent intent = new Intent(this, FavoriteActivity.class);
+        startActivity(intent);
     }
 
 

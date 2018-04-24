@@ -13,7 +13,7 @@
             android:layout_marginLeft="16dp"
             android:textColor="@color/colorAccent"
             android:layout_width="match_parent"
-            android:textSize="14dp"
+            android:textSize="1sp"
             android:layout_height="wrap_content"
             android:text="@string/edit_reason"/>
         <TextView
@@ -22,9 +22,9 @@
             android:layout_marginLeft="16dp"
             android:textColor="@color/colorAccent"
             android:layout_width="match_parent"
-            android:textSize="14dp"
+            android:textSize="14sp"
             android:layout_height="wrap_content"
-            android:text="Use the test button to check if the website meets the requirements before saving"/>
+            android:text="@string/instruction_test_website"/>
 
 
 
@@ -67,7 +67,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="0.5"
                     android:layout_height="wrap_content"
-                    android:text="Test"
+                    android:text="@string/demo_test"
                     />
 
                 <Button
@@ -75,7 +75,7 @@
                     android:layout_weight="0.5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Save" />
+                    android:text="@string/demo_save" />
 
             </LinearLayout>
 

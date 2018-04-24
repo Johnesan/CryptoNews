@@ -2,8 +2,11 @@ package com.princess.android.cryptonews.di;
 
 import android.arch.lifecycle.ViewModel;
 
+import com.princess.android.cryptonews.Favourite.viewModel.FavoriteViewModel;
 import com.princess.android.cryptonews.ViewModelKey;
 import com.princess.android.cryptonews.newslist.viewmodel.NewsViewModel;
+import com.princess.android.cryptonews.newswebsite.view.ui.NewsWebPageActivity;
+import com.princess.android.cryptonews.newswebsite.view.ui.viewModel.NewsWebpageViewModel;
 import com.princess.android.cryptonews.settings.viewmodel.ValidUrlViewModel;
 
 import dagger.Binds;
@@ -26,5 +29,15 @@ public abstract class viewModelModule {
     @IntoMap
     @ViewModelKey(ValidUrlViewModel.class)
     abstract  ViewModel bindSettingsViewModel (ValidUrlViewModel validUrlViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FavoriteViewModel.class)
+    abstract ViewModel bindsFavouriteViewModel (FavoriteViewModel favoriteViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(NewsWebpageViewModel.class)
+    abstract ViewModel bindNewsWebPageViewModel (NewsWebpageViewModel newsWebpageViewModel);
 
 }

@@ -1,80 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="156dp"
-    android:layout_height="wrap_content"
-    android:id="@+id/news_layout"
-    app:cardCornerRadius="6dp"
-    android:layout_margin="@dimen/padding">
+ <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="156dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/news_layout"
+    android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="6dp"
+        android:layout_margin="@dimen/padding">
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_marginBottom="8dp"
-        android:layout_height="match_parent">
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_height="wrap_content">
 
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/news_image"
-            android:layout_width="156dp"
-            android:layout_height="127dp"
-            android:scaleType="centerCrop"
-            app:riv_corner_radius_top_left="6dp"
-            app:riv_corner_radius_top_right="6dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/news_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
-            android:maxLines="2"
-            android:paddingTop="8dp"
-            android:paddingStart="6dp"
-            android:paddingEnd="6dp"
-            android:scrollHorizontally="false"
-            android:text=""
-            android:textColor="#3E3E3E"
-            android:textSize="13dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/news_image" />
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/news_image"
+                android:layout_width="156dp"
+                android:layout_height="127dp"
+                android:scaleType="centerCrop"
+                app:riv_corner_radius_top_left="6dp"
+                app:riv_corner_radius_top_right="6dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-        <TextView
-            android:layout_marginTop="16dp"
-            android:id="@+id/news_site"
-            android:layout_width="wrap_content"
-            android:text=""
-            android:textSize="10dp"
-            android:layout_height="wrap_content"
-            android:paddingStart="6dp"
-            android:textColor="#27AE60"
-            app:layout_constraintEnd_toStartOf="@+id/news_date"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/news_title" />
+            <TextView
+                android:id="@+id/news_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:maxLines="2"
+                android:paddingTop="8dp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                android:scrollHorizontally="false"
+                android:text=""
+                android:textColor="#3E3E3E"
+                android:textSize="13dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/news_image" />
 
-        <com.github.curioustechizen.ago.RelativeTimeTextView
-            android:id="@+id/news_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:textStyle="italic"
-            android:text=""
-            android:textSize="10dp"
-            android:textColor="#FF6363"
-            android:paddingEnd="6dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/news_site"
-            app:layout_constraintTop_toTopOf="@+id/news_site" />
+
+            <TextView
+                android:layout_marginTop="16dp"
+                android:id="@+id/news_site"
+                android:layout_width="wrap_content"
+                android:text=""
+                android:textSize="10dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="6dp"
+                android:paddingRight="6dp"
+                android:textColor="#27AE60"
+                app:layout_constraintEnd_toStartOf="@+id/news_date"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/news_title" />
+
+            <com.github.curioustechizen.ago.RelativeTimeTextView
+                android:id="@+id/news_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textStyle="italic"
+                android:text=""
+                android:textSize="10dp"
+                android:textColor="#FF6363"
+                android:paddingEnd="6dp"
+                android:paddingStart="6dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/news_site"
+                app:layout_constraintTop_toTopOf="@+id/news_site" />
 
 
         </android.support.constraint.ConstraintLayout>
 
     </android.support.v7.widget.CardView>
+

@@ -3,6 +3,8 @@
     <string name="action_settings">Settings</string>
     <string name="empty_view_text">There is no News at the moment</string>
 
+
+
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
@@ -78,5 +80,13 @@
     <string name="share">Share</string>
     <string name="search">Search</string>
     <string name="sort_by">Sort by</string>
+    <string name="action_favorite">Show Favorites</string>
+
+    <string name="action_selected_one">%1$d selected</string>
+    <string name="action_selected_many">%1$d selected</string>
+    <string name="action_delete">action_delete</string>
+    <string name="instruction_test_website">Use the test button to check if the website meets the requirements before saving</string>
+    <string name="demo_test">Test</string>
+    <string name="demo_save">Save</string>
 
 </resources>

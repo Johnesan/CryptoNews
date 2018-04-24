@@ -4,12 +4,15 @@ import android.arch.persistence.room.Entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
 import javax.annotation.Generated;
 
 /**
  * Created by Princess on 3/7/2018.
  */
 
+@Parcel
 @Generated("com.robohorse.robopojogenerator")
 @Entity
 public class MediumLarge {

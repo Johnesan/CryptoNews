@@ -29,10 +29,10 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
-        <activity android:name=".newswebsite.view.ui.NewsWebPageActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".newslist.view.activity.LatestNewsActivity" />
+        <activity android:name=".newswebsite.view.ui.NewsWebPageActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTask">
+
         </activity>
         <activity
             android:name=".settings.Activity.SettingsActivity"
@@ -51,10 +51,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".settings.Activity.SettingsActivity" />
         </activity>
-
         <activity android:name=".settings.Activity.EditWebsitePreferenceActivity"
             android:theme="@style/SettingsTheme"
             android:label="Edit Website Preferences">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".settings.Activity.ManageBlogSettings" />
+        </activity>
+        <activity android:name=".Favourite.FavoriteActivity"
+            android:label="Favorites"
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".settings.Activity.ManageBlogSettings" />

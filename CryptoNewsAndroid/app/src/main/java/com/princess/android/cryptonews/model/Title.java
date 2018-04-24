@@ -5,6 +5,9 @@ import android.arch.persistence.room.Entity;
 import javax.annotation.Generated;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
+@Parcel
 @Generated("com.robohorse.robopojogenerator")
 @Entity
 public class Title{
@@ -20,7 +23,14 @@ public class Title{
 		return rendered;
 	}
 
-	@Override
+	public Title() {
+	}
+
+	public Title(String rendered) {
+        this.rendered = rendered;
+    }
+
+    @Override
  	public String toString(){
 		return 
 			"Title{" + 
