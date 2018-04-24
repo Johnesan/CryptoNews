@@ -8,11 +8,10 @@ import dagger.Binds;
 import dagger.Module;
 
 /**
- * Created by numb3rs on 4/20/18.
+ * Created by numb3rs on 4/21/18.
  */
-
 @Module
-abstract  class FavoriteFragmentModule {
+abstract class NewsWebpageFragmentModule {
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory (ViewModelFactory viewModelFactory);

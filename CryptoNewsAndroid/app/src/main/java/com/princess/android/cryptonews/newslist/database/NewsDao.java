@@ -5,10 +5,13 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
+import android.database.Observable;
 
 import com.princess.android.cryptonews.model.News;
 
 import java.util.List;
+
+import io.reactivex.Flowable;
 
 import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 
@@ -25,10 +28,5 @@ public interface NewsDao {
     @Query("SELECT * FROM news")
     LiveData<List<News>> queryNews();
 
-    @Query(" SELECT * FROM news WHERE favorite=:favorite ")
-    LiveData<List<News>> getFavoriteNews(Boolean favorite);
-
-    @Query(" UPDATE news SET favorite= :favorite WHERE id= :id ")
-    int setIsFavorite(int id, Boolean favorite);
 
 }

@@ -7,6 +7,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import javax.inject.Singleton;
+
+import com.princess.android.cryptonews.Favourite.dao.FavoriteDao;
 import com.princess.android.cryptonews.di.viewModelModule;
 import com.princess.android.cryptonews.newslist.database.NewsDao;
 import com.princess.android.cryptonews.newslist.database.NewsDatabase;
@@ -59,6 +61,11 @@ public class AppModule {
     @Singleton  @Provides
     NewsDao provideNewsDao(NewsDatabase newsDatabase){
         return newsDatabase.newsDao();
+    }
+    //provide the Favorite Dao
+    @Singleton @Provides
+    FavoriteDao provideFavoriteDao (NewsDatabase newsDatabase){
+        return newsDatabase.favoriteDao();
     }
 
 

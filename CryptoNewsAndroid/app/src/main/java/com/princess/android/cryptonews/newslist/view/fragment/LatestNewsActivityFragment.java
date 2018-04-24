@@ -29,6 +29,8 @@ import com.princess.android.cryptonews.util.ConnectionClassLiveData;
 import com.princess.android.cryptonews.util.ConnectionTest;
 import com.princess.android.cryptonews.util.PreferenceUtils;
 
+import org.parceler.Parcels;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -260,6 +262,8 @@ public class LatestNewsActivityFragment extends DaggerFragment
         String link = data.getGuid().getRendered();
         //Get the title of each news and format it to normal characters
         String title = String.valueOf(Html.fromHtml(data.getTitle().getRendered()));
+        //get the id of the news
+        int id = data.getId();
 
         if (isConnected){
 
@@ -267,8 +271,7 @@ public class LatestNewsActivityFragment extends DaggerFragment
             openURLInBrowser(link);
         }else {
             //Pass the title and link to the next activity
-            intent.putExtra("url", link);
-            intent.putExtra("title", title);
+            intent.putExtra("NEWS", Parcels.wrap(data));
             startActivity(intent);
         }}else {
             Snackbar.make(mContainer, R.string.error, Snackbar.LENGTH_LONG).show();

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +20,12 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.princess.android.cryptonews.R;
+import com.princess.android.cryptonews.model.News;
 import com.princess.android.cryptonews.settings.Activity.ManageBlogSettings;
 import com.princess.android.cryptonews.util.ConnectionTest;
 import com.princess.android.cryptonews.util.ShowAlert;
+
+import org.parceler.Parcels;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +40,7 @@ public class NewsWebPageFragment extends Fragment {
     String url;
     String title;
     ShowAlert alert = new ShowAlert();
+    News news;
 
     public NewsWebPageFragment() {
         // Required empty public constructor
@@ -45,6 +50,7 @@ public class NewsWebPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_news_web_page, container, false);
 
         //Initializing the Web view
@@ -62,9 +68,11 @@ public class NewsWebPageFragment extends Fragment {
     }
 
     public void getUrl() {
-        if (getActivity().getIntent().hasExtra("url")) {
-            url = getActivity().getIntent().getExtras().getString("url");
 
+
+        if (getActivity().getIntent().hasExtra("NEWS")) {
+            news = Parcels.unwrap(getActivity().getIntent().getParcelableExtra("NEWS"));
+            url = news.getLink();
 
             if (ConnectionTest.isNetworkAvailable(getActivity())) {
                 // Enable Javascript
@@ -111,10 +119,8 @@ public class NewsWebPageFragment extends Fragment {
     }
 
     public void getTitle() {
-        if (getActivity().getIntent().hasExtra("title")) {
-            title = getActivity().getIntent().getExtras().getString("title");
+            title = news.getTitle().getRendered();
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
-        }
     }
 
     @Override

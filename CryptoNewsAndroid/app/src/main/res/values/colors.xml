@@ -4,6 +4,5 @@
     <color name="colorPrimaryDark">#061F59</color>
     <color name="colorAccent">#E0248A</color>
 
-    <color name="list_choice_normal_bg_light">#fffafafa</color>
     <color name="list_choice_pressed_bg_light">#a1000000</color>
 </resources>

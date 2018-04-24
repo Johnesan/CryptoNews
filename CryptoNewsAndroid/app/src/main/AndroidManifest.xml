@@ -30,10 +30,9 @@
         </activity>
 
         <activity android:name=".newswebsite.view.ui.NewsWebPageActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".newslist.view.activity.LatestNewsActivity" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTask">
+
         </activity>
         <activity
             android:name=".settings.Activity.SettingsActivity"
@@ -60,6 +59,7 @@
                 android:value=".settings.Activity.ManageBlogSettings" />
         </activity>
         <activity android:name=".Favourite.FavoriteActivity"
+            android:label="Favorites"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -9,11 +9,19 @@
         android:icon="@mipmap/share_icon"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_favorite"
+        android:id="@+id/action_notFavorite"
         android:orderInCategory="100"
         android:icon="@drawable/ic_icon_star_empty"
         android:title="@string/action_favorite"
         app:showAsAction="always"
-        >
-    </item>
+        />
+
+    <!--<item-->
+        <!--android:id="@+id/action_isFavorite"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:icon="@drawable/ic_icon_star"-->
+        <!--android:title="@string/action_favorite"-->
+        <!--app:showAsAction="always"-->
+        <!--&gt;-->
+    <!--</item>-->
 </menu>

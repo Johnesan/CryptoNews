@@ -6,6 +6,9 @@ import javax.annotation.Generated;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
+@Parcel
 @Generated("com.robohorse.robopojogenerator")
 @Entity
 public class Sizes {
