@@ -88,5 +88,6 @@
     <string name="instruction_test_website">Use the test button to check if the website meets the requirements before saving</string>
     <string name="demo_test">Test</string>
     <string name="demo_save">Save</string>
+    <string name="action_search">search</string>
 
 </resources>
