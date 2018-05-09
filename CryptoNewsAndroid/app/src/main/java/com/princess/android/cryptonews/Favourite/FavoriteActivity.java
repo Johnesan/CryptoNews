@@ -6,12 +6,10 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -134,11 +132,21 @@ public class FavoriteActivity extends DaggerAppCompatActivity implements
     private void startWebpageActivity(int position) {
         Intent intent = new Intent(this, NewsWebPageActivity.class);
         IFlexible flexibleItem = mAdapter.getItem(position);
-        News news = (News) flexibleItem;
-        if (news != null) {
-            intent.putExtra("NEWS", Parcels.wrap(news));
-        }
+        Favorite news = (Favorite) flexibleItem;
+
+
+        if (news != null){
+            News currentNews = new News(news.getDate(),
+                            news.getLink(),
+                            news.getTitle(),
+                            news.getEmbedded(),
+                            news.getId(),
+                            news.getGuid());
+
+            intent.putExtra("NEWS", Parcels.wrap(currentNews));
+
         startActivity(intent);
+        }
     }
 
     @Override
@@ -167,40 +175,24 @@ public class FavoriteActivity extends DaggerAppCompatActivity implements
         binding.recyclerView.setAdapter(mAdapter);
     }
 
-    public void getDatabaseList(List<Favorite> news) {
+    public void getDatabaseList(List<Favorite> newsFromdb) {
 
-        if (news.size() == 0){
+        if (newsFromdb.size() == 0){
             binding.emptyView.setVisibility(View.VISIBLE);
         }
-        List<News> favNews = new ArrayList<>();
-        if (news != null && news.size() > 0) {
-            for (Favorite favorite : news) {
-
-                News currentNews =
-                        new News(favorite.getDate(),
-                                favorite.getLink(),
-                                favorite.getTitle(),
-                                favorite.getEmbedded(),
-                                favorite.getId(),
-                                favorite.getGuid());
-                favNews.add(currentNews);
-            }
-
-        }
-
 
         //something has been deleted, refresh List
-        if (list.size() > favNews.size()) {
+        if (list.size() > newsFromdb.size()) {
             list.clear();
-            list.addAll(favNews);
+            list.addAll(newsFromdb);
             mAdapter.updateDataSet(list);
         } else if
             // list is still the same, do nothing
-                (list.size() == favNews.size()) {
-            if (list.equals(news)) {}
+                (list.size() == newsFromdb.size()) {
+            if (list.equals(newsFromdb)) {}
         } else {
 
-            list.addAll(favNews);
+            list.addAll(newsFromdb);
             mAdapter.updateDataSet(list);
         }
 
@@ -244,18 +236,18 @@ public class FavoriteActivity extends DaggerAppCompatActivity implements
 
     public void deleteFavorite() {
         new News();
-        News saveNews;
+        Favorite saveNews;
         List<Integer> test = new ArrayList<>();
         test = mAdapter.getSelectedPositions();
+
         if (test != null && test.size() > 0) {
             if (test.size() > 1) {
                 Toast.makeText(this, "Multi Delete Feature coming soon", Toast.LENGTH_SHORT).show();
             }
             IFlexible flexibleItem = mAdapter.getItem(test.get(0));
-            saveNews = (News) flexibleItem;
-            Favorite favorite = new Favorite(saveNews.getId());
+            saveNews = (Favorite) flexibleItem;
 
-            mDisposable.add(favoriteViewModel.deletFavorite(String.valueOf(favorite.getId()))
+            mDisposable.add(favoriteViewModel.deletFavorite(String.valueOf(saveNews.getId()))
                     .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                     .subscribe(() -> {
 

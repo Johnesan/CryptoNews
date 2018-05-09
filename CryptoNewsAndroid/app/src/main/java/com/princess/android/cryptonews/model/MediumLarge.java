@@ -2,6 +2,7 @@ package com.princess.android.cryptonews.model;
 
 import android.arch.persistence.room.Entity;
 
+import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
@@ -15,7 +16,7 @@ import javax.annotation.Generated;
 @Parcel
 @Generated("com.robohorse.robopojogenerator")
 @Entity
-public class MediumLarge {
+public class MediumLarge  {
 
     @SerializedName("source_url")
     private String sourceUrl;

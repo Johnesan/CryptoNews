@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
- <android.support.v7.widget.CardView
+<layout>
+    <data>
+        <variable
+            name="news"
+            type="com.princess.android.cryptonews.model.News"/>
+
+        <variable
+            name="listener"
+            type="com.princess.android.cryptonews.newslist.view.adapters.NewsAdapter.Listener"/>
+    </data>
+
+    <android.support.v7.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="156dp"
         android:layout_height="wrap_content"
+        android:onClick="@{view -> listener.onNewsItemClicked(news)}"
         android:id="@+id/news_layout"
-    android:foreground="?attr/selectableItemBackground"
+        android:foreground="?attr/selectableItemBackground"
         app:cardCornerRadius="6dp"
         android:layout_margin="@dimen/padding">
 
@@ -17,6 +29,7 @@
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/news_image"
                 android:layout_width="156dp"
+                app:imageUrl="@{news.embedded}"
                 android:layout_height="127dp"
                 android:scaleType="centerCrop"
                 app:riv_corner_radius_top_left="6dp"
@@ -38,7 +51,7 @@
                 android:paddingStart="6dp"
                 android:paddingEnd="6dp"
                 android:scrollHorizontally="false"
-                android:text=""
+                bindTitle="@{news.title.rendered}"
                 android:textColor="#3E3E3E"
                 android:textSize="13dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +63,7 @@
                 android:layout_marginTop="16dp"
                 android:id="@+id/news_site"
                 android:layout_width="wrap_content"
-                android:text=""
+                bindWebsite="@{news.guid.rendered}"
                 android:textSize="10dp"
                 android:layout_height="wrap_content"
                 android:paddingStart="6dp"
@@ -67,8 +80,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:textStyle="italic"
-                android:text=""
-                android:textSize="10dp"
+                bindDate="@{news.date}"
+                android:textSize="10sp"
                 android:textColor="#FF6363"
                 android:paddingEnd="6dp"
                 android:paddingStart="6dp"
@@ -82,3 +95,4 @@
 
     </android.support.v7.widget.CardView>
 
+</layout>

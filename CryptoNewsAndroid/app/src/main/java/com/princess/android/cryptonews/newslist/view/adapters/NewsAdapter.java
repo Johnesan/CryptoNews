@@ -1,6 +1,8 @@
 package com.princess.android.cryptonews.newslist.view.adapters;
 
 import android.content.Context;
+import android.databinding.DataBindingComponent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -16,8 +18,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
+import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter;
 import com.princess.android.cryptonews.AppController;
 import com.princess.android.cryptonews.R;
+import com.princess.android.cryptonews.databinding.NewsListItemBinding;
 import com.princess.android.cryptonews.model.News;
 import com.princess.android.cryptonews.util.PreferenceUtils;
 
@@ -26,6 +30,7 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -33,195 +38,99 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by Princess on 2/23/2018.
- */
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
+public class NewsAdapter extends
+        SortedListAdapter<News> {
+
+    private final DataBindingComponent dataBindingComponent;
 
     private final String TAG = NewsAdapter.class.getSimpleName();
 
     int mFontSizeTitle;
     int mFontSizeDetails;
 
-
-    PreferenceUtils preferenceUtils = new PreferenceUtils(AppController.getInstance());
-
-    ItemClicked onItemClicked;
-
-
-    private Context context;
-    private List<News> newsList;
-
-    public NewsAdapter(Context context, List<News> newsList, ItemClicked itemClicked) {
-        this.context = context;
-        this.onItemClicked = itemClicked;
-        this.newsList = newsList;
+    public interface Listener {
+        void onNewsItemClicked(News news);
     }
 
+    private Listener mListener;
+
+
+    public NewsAdapter(Context context,
+                       Comparator<News> comparator,
+                       Listener listener, DataBindingComponent dataBindingComponent) {
+        super(context, News.class, comparator);
+        mListener = listener;
+        this.dataBindingComponent = dataBindingComponent;
+    }
+
+    @NonNull
     @Override
-    public NewsAdapter.NewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.news_list_item, parent, false);
-        return new NewsViewHolder(view);
+    protected ViewHolder<? extends News> onCreateViewHolder(LayoutInflater layoutInflater, ViewGroup viewGroup, int i) {
+        final  NewsListItemBinding binding = NewsListItemBinding.inflate(layoutInflater, viewGroup, false, dataBindingComponent);
+        return  new NewsViewHolder(binding, mListener);
     }
 
-    @Override
-    public void onBindViewHolder(NewsAdapter.NewsViewHolder holder, int position) {
 
-        News result = newsList.get(position);
-
-        /**Set the image
-         **/
-        if (result.getEmbedded().getWpFeaturedmedia().get(0).getMediaDetails() != null) {
-            if (result.getEmbedded().getWpFeaturedmedia().get(0)
-                    .getMediaDetails().getSizes().getMediumLarge() != null) {
-
-                String thumbnail_url = result.getEmbedded().getWpFeaturedmedia().get(0)
-                        .getMediaDetails().getSizes().getMediumLarge().getSourceUrl();
-                Glide.with(context)
-                        .load(thumbnail_url)
-                        .placeholder(R.mipmap.placeholder)
-                        .into(holder.thumbnail);
-            } else {
-                if (result.getEmbedded().getWpFeaturedmedia().get(0)
-                        .getMediaDetails().getSizes().getMedium() != null){
-
-                String thumbnail_url = result.getEmbedded().getWpFeaturedmedia().get(0)
-                        .getMediaDetails().getSizes().getMedium().getSourceUrl();
-                Glide.with(context)
-                        .load(thumbnail_url)
-                        .placeholder(R.mipmap.placeholder)
-                        .into(holder.thumbnail);
-                }
-            }
-        } else {
-            Glide.with(context)
-                    .load(R.mipmap.placeholder)
-                    .into(holder.thumbnail);
-        }
-        /** Set the title
-         *
-         */
-        String getTheTitle = result.getTitle().getRendered();
-        //Replace ASCII codes with proper Characters
-        String formatTitle = String.valueOf(Html.fromHtml(getTheTitle));
-        holder.title.setText(formatTitle);
-        holder.title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSizeTitle);
-
-
-        /** Set the date
-         *
-         */
-        try {
-            String date = result.getDate();
-
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy-MM-dd'T'HH:mm:ss");
-            Date mDate = null;
-            long timeInMilliseconds = 0;
-            try {
-                mDate = simpleDateFormat.parse(date);
-
-                timeInMilliseconds = mDate.getTime();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            holder.date.setReferenceTime(timeInMilliseconds);
-            holder.date.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSizeDetails);
-        } catch (NumberFormatException nfe) {
-
-        }
-
-        /** Set the website
-         *
-         */
-        String websiteName = result.getGuid().getRendered();
-        try {
-            URL url = new URL(websiteName);
-            String host = url.getHost();
-            String[] array = host.split("\\.");
-            if (array[0].equals("www")) {
-                holder.website.setText(array[1].toLowerCase());
-            } else
-                holder.website.setText(array[0].toLowerCase());
-                holder.website.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSizeDetails);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @Override
-    public int getItemCount() {
-        if (newsList == null)
-            return 0;
-        return newsList.size();
-    }
+//        /** Set the date
+//         *
+//         */
+//      holder.date.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSizeDetails);
+//
+//        /** Set the website
+//         *
+//         */
+//        String websiteName = result.getGuid().getRendered();
+//        try {
+//            URL url = new URL(websiteName);
+//            String host = url.getHost();
+//            String[] array = host.split("\\.");
+//            if (array[0].equals("www")) {
+//                holder.website.setText(array[1].toLowerCase());
+//            } else
+//                holder.website.setText(array[0].toLowerCase());
+//                holder.website.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSizeDetails);
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
+//
 
     public void setFontSizes(int mCurrentFontSize, int mFontSizeDetails) {
         this.mFontSizeTitle = mCurrentFontSize;
         this.mFontSizeDetails = mFontSizeDetails;
     }
 
-    public  void setItems (List<News> newsList){
-        this.newsList = newsList;
-//        this.newsListFiltered = this.newsList;
-        notifyDataSetChanged();
-    }
 
 
-    public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class NewsViewHolder extends SortedListAdapter.ViewHolder<News>{
 
-        @BindView(R.id.news_layout)
-        CardView newsLayout;
-        @BindView(R.id.news_image)
-        ImageView thumbnail;
-        @BindView(R.id.news_title)
-        TextView title;
-        @BindView(R.id.news_date)
-        RelativeTimeTextView date;
-        @BindView(R.id.news_site)
-        TextView website;
 
-        public NewsViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(this);
+        private final NewsListItemBinding mBinding;
+
+
+        @Override
+        protected void performBind(News news) {
+            mBinding.setNews(news);
         }
 
         @Override
-        public void onClick(View v) {
-//            Context context = v.getContext();
-//            Intent intent = new Intent(context, NewsWebPageActivity.class);
-
-            News data = newsList.get(getLayoutPosition());
-            onItemClicked.onClick(data);
-
-
-//            //Get the link of the website to be opened on the Web page
-//            String link = data.getGuid().getRendered();
-//            //Get the title of each news and format it to normal characters
-//            String title = String.valueOf(Html.fromHtml(data.getTitle().getRendered()));
-//
-//            if (!preferenceUtils.getViewNewsWithIn().equals("0")){
-//                openURLInBrowser(link);
-//            }else {
-//            //Pass the title and link to the next activity
-//            intent.putExtra("url", link);
-//            intent.putExtra("title", title);
-//            context.startActivity(intent);
-            }
+        protected void onAttach() {
+            mBinding.newsTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSizeTitle);
+            mBinding.newsDate.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSizeDetails);
+            mBinding.newsSite.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSizeDetails);
 
         }
-//
-//        private void openURLInBrowser(String url) {
-//            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//            context.startActivity(browserIntent);
-//        }
+
+        public NewsViewHolder(NewsListItemBinding binding, NewsAdapter.Listener listener) {
+            super(binding.getRoot());
+            binding.setListener(listener);
+            mBinding = binding;
 
 
-    public interface ItemClicked {
-        void onClick(News data);
-    }
+        }
 
+
+}
 }

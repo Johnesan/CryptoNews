@@ -167,7 +167,7 @@ public class NewsRepository {
     private boolean shouldFetchNews(List<News> newsList){
         long lastFetched = preferenceUtils.getLastTimeNewsWasStored();
         long timeOut = TimeUnit.MINUTES.toMillis(30) + lastFetched;
-        return  newsList.size() <1 || Calendar.getInstance().getTimeInMillis() > timeOut;
+        return  newsList.size() < 1 || Calendar.getInstance().getTimeInMillis() > timeOut;
     }
 
     public LiveData<List<News>> asLiveData(){

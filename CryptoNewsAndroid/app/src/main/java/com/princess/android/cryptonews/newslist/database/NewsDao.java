@@ -28,5 +28,4 @@ public interface NewsDao {
     @Query("SELECT * FROM news")
     LiveData<List<News>> queryNews();
 
-
 }

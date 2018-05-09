@@ -1,10 +1,7 @@
 package com.princess.android.cryptonews.model;
 
-import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.text.Html;
 import android.util.TypedValue;
 import android.view.View;
@@ -13,9 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
-import com.google.gson.annotations.SerializedName;
 import com.princess.android.cryptonews.R;
-import com.princess.android.cryptonews.util.GlideApp;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -26,117 +21,43 @@ import java.util.List;
 
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem;
+import eu.davidea.flexibleadapter.items.IFilterable;
 import eu.davidea.flexibleadapter.items.IFlexible;
+import eu.davidea.flexibleadapter.items.IHolder;
 import eu.davidea.viewholders.FlexibleViewHolder;
 
+/**
+ * Created by numb3rs on 4/29/18.
+ */
 
-@Entity(tableName = "favorite")
-public class Favorite extends AbstractFlexibleItem<Favorite.NewsViewHolder> {
+public class NewsHolder extends AbstractFlexibleItem<NewsHolder.NewsViewHolder> implements
+        IFilterable<String>, IHolder<News>{
 
-    @SerializedName("date")
-    private String date;
+    private  News news;
 
-    @SerializedName("link")
-    private String link;
-
-    @SerializedName("title")
-    private Title title;
-
-    @SerializedName("_embedded")
-    private Embedded embedded;
-
-    @NonNull
-    @PrimaryKey()
-    @SerializedName("id")
-    private int id;
-
-    @SerializedName("guid")
-    private Guid guid;
 
     @Ignore
     int mFontSizeTitle = 13;
     @Ignore
     int mFontSizeDetails = 10;
 
-    public Favorite(String date, String link, Title title, Embedded embedded, @NonNull int id, Guid guid) {
-        this.date = date;
-        this.link = link;
-        this.title = title;
-        this.embedded = embedded;
-        this.id = id;
-        this.guid = guid;
+
+    public NewsHolder(News news) {
+        this.news = news;
     }
-
-    public Favorite(@NonNull int id) {
-        this.id = id;
-    }
-
-    public Favorite() {
-
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    public Title getTitle() {
-        return title;
-    }
-
-    public void setTitle(Title title) {
-        this.title = title;
-    }
-
-    public Embedded getEmbedded() {
-        return embedded;
-    }
-
-    public void setEmbedded(Embedded embedded) {
-        this.embedded = embedded;
-    }
-
-    @NonNull
-    public int getId() {
-        return id;
-    }
-
-    public void setId(@NonNull int id) {
-        this.id = id;
-    }
-
-    public Guid getGuid() {
-        return guid;
-    }
-
-    public void setGuid(Guid guid) {
-        this.guid = guid;
-    }
-
 
     @Override
-    public String toString() {
-        return "Favorite{" +
-                "date='" + date + '\'' +
-                ", link='" + link + '\'' +
-                ", title=" + title +
-                ", embedded=" + embedded +
-                ", id=" + id +
-                ", guid=" + guid +
-                ", mFontSizeTitle=" + mFontSizeTitle +
-                ", mFontSizeDetails=" + mFontSizeDetails +
-                '}';
+    public boolean equals(Object o) {
+        if (o instanceof  NewsHolder){
+            NewsHolder newsHolder = (NewsHolder) o;
+            return  news.equals(newsHolder.getModel());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return news.hashCode();
     }
 
     @Override
@@ -145,22 +66,14 @@ public class Favorite extends AbstractFlexibleItem<Favorite.NewsViewHolder> {
     }
 
     @Override
-    public Favorite.NewsViewHolder createViewHolder(View view, FlexibleAdapter<IFlexible> adapter) {
-        return new Favorite.NewsViewHolder(view, adapter);
+    public NewsViewHolder createViewHolder(View view, FlexibleAdapter<IFlexible> adapter) {
+        return new NewsViewHolder(view, adapter);
     }
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof Favorite){
-            Favorite news = (Favorite) o;
-            return this.id ==(news.id);
 
-        }
-        return false;
-    }
     @Override
-    public void bindViewHolder(FlexibleAdapter<IFlexible> adapter, Favorite.NewsViewHolder holder, int position, List<Object> payloads) {
+    public void bindViewHolder(FlexibleAdapter<IFlexible> adapter, NewsViewHolder holder, int position, List<Object> payloads) {
 
-        String getTheTitle = title.getRendered();
+        String getTheTitle = news.getTitle().getRendered();
         //Replace ASCII codes with proper Characters
         String formatTitle = String.valueOf(Html.fromHtml(getTheTitle));
         holder.mTitle.setText(formatTitle);
@@ -172,8 +85,9 @@ public class Favorite extends AbstractFlexibleItem<Favorite.NewsViewHolder> {
 
     }
 
+
     private void setWebsite(NewsViewHolder holder) {
-        String websiteName = getGuid().getRendered();
+        String websiteName = news.getGuid().getRendered();
         try {
             URL url = new URL(websiteName);
             String host = url.getHost();
@@ -192,7 +106,7 @@ public class Favorite extends AbstractFlexibleItem<Favorite.NewsViewHolder> {
 
     private void setDateOn(NewsViewHolder holder) {
         try {
-            String date = getDate();
+            String date = news.getDate();
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy-MM-dd'T'HH:mm:ss");
             Date mDate = null;
@@ -213,25 +127,25 @@ public class Favorite extends AbstractFlexibleItem<Favorite.NewsViewHolder> {
 
     private void setImage (NewsViewHolder holder) {
         Context context = holder.itemView.getContext();
-        if (getEmbedded().getWpFeaturedmedia().get(0).getMediaDetails() != null) {
-            if (getEmbedded().getWpFeaturedmedia().get(0)
+        if (news.getEmbedded().getWpFeaturedmedia().get(0).getMediaDetails() != null) {
+            if (news.getEmbedded().getWpFeaturedmedia().get(0)
                     .getMediaDetails().getSizes().getMediumLarge() != null) {
 
-                String thumbnail_url = getEmbedded().getWpFeaturedmedia().get(0)
+                String thumbnail_url = news.getEmbedded().getWpFeaturedmedia().get(0)
                         .getMediaDetails().getSizes().getMediumLarge().getSourceUrl();
-                GlideApp.with(context)
+                Glide.with(context)
                         .load(thumbnail_url)
-                       .placeholder(R.mipmap.placeholder)
+//                        .placeholder(R.mipmap.placeholder)
                         .into(holder.thumbnail);
             } else {
-                if (getEmbedded().getWpFeaturedmedia().get(0)
+                if (news.getEmbedded().getWpFeaturedmedia().get(0)
                         .getMediaDetails().getSizes().getMedium() != null){
 
-                    String thumbnail_url = getEmbedded().getWpFeaturedmedia().get(0)
+                    String thumbnail_url = news.getEmbedded().getWpFeaturedmedia().get(0)
                             .getMediaDetails().getSizes().getMedium().getSourceUrl();
-                    GlideApp.with(context)
+                    Glide.with(context)
                             .load(thumbnail_url)
-                            .placeholder(R.mipmap.placeholder)
+//                            .placeholder(R.mipmap.placeholder)
                             .into(holder.thumbnail);
                 }
             }
@@ -242,18 +156,22 @@ public class Favorite extends AbstractFlexibleItem<Favorite.NewsViewHolder> {
         }
     }
 
-    public class NewsViewHolder extends FlexibleViewHolder {
+    @Override
+    public boolean filter(String constraint) {
+        return news.getLink() != null && news.getLink().equals(constraint);
+    }
 
+    @Override
+    public News getModel() {
+        return news;
+    }
+
+    static  class  NewsViewHolder extends FlexibleViewHolder {
         public TextView mTitle;
         ImageView thumbnail;
         RelativeTimeTextView date;
-
-        @Override
-        public float getActivationElevation() {
-            return 2f;
-        }
-
         TextView website;
+
 
         public NewsViewHolder(View view, FlexibleAdapter adapter) {
             super(view, adapter);
@@ -261,8 +179,12 @@ public class Favorite extends AbstractFlexibleItem<Favorite.NewsViewHolder> {
             website = view.findViewById(R.id.news_site);
             thumbnail = view.findViewById(R.id.news_image);
             date =view.findViewById(R.id.news_date);
+
         }
     }
 
-
+    public void setFontSizes(int mCurrentFontSize, int mFontSizeDetails) {
+        this.mFontSizeTitle = mCurrentFontSize;
+        this.mFontSizeDetails = mFontSizeDetails;
+    }
 }
