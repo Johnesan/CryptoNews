@@ -119,7 +119,7 @@ public class NewsWebPageFragment extends Fragment {
     }
 
     public void getTitle() {
-            title = news.getTitle().getRendered();
+            title = String.valueOf(Html.fromHtml(news.getTitle().getRendered()));
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
     }
 
