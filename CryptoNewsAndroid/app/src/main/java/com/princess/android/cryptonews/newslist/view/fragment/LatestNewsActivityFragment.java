@@ -4,15 +4,17 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.app.SearchManager;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.databinding.DataBindingComponent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
@@ -20,7 +22,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -46,7 +47,6 @@ import org.parceler.Parcels;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -67,6 +67,8 @@ public class LatestNewsActivityFragment
 
 
     android.databinding.DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
+    private static final String BUNDLE_KEY_SEARCH =  "SEARCH_QUERY";
+    String mSearchQuery;
 
 
     public static LatestNewsActivityFragment newInstance() {
@@ -97,7 +99,7 @@ public class LatestNewsActivityFragment
                     }
                     if (mDate1 == null || mDate2 == null )
                         return  0;
-                    return mDate1.compareTo(mDate2);
+                    return mDate2.compareTo(mDate1);
                 }
             })
             .build();
@@ -126,6 +128,7 @@ public class LatestNewsActivityFragment
     public static final int WifiData = 1;
 
     boolean isConnected;
+    boolean hasFetchedFromDatabase;
 
     LiveData<List<News>> news;
 
@@ -135,15 +138,24 @@ public class LatestNewsActivityFragment
     public LatestNewsActivityFragment() {
     }
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null){
+            mSearchQuery = savedInstanceState.getString(BUNDLE_KEY_SEARCH);
+        }
+    }
+
     @SuppressLint("ResourceAsColor")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
         FragmentLatestNewsBinding fragmentLatestNewsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_latest_news, container, false, dataBindingComponent);
 
         //init the datbinding for ths view
         binding= new AutoClearedValue<>(this, fragmentLatestNewsBinding);
+        setHasOptionsMenu(true);
         initSwipeToRefresh();
         setupViews();
         return fragmentLatestNewsBinding.getRoot();
@@ -160,6 +172,7 @@ public class LatestNewsActivityFragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         newsViewModel = ViewModelProviders.of(this, factory).get(NewsViewModel.class);
+
         if (mAdapter == null) {
             mAdapter = new NewsAdapter(getContext(),
                    COMPARATOR, this::onClick, dataBindingComponent);
@@ -171,8 +184,8 @@ public class LatestNewsActivityFragment
         connectionClassLiveData.observe(this, connectionModel -> {
             if (connectionModel.isConnected()) {
                 isConnected = true;
-                if (newsList.size() == 0) {
-                    newsViewModel.refresh();
+                if (hasFetchedFromDatabase && newsList.size() == 0) {
+                        newsViewModel.refresh();
                 }
             } else {
                 isConnected = false;
@@ -186,13 +199,24 @@ public class LatestNewsActivityFragment
 
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putString(BUNDLE_KEY_SEARCH, mSearchQuery);
+        super.onSaveInstanceState(outState);
+
+
+    }
+
     //Make a call to the repository to get the available News
     private void getNews() {
         newsViewModel.getAllLatestNews()
             .observe(this, news -> {
+                if ( news != null && news.size() == 0){
 
+                    hasFetchedFromDatabase= true;
+                }
                 if (news != null && news.size() >0)
-
+                    newsList= news;
                     mAdapter.edit().
                             replaceAll(news)
                             .commit();
@@ -212,8 +236,6 @@ public class LatestNewsActivityFragment
         }
 
         binding.get().recyclerView.setLayoutManager(layoutManager);
-
-
         // we want to watch if the user scrolls down  when there is no internet connection
         // to tell the user the news will not be loaded
         binding.get().recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -223,13 +245,10 @@ public class LatestNewsActivityFragment
                 if (!isConnected){
                     if (newState == RecyclerView.SCROLL_STATE_DRAGGING){
                         Snackbar.make(binding.get().newsContainer, R.string.error, Snackbar.LENGTH_LONG).show();
-
                     }
                 }
             }
         });
-
-
     }
 
 
@@ -257,6 +276,7 @@ public class LatestNewsActivityFragment
         if(refreshFontSize()){
 
                 mAdapter.setFontSizes(mFontSizeTitle, mFontSizeDetails);
+                mAdapter.notifyDataSetChanged();
 
         }
 
@@ -288,10 +308,6 @@ public class LatestNewsActivityFragment
         Intent intent = new Intent(getContext(), NewsWebPageActivity.class);
         //Get the link of the website to be opened on the Web page
         String link = data.getGuid().getRendered();
-        //Get the title of each news and format it to normal characters
-        String title = String.valueOf(Html.fromHtml(data.getTitle().getRendered()));
-        //get the id of the news
-        int id = data.getId();
 
         if (isConnected){
 
@@ -320,6 +336,13 @@ public class LatestNewsActivityFragment
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final  SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
+       if (mSearchQuery != null && !mSearchQuery.isEmpty()){
+           String s = mSearchQuery;
+           searchItem.expandActionView();
+           searchView.setQuery(s, false);
+            searchView.clearFocus();
+        }
+
     }
 
     @Override
@@ -345,6 +368,7 @@ public class LatestNewsActivityFragment
     public void onEditFinished() {
         binding.get().recyclerView.scrollToPosition(0);
         binding.get().recyclerView.animate().alpha(1.0f);
+
 
         if (mAnimator != null) {
             mAnimator.cancel();
@@ -381,7 +405,14 @@ public class LatestNewsActivityFragment
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        mSearchQuery = newText;
         final  List<News> filteredNewsList = filter(newsList,  newText);
+        if (filteredNewsList.size() == 0){
+            binding.get().emptyView.setVisibility(View.VISIBLE);
+        }else {
+            binding.get().emptyView.setVisibility(View.INVISIBLE);
+        }
+
         mAdapter.edit()
                 .replaceAll(filteredNewsList)
                 .commit();
@@ -400,4 +431,5 @@ public class LatestNewsActivityFragment
         }
         return  filteredNewsList;
     }
+
 }

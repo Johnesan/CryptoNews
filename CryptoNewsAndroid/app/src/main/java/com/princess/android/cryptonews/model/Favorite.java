@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.google.gson.annotations.SerializedName;
 import com.princess.android.cryptonews.R;
+import com.princess.android.cryptonews.util.GlideApp;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -218,9 +219,9 @@ public class Favorite extends AbstractFlexibleItem<Favorite.NewsViewHolder> {
 
                 String thumbnail_url = getEmbedded().getWpFeaturedmedia().get(0)
                         .getMediaDetails().getSizes().getMediumLarge().getSourceUrl();
-                Glide.with(context)
+                GlideApp.with(context)
                         .load(thumbnail_url)
-                        .placeholder(R.mipmap.placeholder)
+                       .placeholder(R.mipmap.placeholder)
                         .into(holder.thumbnail);
             } else {
                 if (getEmbedded().getWpFeaturedmedia().get(0)
@@ -228,7 +229,7 @@ public class Favorite extends AbstractFlexibleItem<Favorite.NewsViewHolder> {
 
                     String thumbnail_url = getEmbedded().getWpFeaturedmedia().get(0)
                             .getMediaDetails().getSizes().getMedium().getSourceUrl();
-                    Glide.with(context)
+                    GlideApp.with(context)
                             .load(thumbnail_url)
                             .placeholder(R.mipmap.placeholder)
                             .into(holder.thumbnail);

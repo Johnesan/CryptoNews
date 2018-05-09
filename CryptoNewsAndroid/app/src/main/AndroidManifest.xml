@@ -26,6 +26,7 @@
             android:name=".newslist.view.activity.LatestNewsActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
+            android:configChanges="keyboardHidden|orientation"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="searchable"

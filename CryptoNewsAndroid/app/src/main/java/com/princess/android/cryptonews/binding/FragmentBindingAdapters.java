@@ -3,7 +3,6 @@ package com.princess.android.cryptonews.binding;
 import android.databinding.BindingAdapter;
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.util.TypedValue;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,8 +10,7 @@ import com.bumptech.glide.Glide;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.model.Embedded;
-import com.princess.android.cryptonews.model.Guid;
-import com.princess.android.cryptonews.model.News;
+import com.princess.android.cryptonews.util.GlideApp;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -43,17 +41,21 @@ public class FragmentBindingAdapters {
 
                 String thumbnail_url = embedded.getWpFeaturedmedia().get(0)
                         .getMediaDetails().getSizes().getMediumLarge().getSourceUrl();
-                Glide.with(fragment.getContext())
+                GlideApp.with(fragment.getContext())
                         .load(thumbnail_url)
                         .placeholder(R.mipmap.placeholder)
                         .into(imageView);
+
+
+
+
             } else {
                 if (embedded.getWpFeaturedmedia().get(0)
                         .getMediaDetails().getSizes().getMedium() != null) {
 
                     String thumbnail_url = embedded.getWpFeaturedmedia().get(0)
                             .getMediaDetails().getSizes().getMedium().getSourceUrl();
-                    Glide.with(fragment.getContext())
+                    GlideApp.with(fragment.getContext())
                             .load(thumbnail_url)
                             .placeholder(R.mipmap.placeholder)
                             .into(imageView);

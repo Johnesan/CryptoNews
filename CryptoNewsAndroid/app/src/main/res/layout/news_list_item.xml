@@ -16,7 +16,7 @@
         android:layout_width="156dp"
         android:layout_height="wrap_content"
         android:onClick="@{view -> listener.onNewsItemClicked(news)}"
-    android:id="@+id/news_layout"
+        android:id="@+id/news_layout"
         android:foreground="?attr/selectableItemBackground"
         app:cardCornerRadius="6dp"
         android:layout_margin="@dimen/padding">
@@ -29,7 +29,7 @@
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/news_image"
                 android:layout_width="156dp"
-                imageUrl="@{news.embedded}"
+                app:imageUrl="@{news.embedded}"
                 android:layout_height="127dp"
                 android:scaleType="centerCrop"
                 app:riv_corner_radius_top_left="6dp"

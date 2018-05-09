@@ -71,13 +71,7 @@ public class NewsAdapter extends
         return  new NewsViewHolder(binding, mListener);
     }
 
-//        /** Set the title size
-//         *
-//         */
 
-//        holder.title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSizeTitle);
-//
-//
 //        /** Set the date
 //         *
 //         */
@@ -121,15 +115,22 @@ public class NewsAdapter extends
             mBinding.setNews(news);
         }
 
+        @Override
+        protected void onAttach() {
+            mBinding.newsTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSizeTitle);
+            mBinding.newsDate.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSizeDetails);
+            mBinding.newsSite.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSizeDetails);
 
-        public NewsViewHolder(NewsListItemBinding binding, NewsAdapter.Listener listener
-        )
-        {
+        }
+
+        public NewsViewHolder(NewsListItemBinding binding, NewsAdapter.Listener listener) {
             super(binding.getRoot());
             binding.setListener(listener);
             mBinding = binding;
 
+
         }
+
 
 }
 }

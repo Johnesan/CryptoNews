@@ -16,6 +16,8 @@ import dagger.android.support.DaggerAppCompatActivity;
 public class LatestNewsActivity extends DaggerAppCompatActivity {
 
     LatestNewsActivityFragment activityFragment;
+    private static final String STATE_ACTIVE_FRAGMENT = "active_fragment";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,15 +25,19 @@ public class LatestNewsActivity extends DaggerAppCompatActivity {
         setContentView(R.layout.activity_latest_news);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        showNewsListFragment();
+        showNewsListFragment(savedInstanceState);
 
     }
 
-    private void showNewsListFragment() {
+    private void showNewsListFragment(Bundle saveInstanceState) {
+       if (saveInstanceState != null){
+           activityFragment = (LatestNewsActivityFragment) getSupportFragmentManager().getFragment(saveInstanceState, STATE_ACTIVE_FRAGMENT);
+       }
+
         if (activityFragment == null){
             activityFragment = LatestNewsActivityFragment.newInstance();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment, activityFragment, LatestNewsActivityFragment.class.getSimpleName()).commit();
         }
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, activityFragment, LatestNewsActivityFragment.class.getSimpleName()).commit();
     }
 
     @Override
@@ -70,4 +76,10 @@ public class LatestNewsActivity extends DaggerAppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        getSupportFragmentManager().putFragment(outState,STATE_ACTIVE_FRAGMENT, activityFragment);
+    }
 }

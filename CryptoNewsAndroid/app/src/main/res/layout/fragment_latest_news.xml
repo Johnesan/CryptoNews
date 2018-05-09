@@ -24,7 +24,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="8dp"
-                    android:orientation="horizontal" />
+                     />
 
             </android.support.v4.widget.SwipeRefreshLayout>
 
@@ -44,6 +44,27 @@
                 android:visibility="invisible"/>
 
         </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/emptyView"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="70dp"
+                android:src="@drawable/ic_newspaper"
+                android:layout_height="70dp" />
+            <TextView
+                android:textColor="#828282"
+                android:textSize="24dp"
+                android:layout_marginBottom="36dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Result Found"/>
+        </LinearLayout>
 
     </FrameLayout>
 </layout>

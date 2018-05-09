@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
+import com.bumptech.glide.request.target.ViewTarget;
 import com.princess.android.cryptonews.injection.AppComponent;
 import com.princess.android.cryptonews.injection.DaggerAppComponent;
 
@@ -14,9 +15,6 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
-/**
- * Created by numb3rs on 2/16/18.
- */
 
 public class AppController extends Application implements HasActivityInjector {
 
@@ -29,6 +27,7 @@ public class AppController extends Application implements HasActivityInjector {
     @Override
     public void onCreate() {
         super.onCreate();
+        ViewTarget.setTagId(R.id.glide_tag);
         INSTANCE = this;
 
         //initialise the default font
@@ -56,7 +55,6 @@ public class AppController extends Application implements HasActivityInjector {
     public static Context getContextInstance(){
         return INSTANCE.getApplicationContext();
     }
-
 
     @Override
     public AndroidInjector<Activity> activityInjector() {

@@ -1,3 +1,4 @@
 <resources>
     <dimen name="padding">8dp</dimen>
+    <item type="id" name="glide_tag"/>
 </resources>

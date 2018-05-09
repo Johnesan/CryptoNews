@@ -22,7 +22,7 @@ import dagger.Provides;
 
 
 
-@Module (includes = viewModelModule.class  )
+@Module (includes = {viewModelModule.class})
 @Singleton
 public class AppModule {
     AppExecutors appExecutors;
@@ -36,6 +36,7 @@ public class AppModule {
      AppExecutors providesExecutors () {
          return appExecutors;
      }
+
 
      @Singleton
      @Provides

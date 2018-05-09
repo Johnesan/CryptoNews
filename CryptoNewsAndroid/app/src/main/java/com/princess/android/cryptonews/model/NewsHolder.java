@@ -135,7 +135,7 @@ public class NewsHolder extends AbstractFlexibleItem<NewsHolder.NewsViewHolder> 
                         .getMediaDetails().getSizes().getMediumLarge().getSourceUrl();
                 Glide.with(context)
                         .load(thumbnail_url)
-                        .placeholder(R.mipmap.placeholder)
+//                        .placeholder(R.mipmap.placeholder)
                         .into(holder.thumbnail);
             } else {
                 if (news.getEmbedded().getWpFeaturedmedia().get(0)
@@ -145,7 +145,7 @@ public class NewsHolder extends AbstractFlexibleItem<NewsHolder.NewsViewHolder> 
                             .getMediaDetails().getSizes().getMedium().getSourceUrl();
                     Glide.with(context)
                             .load(thumbnail_url)
-                            .placeholder(R.mipmap.placeholder)
+//                            .placeholder(R.mipmap.placeholder)
                             .into(holder.thumbnail);
                 }
             }
