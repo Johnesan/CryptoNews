@@ -8,12 +8,14 @@ import android.view.MenuItem;
 
 import com.princess.android.cryptonews.Favourite.FavoriteActivity;
 import com.princess.android.cryptonews.R;
+import com.princess.android.cryptonews.newslist.view.fragment.LatestNewsActivityFragment;
 import com.princess.android.cryptonews.settings.Activity.SettingsActivity;
 
 import dagger.android.support.DaggerAppCompatActivity;
 
-
 public class LatestNewsActivity extends DaggerAppCompatActivity {
+
+    LatestNewsActivityFragment activityFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +23,15 @@ public class LatestNewsActivity extends DaggerAppCompatActivity {
         setContentView(R.layout.activity_latest_news);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        showNewsListFragment();
 
+    }
+
+    private void showNewsListFragment() {
+        if (activityFragment == null){
+            activityFragment = LatestNewsActivityFragment.newInstance();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment, activityFragment, LatestNewsActivityFragment.class.getSimpleName()).commit();
+        }
     }
 
     @Override

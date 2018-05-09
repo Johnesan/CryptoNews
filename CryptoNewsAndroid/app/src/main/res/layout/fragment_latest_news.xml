@@ -1,39 +1,49 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:id="@+id/news_container"
-    android:layout_height="match_parent"
-    tools:context="com.princess.android.cryptonews.newslist.view.fragment.LatestNewsActivityFragment"
-    tools:showIn="@layout/activity_latest_news">
-
-    <RelativeLayout
+<layout>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:id="@+id/news_container"
+        android:layout_height="match_parent"
+        tools:context="com.princess.android.cryptonews.newslist.view.fragment.LatestNewsActivityFragment"
+        tools:showIn="@layout/activity_latest_news">
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_container"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            tools:showIn="@layout/activity_latest_news">
+            android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="8dp"
-                android:orientation="horizontal" />
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                tools:showIn="@layout/activity_latest_news">
 
-        </android.support.v4.widget.SwipeRefreshLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="8dp"
+                    android:orientation="horizontal" />
 
-        <include
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            layout="@layout/empty_item"
-            android:layout_gravity="center"
-            android:visibility="invisible"/>
+            </android.support.v4.widget.SwipeRefreshLayout>
 
-    </RelativeLayout>
+            <ProgressBar
+                android:id="@+id/edit_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
 
-</FrameLayout>
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                layout="@layout/empty_item"
+                android:layout_gravity="center"
+                android:visibility="invisible"/>
+
+        </RelativeLayout>
+
+    </FrameLayout>
+</layout>

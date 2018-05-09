@@ -13,12 +13,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
+import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.princess.android.cryptonews.R;
 import com.princess.android.cryptonews.model.modelTest.NewsTest;
 
 import org.parceler.Parcel;
 
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
@@ -28,12 +30,14 @@ import java.util.List;
 
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem;
+import eu.davidea.flexibleadapter.items.IFilterable;
 import eu.davidea.flexibleadapter.items.IFlexible;
 import eu.davidea.viewholders.FlexibleViewHolder;
 
 @Parcel
 @Entity(tableName = "news")
-public class News extends AbstractFlexibleItem<News.NewsViewHolder>{
+public class News
+        implements SortedListAdapter.ViewModel {
 
 	@SerializedName("date")
 	private String date;
@@ -55,15 +59,10 @@ public class News extends AbstractFlexibleItem<News.NewsViewHolder>{
 	@SerializedName("guid")
 	private Guid guid;
 
-     @Ignore
-    int mFontSizeTitle = 13;
-     @Ignore
-    int mFontSizeDetails = 10;
-
     public News() {
     }
 
-    public News(String date, String link, Title title, Embedded embedded, @NonNull int id, Guid guid) {
+    public News(String date, String link, Title title, Embedded embedded, int id, Guid guid) {
 		this.date = date;
 		this.link = link;
 		this.title = title;
@@ -141,130 +140,31 @@ public class News extends AbstractFlexibleItem<News.NewsViewHolder>{
         if (o instanceof News){
             News news = (News) o;
             return this.id ==(news.id);
-
         }
         return false;
     }
 
-    @Override
-    public int getLayoutRes() {
-        return R.layout.news_list_item;
-    }
+
+
 
     @Override
-    public News.NewsViewHolder createViewHolder(View view, FlexibleAdapter<IFlexible> adapter) {
-        return new NewsViewHolder(view, adapter);
-    }
-
-    @Override
-    public void bindViewHolder(FlexibleAdapter<IFlexible> adapter, News.NewsViewHolder holder, int position, List<Object> payloads) {
-
-        String getTheTitle = title.getRendered();
-        //Replace ASCII codes with proper Characters
-        String formatTitle = String.valueOf(Html.fromHtml(getTheTitle));
-        holder.mTitle.setText(formatTitle);
-        setImage(holder);
-        setDateOn(holder);
-        setWebsite(holder);
-        holder.mTitle.setEnabled(true);
-        holder.thumbnail.setEnabled(true);
-//        Glide.with()
-//                .load(R.mipmap.placeholder)
-//                .placeholder(R.mipmap.placeholder)
-//                .into(holder.thumbnail);
-
-    }
-
-    private void setWebsite(NewsViewHolder holder) {
-        String websiteName = getGuid().getRendered();
-        try {
-            URL url = new URL(websiteName);
-            String host = url.getHost();
-            String[] array = host.split("\\.");
-            if (array[0].equals("www")) {
-                holder.website.setText(array[1].toLowerCase());
-            } else
-                holder.website.setText(array[0].toLowerCase());
-            holder.website.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSizeDetails);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+    public <T> boolean isSameModelAs(@NonNull T model) {
+        if (model instanceof  News){
+            final  News news = (News) model;
+            return  news.id == id;
         }
-
+        return  false;
     }
 
-
-    private void setDateOn(NewsViewHolder holder) {
- 	    try {
-        String date = getDate();
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy-MM-dd'T'HH:mm:ss");
-        Date mDate = null;
-        long timeInMilliseconds = 0;
-        try {
-            mDate = simpleDateFormat.parse(date);
-
-            timeInMilliseconds = mDate.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        holder.date.setReferenceTime(timeInMilliseconds);
-        holder.date.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSizeDetails);
-    } catch (NumberFormatException nfe) {
-
-    }
-    }
-
-    private void setImage (NewsViewHolder holder) {
-        Context context = holder.itemView.getContext();
-        if (getEmbedded().getWpFeaturedmedia().get(0).getMediaDetails() != null) {
-            if (getEmbedded().getWpFeaturedmedia().get(0)
-                    .getMediaDetails().getSizes().getMediumLarge() != null) {
-
-                String thumbnail_url = getEmbedded().getWpFeaturedmedia().get(0)
-                        .getMediaDetails().getSizes().getMediumLarge().getSourceUrl();
-                Glide.with(context)
-                        .load(thumbnail_url)
-                        .placeholder(R.mipmap.placeholder)
-                        .into(holder.thumbnail);
-            } else {
-                if (getEmbedded().getWpFeaturedmedia().get(0)
-                        .getMediaDetails().getSizes().getMedium() != null){
-
-                    String thumbnail_url = getEmbedded().getWpFeaturedmedia().get(0)
-                            .getMediaDetails().getSizes().getMedium().getSourceUrl();
-                    Glide.with(context)
-                            .load(thumbnail_url)
-                            .placeholder(R.mipmap.placeholder)
-                            .into(holder.thumbnail);
-                }
+    @Override
+    public <T> boolean isContentTheSameAs(@NonNull T model) {
+        if (model instanceof  News){
+            final  News other = (News)model;
+            if (link != other.link){
+                return  false;
             }
-        } else {
-            Glide.with(context)
-                    .load(R.mipmap.placeholder)
-                    .into(holder.thumbnail);
+            return  link != null ? link.equals(other.link) : other.link == null;
         }
+        return  false;
     }
-
-    public class NewsViewHolder extends FlexibleViewHolder {
-
-        public TextView mTitle;
-        ImageView thumbnail;
-        RelativeTimeTextView date;
-
-        @Override
-        public float getActivationElevation() {
-            return 2f;
-        }
-
-        TextView website;
-
-        public NewsViewHolder(View view, FlexibleAdapter adapter) {
-            super(view, adapter);
-            mTitle = view.findViewById(R.id.news_title);
-            website = view.findViewById(R.id.news_site);
-            thumbnail = view.findViewById(R.id.news_image);
-            date =view.findViewById(R.id.news_date);
-        }
-    }
-
 }

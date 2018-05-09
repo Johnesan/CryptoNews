@@ -27,6 +27,12 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="searchable"
+                android:resource="@xml/searchable"/>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+            </intent-filter>
         </activity>
 
         <activity android:name=".newswebsite.view.ui.NewsWebPageActivity"
@@ -61,6 +67,12 @@
         <activity android:name=".Favourite.FavoriteActivity"
             android:label="Favorites"
             android:theme="@style/AppTheme">
+            <meta-data
+                android:name="searchable"
+                android:resource="@xml/searchable"/>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+            </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".settings.Activity.ManageBlogSettings" />

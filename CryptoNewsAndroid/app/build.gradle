@@ -114,4 +114,6 @@ dependencies {
 
     implementation 'org.parceler:parceler-api:1.1.9'
     annotationProcessor 'org.parceler:parceler:1.1.9'
+
+    compile 'com.github.wrdlbrnft:sorted-list-adapter:0.3.0.27'
 }
