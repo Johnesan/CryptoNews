@@ -35,7 +35,7 @@ public class FragmentBindingAdapters {
     @BindingAdapter("imageUrl")
     public void bindImage(ImageView imageView, Embedded embedded) {
 
-        if (embedded.getWpFeaturedmedia().get(0).getMediaDetails() != null) {
+        if (embedded.getWpFeaturedmedia() != null && embedded.getWpFeaturedmedia().get(0).getMediaDetails() != null) {
             if (embedded.getWpFeaturedmedia().get(0)
                     .getMediaDetails().getSizes().getMediumLarge() != null) {
 

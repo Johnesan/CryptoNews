@@ -71,38 +71,6 @@ public class LatestNewsActivityFragment
     String mSearchQuery;
 
 
-    public static LatestNewsActivityFragment newInstance() {
-        
-        Bundle args = new Bundle();
-        
-        LatestNewsActivityFragment fragment = new LatestNewsActivityFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    //this is responsible for ordering our news
-    private  static final  Comparator<News> COMPARATOR =
-            new SortedListAdapter.ComparatorBuilder<News>()
-            .setOrderForModel(News.class, new Comparator<News>() {
-                @Override
-                public int compare(News a, News b) {
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy-MM-dd'T'HH:mm:ss");
-                    Date mDate1 = null;
-                    Date mDate2 = null;
-
-                    try {
-                        mDate1 = simpleDateFormat.parse(a.getDate());
-                        mDate2 = simpleDateFormat.parse(b.getDate());
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    if (mDate1 == null || mDate2 == null )
-                        return  0;
-                    return mDate2.compareTo(mDate1);
-                }
-            })
-            .build();
 
     @Inject
     ViewModelProvider.Factory  factory;
@@ -137,6 +105,39 @@ public class LatestNewsActivityFragment
 
     public LatestNewsActivityFragment() {
     }
+    public static LatestNewsActivityFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        LatestNewsActivityFragment fragment = new LatestNewsActivityFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    //this is responsible for ordering our news
+    private  static final  Comparator<News> COMPARATOR =
+            new SortedListAdapter.ComparatorBuilder<News>()
+                    .setOrderForModel(News.class, new Comparator<News>() {
+                        @Override
+                        public int compare(News a, News b) {
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy-MM-dd'T'HH:mm:ss");
+                            Date mDate1 = null;
+                            Date mDate2 = null;
+
+                            try {
+                                mDate1 = simpleDateFormat.parse(a.getDate());
+                                mDate2 = simpleDateFormat.parse(b.getDate());
+
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            if (mDate1 == null || mDate2 == null )
+                                return  0;
+                            return mDate2.compareTo(mDate1);
+                        }
+                    })
+                    .build();
+
 
 
     @Override

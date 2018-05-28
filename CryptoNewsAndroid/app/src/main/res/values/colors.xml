@@ -3,6 +3,13 @@
     <color name="colorPrimary">#061945</color>
     <color name="colorPrimaryDark">#061F59</color>
     <color name="colorAccent">#E0248A</color>
-
+    <color name="content_placeholder">#ffe0e0e0</color>
     <color name="list_choice_pressed_bg_light">#a1000000</color>
+
+
+    <color name="text_secondary_dark">#8a000000</color> <!-- 54% -->
+    <color name="text_tertiary_dark">#61000000</color> <!-- 38% -->
+    <color name="text_primary_light">#ffffffff</color>
+    <color name="text_secondary_light">#b3ffffff</color> <!-- 70% -->
+    <color name="text_disabled_light">#4dffffff</color> <!-- 30% -->
 </resources>
