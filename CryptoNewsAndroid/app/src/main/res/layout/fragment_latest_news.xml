@@ -1,11 +1,17 @@
-<layout>
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.v4.widget.DrawerLayout
         android:layout_width="match_parent"
+        android:id="@+id/drawer"
+        android:clipToPadding="false"
+        android:layout_height="match_parent">
+
+    <FrameLayout
+       android:layout_width="match_parent"
         android:id="@+id/news_container"
-        android:layout_height="match_parent"
-        tools:context="com.princess.android.cryptonews.newslist.view.fragment.LatestNewsActivityFragment"
-        tools:showIn="@layout/activity_latest_news">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -43,6 +49,14 @@
                 android:layout_gravity="center"
                 android:visibility="invisible"/>
 
+            <ViewStub
+                android:id="@+id/stub_no_filters"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_huge"
+                android:layout_gravity="center"
+                android:layout="@layout/no_filters" />
+
         </RelativeLayout>
 
         <LinearLayout
@@ -67,4 +81,20 @@
         </LinearLayout>
 
     </FrameLayout>
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="@dimen/drawer_width"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:id="@+id/filters"
+            android:paddingTop="@dimen/spacing_normal"
+            android:paddingBottom="@dimen/spacing_normal"
+            android:elevation="@dimen/z_drawer"
+            android:background="@color/background_dark"
+            android:clipToPadding="false"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="outsideOverlay"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            tools:listitem="@layout/filter_item">
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.DrawerLayout>
 </layout>

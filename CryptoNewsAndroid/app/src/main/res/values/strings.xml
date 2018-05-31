@@ -95,6 +95,6 @@
     <string name="demo_test">Test</string>
     <string name="demo_save">Save</string>
     <string name="action_search">search</string>
-    <string name="filter">filter</string>
+    <string name="action_filter">filter</string>
 
 </resources>

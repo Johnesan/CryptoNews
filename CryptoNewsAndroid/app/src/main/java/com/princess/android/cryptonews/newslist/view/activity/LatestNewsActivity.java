@@ -16,6 +16,7 @@ import dagger.android.support.DaggerAppCompatActivity;
 public class LatestNewsActivity extends DaggerAppCompatActivity {
 
     LatestNewsActivityFragment activityFragment;
+    public Toolbar mToolbar;
     private static final String STATE_ACTIVE_FRAGMENT = "active_fragment";
 
 
@@ -23,8 +24,8 @@ public class LatestNewsActivity extends DaggerAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_latest_news);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar= findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
         showNewsListFragment(savedInstanceState);
 
     }
@@ -60,9 +61,15 @@ public class LatestNewsActivity extends DaggerAppCompatActivity {
             case R.id.action_favorite:
                 startFavoriteActivity();
                 return  true;
+            case R.id.action_filter:
+                openDrawer();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void openDrawer() {
+        activityFragment.openFilter();
     }
 
     private void startFavoriteActivity() {
@@ -81,5 +88,14 @@ public class LatestNewsActivity extends DaggerAppCompatActivity {
         super.onSaveInstanceState(outState);
 
         getSupportFragmentManager().putFragment(outState,STATE_ACTIVE_FRAGMENT, activityFragment);
+    }
+
+    @Override
+    public void onBackPressed() {
+       if (activityFragment.isFilterOpened()){
+           activityFragment.closeFilter();
+       } else {
+            super.onBackPressed();
+       }
     }
 }

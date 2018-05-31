@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProvider;
@@ -13,15 +14,19 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,6 +41,9 @@ import com.princess.android.cryptonews.binding.FragmentDataBindingComponent;
 import com.princess.android.cryptonews.commons.AutoClearedValue;
 import com.princess.android.cryptonews.databinding.FragmentLatestNewsBinding;
 import com.princess.android.cryptonews.model.News;
+import com.princess.android.cryptonews.newslist.SourceManager;
+import com.princess.android.cryptonews.newslist.view.activity.LatestNewsActivity;
+import com.princess.android.cryptonews.newslist.view.adapters.FilterAdapter;
 import com.princess.android.cryptonews.newslist.view.adapters.NewsAdapter;
 import com.princess.android.cryptonews.newslist.viewmodel.NewsViewModel;
 import com.princess.android.cryptonews.newswebsite.view.ui.NewsWebPageActivity;
@@ -70,6 +78,7 @@ public class LatestNewsActivityFragment
     private static final String BUNDLE_KEY_SEARCH =  "SEARCH_QUERY";
     String mSearchQuery;
 
+    FilterAdapter filtersAdapter;
 
 
     @Inject
@@ -98,6 +107,7 @@ public class LatestNewsActivityFragment
     boolean isConnected;
     boolean hasFetchedFromDatabase;
 
+    Toolbar  toolbar;
     LiveData<List<News>> news;
 
     @Inject
@@ -146,6 +156,7 @@ public class LatestNewsActivityFragment
         if (savedInstanceState != null){
             mSearchQuery = savedInstanceState.getString(BUNDLE_KEY_SEARCH);
         }
+
     }
 
     @SuppressLint("ResourceAsColor")
@@ -158,7 +169,10 @@ public class LatestNewsActivityFragment
         binding= new AutoClearedValue<>(this, fragmentLatestNewsBinding);
         setHasOptionsMenu(true);
         initSwipeToRefresh();
+        toolbar = ((LatestNewsActivity) getActivity()).mToolbar;
+        filtersAdapter = new FilterAdapter(getContext(), SourceManager.getSources(getContext()), dataBindingComponent);
         setupViews();
+
         return fragmentLatestNewsBinding.getRoot();
     }
 
@@ -227,6 +241,8 @@ public class LatestNewsActivityFragment
     }
 
     private void setupViews(){
+
+        setUpNavDrawer();
         //This layout controls how many items are shown in portrait and Landscape
         layoutManager = new GridLayoutManager(getActivity(),2);
 
@@ -250,6 +266,43 @@ public class LatestNewsActivityFragment
                 }
             }
         });
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
+    public  void setUpNavDrawer(){
+
+        binding.get().drawer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+
+        binding.get().drawer.setOnApplyWindowInsetsListener((v, insets) -> {
+            // inset the toolbar down by the status bar height
+            ViewGroup.MarginLayoutParams lpToolbar = (ViewGroup.MarginLayoutParams) toolbar
+                    .getLayoutParams();
+            lpToolbar.topMargin += insets.getSystemWindowInsetTop();
+            lpToolbar.leftMargin += insets.getSystemWindowInsetLeft();
+            lpToolbar.rightMargin += insets.getSystemWindowInsetRight();
+            toolbar.setLayoutParams(lpToolbar);
+
+
+            // inset the filters list for the status bar / navbar
+            // need to set the padding end for landscape case
+            final boolean ltr = binding.get().filters.getLayoutDirection() == View.LAYOUT_DIRECTION_LTR;
+            binding.get().filters.setPaddingRelative(binding.get().filters.getPaddingStart(),
+                    binding.get().filters.getPaddingTop() + insets.getSystemWindowInsetTop(),
+                    binding.get().filters.getPaddingEnd() + (ltr ? insets.getSystemWindowInsetRight() :
+                            0),
+                    binding.get().filters.getPaddingBottom() + insets.getSystemWindowInsetBottom());
+
+            // clear this listener so insets aren't re-applied
+            binding.get().drawer.setOnApplyWindowInsetsListener(null);
+
+
+            return insets.consumeSystemWindowInsets();
+        });
+        binding.get().filters.setAdapter(filtersAdapter);
+
     }
 
 
@@ -432,5 +485,22 @@ public class LatestNewsActivityFragment
         }
         return  filteredNewsList;
     }
+
+
+    public  void openFilter(){
+        binding.get().drawer.openDrawer(GravityCompat.END);
+    }
+
+
+    public boolean isFilterOpened(){
+        return binding.get().drawer.isDrawerOpen(GravityCompat.END);
+    }
+
+    public  void closeFilter(){
+        binding.get().drawer.closeDrawer(GravityCompat.END);
+
+    }
+
+
 
 }

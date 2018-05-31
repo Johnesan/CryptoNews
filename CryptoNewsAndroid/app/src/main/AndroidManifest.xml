@@ -27,7 +27,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:configChanges="keyboardHidden|orientation"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/LatestNewsTheme">
             <meta-data
                 android:name="searchable"
                 android:resource="@xml/searchable"/>

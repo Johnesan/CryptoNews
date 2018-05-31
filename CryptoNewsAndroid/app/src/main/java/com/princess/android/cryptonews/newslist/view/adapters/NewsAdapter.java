@@ -72,30 +72,7 @@ public class NewsAdapter extends
     }
 
 
-//        /** Set the date
-//         *
-//         */
-//      holder.date.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSizeDetails);
-//
-//        /** Set the website
-//         *
-//         */
-//        String websiteName = result.getGuid().getRendered();
-//        try {
-//            URL url = new URL(websiteName);
-//            String host = url.getHost();
-//            String[] array = host.split("\\.");
-//            if (array[0].equals("www")) {
-//                holder.website.setText(array[1].toLowerCase());
-//            } else
-//                holder.website.setText(array[0].toLowerCase());
-//                holder.website.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mFontSizeDetails);
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
-//
+
 
     public void setFontSizes(int mCurrentFontSize, int mFontSizeDetails) {
         this.mFontSizeTitle = mCurrentFontSize;
