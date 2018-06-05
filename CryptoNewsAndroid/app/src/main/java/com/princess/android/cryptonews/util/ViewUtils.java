@@ -15,6 +15,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.graphics.Palette;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.util.Property;

@@ -2,8 +2,8 @@
 <layout>
     <data>
         <variable
-            name="listener"
-            type="com.princess.android.cryptonews.newslist.view.adapters.FilterAdapter.Listener"/>
+            name="source"
+            type="com.princess.android.cryptonews.newslist.Source"/>
 
     </data>
     <com.princess.android.cryptonews.widger.ForegroundLinearLayout
@@ -33,11 +33,9 @@
             android:layout_marginStart="@dimen/padding_normal"
             android:layout_gravity="center_vertical"
             android:ellipsize="end"
-            android:text="Date Ascending"
+            tools:text="Date Ascending"
             android:textAppearance="@style/TextAppearance.Filter"
-            android:stateListAnimator="@animator/filter_active"
-            tools:text="Popular Designer News"/>
-
+            android:stateListAnimator="@animator/filter_active" />
 
 
     </com.princess.android.cryptonews.widger.ForegroundLinearLayout>

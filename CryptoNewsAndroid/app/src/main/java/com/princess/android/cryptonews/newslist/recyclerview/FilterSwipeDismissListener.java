@@ -5,5 +5,5 @@ package com.princess.android.cryptonews.newslist.recyclerview;
  */
 
 public interface FilterSwipeDismissListener {
-    int onItemDismiss(int position);
+    void onItemDismiss(int position);
 }

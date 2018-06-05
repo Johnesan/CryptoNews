@@ -27,6 +27,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +35,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.Toast;
 
 import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter;
 import com.princess.android.cryptonews.R;
@@ -41,6 +43,7 @@ import com.princess.android.cryptonews.binding.FragmentDataBindingComponent;
 import com.princess.android.cryptonews.commons.AutoClearedValue;
 import com.princess.android.cryptonews.databinding.FragmentLatestNewsBinding;
 import com.princess.android.cryptonews.model.News;
+import com.princess.android.cryptonews.newslist.Source;
 import com.princess.android.cryptonews.newslist.SourceManager;
 import com.princess.android.cryptonews.newslist.view.activity.LatestNewsActivity;
 import com.princess.android.cryptonews.newslist.view.adapters.FilterAdapter;
@@ -62,6 +65,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
+import eu.davidea.flexibleadapter.common.FlexibleItemAnimator;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -74,11 +78,13 @@ public class LatestNewsActivityFragment
         SortedListAdapter.Callback{
 
 
+
     android.databinding.DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
     private static final String BUNDLE_KEY_SEARCH =  "SEARCH_QUERY";
     String mSearchQuery;
 
     FilterAdapter filtersAdapter;
+
 
 
     @Inject
@@ -171,6 +177,7 @@ public class LatestNewsActivityFragment
         initSwipeToRefresh();
         toolbar = ((LatestNewsActivity) getActivity()).mToolbar;
         filtersAdapter = new FilterAdapter(getContext(), SourceManager.getSources(getContext()), dataBindingComponent);
+
         setupViews();
 
         return fragmentLatestNewsBinding.getRoot();
@@ -302,6 +309,8 @@ public class LatestNewsActivityFragment
             return insets.consumeSystemWindowInsets();
         });
         binding.get().filters.setAdapter(filtersAdapter);
+        binding.get().filters.setItemAnimator(new FilterAdapter.FilterAnimator());
+        filtersAdapter.registerFilterChangedCallback(filtersChangedCallbacks);
 
     }
 
@@ -500,6 +509,29 @@ public class LatestNewsActivityFragment
         binding.get().drawer.closeDrawer(GravityCompat.END);
 
     }
+
+    //Listener for notifying adaper when data sources are deactivated
+    private FilterAdapter.FiltersChangedCallbacks filtersChangedCallbacks =
+            new FilterAdapter.FiltersChangedCallbacks() {
+                @Override
+                public void onFiltersChanged(Source changedFilter) {
+                    if (!changedFilter.active)
+                    {
+                        Toast.makeText(getContext(),  "Filter has been changed", Toast.LENGTH_SHORT).show();
+                        Log.e(this.getClass().getSimpleName(), "Filter has been changed");
+
+                    }
+
+                }
+
+                @Override
+                public void onLastFilterTriedToChanged(Source remain) {
+                    if (remain.active){
+
+                        Toast.makeText(getContext(),  "Atleast One Filter is needed, Select another ", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            };
 
 
 
